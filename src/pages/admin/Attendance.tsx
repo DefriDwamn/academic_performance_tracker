@@ -284,16 +284,28 @@ export default function AdminAttendance() {
   return (
     <Box>
       <AnimatedElement animation="fadeIn">
-        <Flex justify="space-between" align="center" mb={6}>
+        <Flex 
+          justify="space-between" 
+          align="center" 
+          mb={6}
+          direction={{ base: 'column', md: 'row' }}
+          gap={{ base: 4, md: 0 }}
+        >
           <Heading size="lg">Attendance</Heading>
-          <HStack>
-            <Button leftIcon={<AddIcon />} variant="outline" onClick={handleAddAttendance}>
+          <HStack spacing={4} w={{ base: 'full', md: 'auto' }}>
+            <Button 
+              leftIcon={<AddIcon />} 
+              variant="outline" 
+              onClick={handleAddAttendance}
+              w={{ base: 'full', md: 'auto' }}
+            >
               Add Single
             </Button>
             <Button
               leftIcon={<AttachmentIcon />}
               colorScheme="brand"
               onClick={handleBulkAttendance}
+              w={{ base: 'full', md: 'auto' }}
             >
               Bulk Upload
             </Button>
