@@ -77,15 +77,15 @@ export default function StudentGrades() {
   const columns = [
     {
       header: "Course",
-      accessor: "courseName",
+      accessor: (grade: Grade) => grade.courseName,
     },
     {
       header: "Semester",
-      accessor: "semester",
+      accessor: (grade: Grade) => grade.semester,
     },
     {
       header: "Year",
-      accessor: "academicYear",
+      accessor: (grade: Grade) => grade.academicYear,
     },
     {
       header: "Grade",
@@ -112,7 +112,7 @@ export default function StudentGrades() {
     },
     {
       header: "Credits",
-      accessor: "creditHours",
+      accessor: (grade: Grade) => grade.creditHours,
       isNumeric: true,
     },
     {
@@ -194,7 +194,7 @@ export default function StudentGrades() {
                 ))}
               </Stack>
             ) : (
-              <DataTable
+              <DataTable<Grade>
                 columns={columns}
                 data={filteredGrades}
                 keyExtractor={(item) => item.id}
