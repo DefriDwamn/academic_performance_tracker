@@ -91,7 +91,7 @@ export default function StudentAttendance() {
     },
     {
       header: "Course",
-      accessor: "courseName",
+      accessor: (record: Attendance) => record.courseName,
     },
     {
       header: "Status",
@@ -277,54 +277,57 @@ export default function StudentAttendance() {
                   {filteredRecords
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                     .slice(0, 5)
-                    .map((record) => (
-                      <Flex key={record.id} p={3} bg="gray.50" borderRadius="md" align="center">
-                        <Box
-                          bg={
-                            record.status === "present"
-                              ? "green.100"
-                              : record.status === "late"
-                                ? "yellow.100"
-                                : record.status === "excused"
-                                  ? "blue.100"
-                                  : "red.100"
-                          }
-                          color={
-                            record.status === "present"
-                              ? "green.700"
-                              : record.status === "late"
-                                ? "yellow.700"
-                                : record.status === "excused"
-                                  ? "blue.700"
-                                  : "red.700"
-                          }
-                          p={2}
-                          borderRadius="md"
-                          mr={4}
-                        >
-                          <CalendarIcon />
-                        </Box>
-                        <Box flex="1">
-                          <Text fontWeight="medium">{record.courseName}</Text>
-                          <Text fontSize="sm" color="gray.600">
-                            {new Date(record.date).toLocaleDateString()}
-                          </Text>
-                        </Box>
-                        <Badge
-                          colorScheme={
-                            record.status === "present"
-                              ? "green"
-                              : record.status === "late"
-                                ? "yellow"
-                                : record.status === "excused"
-                                  ? "blue"
-                                  : "red"
-                          }
-                        >
-                          {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
-                        </Badge>
-                      </Flex>
-                    ))}
+                    .map((record) => {
+                      const uniqueKey = `${record.courseName}-${record.date}-${record.status}`;
+                      return (
+                        <Flex key={uniqueKey} p={3} bg="gray.50" borderRadius="md" align="center">
+                          <Box
+                            bg={
+                              record.status === "present"
+                                ? "green.100"
+                                : record.status === "late"
+                                  ? "yellow.100"
+                                  : record.status === "excused"
+                                    ? "blue.100"
+                                    : "red.100"
+                            }
+                            color={
+                              record.status === "present"
+                                ? "green.700"
+                                : record.status === "late"
+                                  ? "yellow.700"
+                                  : record.status === "excused"
+                                    ? "blue.700"
+                                    : "red.700"
+                            }
+                            p={2}
+                            borderRadius="md"
+                            mr={4}
+                          >
+                            <CalendarIcon />
+                          </Box>
+                          <Box flex="1">
+                            <Text fontWeight="medium">{record.courseName}</Text>
+                            <Text fontSize="sm" color="gray.600">
+                              {new Date(record.date).toLocaleDateString()}
+                            </Text>
+                          </Box>
+                          <Badge
+                            colorScheme={
+                              record.status === "present"
+                                ? "green"
+                                : record.status === "late"
+                                  ? "yellow"
+                                  : record.status === "excused"
+                                    ? "blue"
+                                    : "red"
+                            }
+                          >
+                            {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
+                          </Badge>
+                        </Flex>
+                      );
+                    })}
                 </Stack>
               ) : (
                 <Text color="gray.500">No attendance records available</Text>
@@ -343,7 +346,7 @@ export default function StudentAttendance() {
             <DataTable
               columns={columns}
               data={filteredRecords}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => `${item.studentId}-${item.courseId}-${item.date}`}
               isLoading={isLoading}
               searchable={true}
               sortable={true}
