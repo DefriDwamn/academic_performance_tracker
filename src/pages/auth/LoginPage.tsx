@@ -128,7 +128,7 @@ export default function LoginPage() {
           </Text>
           <VStack align="stretch" spacing={1} fontSize="xs">
             <Text>
-              <strong>Student:</strong> student@example.com / password123
+              <strong>Student:</strong> student1..10@example.com / password123
             </Text>
             <Text>
               <strong>Administrator:</strong> admin@example.com / admin123
