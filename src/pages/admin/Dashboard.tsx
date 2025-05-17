@@ -28,6 +28,7 @@ import { useGradesStore } from '../../store/gradesStore'
 import { useAttendanceStore } from '../../store/attendanceStore'
 import { useAnalyticsStore } from '../../store/analyticsStore'
 import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { CustomTooltip } from '../../components/charts/CustomTooltip'
 import {
   BarChart,
   Bar,
@@ -290,7 +291,7 @@ export default function AdminDashboard() {
               ) : (
                 <Box height="300px">
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                       <Pie
                         data={studentStatusData}
                         cx="50%"
@@ -299,7 +300,7 @@ export default function AdminDashboard() {
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        label={false}
                       >
                         {studentStatusData.map((entry, index) => (
                           <Cell
@@ -308,8 +309,16 @@ export default function AdminDashboard() {
                           />
                         ))}
                       </Pie>
-                      <Tooltip />
-                      <Legend />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend
+                        layout="horizontal"
+                        verticalAlign="bottom"
+                        align="center"
+                        wrapperStyle={{
+                          paddingTop: '20px',
+                          fontSize: '12px',
+                        }}
+                      />
                     </PieChart>
                   </ResponsiveContainer>
                 </Box>
@@ -333,15 +342,15 @@ export default function AdminDashboard() {
                       data={gradeDistributionData}
                       margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
+                        right: 20,
+                        left: 0,
                         bottom: 5,
                       }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
-                      <Tooltip />
+                      <Tooltip content={<CustomTooltip />} />
                       <Legend />
                       <Bar dataKey="value" name="Students">
                         {gradeDistributionData.map((entry, index) => (
@@ -375,7 +384,7 @@ export default function AdminDashboard() {
               ) : (
                 <Box height="300px">
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                       <Pie
                         data={departmentData}
                         cx="50%"
@@ -384,9 +393,7 @@ export default function AdminDashboard() {
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
-                        label={({ name, percent }) =>
-                          `${name.replace(/_/g, ' ')} ${(percent * 100).toFixed(0)}%`
-                        }
+                        label={false}
                       >
                         {departmentData.map((entry, index) => (
                           <Cell
@@ -395,8 +402,16 @@ export default function AdminDashboard() {
                           />
                         ))}
                       </Pie>
-                      <Tooltip />
-                      <Legend />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend
+                        layout="horizontal"
+                        verticalAlign="bottom"
+                        align="center"
+                        wrapperStyle={{
+                          paddingTop: '20px',
+                          fontSize: '12px',
+                        }}
+                      />
                     </PieChart>
                   </ResponsiveContainer>
                 </Box>
