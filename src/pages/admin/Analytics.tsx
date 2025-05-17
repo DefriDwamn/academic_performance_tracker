@@ -27,6 +27,7 @@ import {
 import { useAnalyticsStore } from '../../store/analyticsStore'
 import { useStudentStore } from '../../store/studentStore'
 import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { CustomTooltip } from '../../components/charts/CustomTooltip'
 import {
   LineChart,
   Line,
@@ -400,7 +401,7 @@ export default function AdminAnalytics() {
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis domain={[0, 100]} />
-                            <Tooltip />
+                            <Tooltip content={<CustomTooltip />} />
                             <Legend />
                             <Area
                               type="monotone"
@@ -778,7 +779,7 @@ export default function AdminAnalytics() {
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis domain={[0, 100]} />
-                            <Tooltip />
+                            <Tooltip content={<CustomTooltip />} />
                             <Legend />
                             <Area
                               type="monotone"
@@ -815,7 +816,7 @@ export default function AdminAnalytics() {
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="courseName" />
                             <YAxis domain={[0, 100]} />
-                            <Tooltip />
+                            <Tooltip content={<CustomTooltip />} />
                             <Legend />
                             <Bar dataKey="attendanceRate" fill="#0284c7" name="Attendance Rate %" />
                             <Bar dataKey="absenceCount" fill="#ef4444" name="Absences" />

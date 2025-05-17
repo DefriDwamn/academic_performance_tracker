@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { useAnalyticsStore } from '../../store/analyticsStore'
 import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { CustomTooltip } from '../../components/charts/CustomTooltip'
 import {
   LineChart,
   Line,
@@ -32,6 +33,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  AreaChart,
+  Area,
 } from 'recharts'
 
 export default function StudentAnalytics() {
@@ -173,15 +176,15 @@ export default function StudentAnalytics() {
                 Grade Distribution
               </Text>
               {isLoading ? (
-                <Skeleton height="200px" />
+                <Skeleton height="250px" />
               ) : (
-                <Box height="200px">
+                <Box height="250px">
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart margin={{ top: 0, right: 0, bottom: 20, left: 0 }}>
                       <Pie
                         data={gradeDistributionData}
                         cx="50%"
-                        cy="50%"
+                        cy="45%"
                         labelLine={false}
                         outerRadius={80}
                         fill="#8884d8"
@@ -199,7 +202,7 @@ export default function StudentAnalytics() {
                         ))}
                       </Pie>
                       <Tooltip />
-                      <Legend layout="vertical" verticalAlign="middle" align="right" />
+                      <Legend layout="horizontal" verticalAlign="bottom" align="center" />
                     </PieChart>
                   </ResponsiveContainer>
                 </Box>
@@ -223,8 +226,8 @@ export default function StudentAnalytics() {
                       data={gpaTrendData}
                       margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
+                        right: 20,
+                        left: 0,
                         bottom: 5,
                       }}
                     >
@@ -259,8 +262,8 @@ export default function StudentAnalytics() {
                       data={coursePerformanceData}
                       margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
+                        right: 20,
+                        left: 0,
                         bottom: 5,
                       }}
                     >
@@ -291,27 +294,29 @@ export default function StudentAnalytics() {
               ) : (
                 <Box height="300px">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
+                    <AreaChart
                       data={monthlyAttendanceData}
                       margin={{
                         top: 5,
-                        right: 30,
-                        left: 20,
+                        right: 20,
+                        left: 0,
                         bottom: 5,
                       }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis domain={[0, 100]} />
-                      <Tooltip />
+                      <Tooltip content={<CustomTooltip />} />
                       <Legend />
-                      <Line
+                      <Area
                         type="monotone"
                         dataKey="rate"
                         stroke="#22c55e"
+                        fill="#22c55e"
+                        fillOpacity={0.3}
                         name="Attendance Rate %"
                       />
-                    </LineChart>
+                    </AreaChart>
                   </ResponsiveContainer>
                 </Box>
               )}
