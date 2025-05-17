@@ -16,9 +16,9 @@ interface ModalProps extends Omit<ChakraModalProps, 'children'> {
 
 export const Modal = ({ title, children, size = 'xl', ...props }: ModalProps) => {
   return (
-    <ChakraModal size={size} {...props} isCentered>
+    <ChakraModal size={size} {...props} isCentered scrollBehavior="inside">
       <ModalOverlay />
-      <ModalContent mx={{ base: 4, md: 0 }} my={{ base: 4, md: 0 }}>
+      <ModalContent mx={{ base: 4, md: 0 }} my={{ base: 4, md: 0 }} maxH={{ base: '90vh', md: '85vh' }}>
         <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>{children}</ModalBody>
