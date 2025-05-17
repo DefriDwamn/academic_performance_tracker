@@ -66,7 +66,7 @@ export const AttendanceForm = ({
     resolver: zodResolver(attendanceSchema),
     defaultValues: {
       ...initialData,
-      duration: initialData.duration || 0,
+      duration: initialData.duration ? Number(initialData.duration) : 0,
     },
   })
 
@@ -140,7 +140,11 @@ export const AttendanceForm = ({
               name="duration"
               control={control}
               render={({ field }) => (
-                <NumberInput min={0} value={field.value || 0} onChange={field.onChange}>
+                <NumberInput
+                  min={0}
+                  value={field.value || 0}
+                  onChange={(_, valueAsNumber) => field.onChange(valueAsNumber)}
+                >
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
