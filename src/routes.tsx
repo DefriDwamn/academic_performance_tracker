@@ -22,6 +22,7 @@ const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'))
 const AdminGrades = lazy(() => import('./pages/admin/Grades'))
 const AdminAttendance = lazy(() => import('./pages/admin/Attendance'))
 const AdminAnalytics = lazy(() => import('./pages/admin/Analytics'))
+const AdminStudents = lazy(() => import('./pages/admin/Students'))
 
 // Error Pages
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
@@ -79,6 +80,17 @@ export const router = createBrowserRouter(
                   <RoleBasedRoute
                     studentComponent={<StudentDashboard />}
                     adminComponent={<AdminDashboard />}
+                  />
+                </Suspense>
+              ),
+            },
+            {
+              path: 'students',
+              element: (
+                <Suspense fallback={<LoadingFallback />}>
+                  <RoleBasedRoute
+                    studentComponent={<Navigate to="/dashboard" replace />}
+                    adminComponent={<AdminStudents />}
                   />
                 </Suspense>
               ),

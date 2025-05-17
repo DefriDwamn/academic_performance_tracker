@@ -223,7 +223,6 @@ export default function AdminStudents() {
               data={students}
               keyExtractor={(item) => item._id}
               isLoading={isLoading}
-              onRowClick={handleViewStudent}
               searchable={true}
               sortable={true}
               pagination={true}

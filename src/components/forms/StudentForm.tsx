@@ -52,11 +52,27 @@ export const StudentForm = ({
     formState: { errors },
   } = useForm<StudentFormData>({
     resolver: zodResolver(studentSchema),
-    defaultValues: initialData,
+    defaultValues: {
+      ...initialData,
+      dateOfBirth: initialData.dateOfBirth ? new Date(initialData.dateOfBirth).toISOString().split('T')[0] : '',
+      enrollmentDate: initialData.enrollmentDate ? new Date(initialData.enrollmentDate).toISOString().split('T')[0] : '',
+      graduationDate: initialData.graduationDate ? new Date(initialData.graduationDate).toISOString().split('T')[0] : '',
+    },
   })
 
+  const handleFormSubmit = (data: StudentFormData) => {
+    // Convert dates to ISO strings
+    const formattedData = {
+      ...data,
+      dateOfBirth: new Date(data.dateOfBirth).toISOString(),
+      enrollmentDate: new Date(data.enrollmentDate).toISOString(),
+      graduationDate: data.graduationDate ? new Date(data.graduationDate).toISOString() : undefined,
+    }
+    onSubmit(formattedData)
+  }
+
   return (
-    <Box as="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+    <Box as="form" onSubmit={handleSubmit(handleFormSubmit)} noValidate>
       <VStack spacing={6} align="stretch">
         <Heading size="md">Student Information</Heading>
 
