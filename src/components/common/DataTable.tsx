@@ -28,7 +28,7 @@ interface Column<T> {
   isNumeric?: boolean
 }
 
-interface DataTableProps<T> {
+interface DataTableProps<T extends Record<string, any>> {
   columns: Column<T>[]
   data: T[]
   isLoading?: boolean
@@ -41,7 +41,7 @@ interface DataTableProps<T> {
   defaultItemsPerPage?: number
 }
 
-export function DataTable<T>({
+export function DataTable<T extends Record<string, any>>({
   columns,
   data,
   isLoading = false,
@@ -135,7 +135,7 @@ export function DataTable<T>({
             <Tr>
               {columns.map((column, index) => (
                 <Th
-                  key={index}
+                  key={`header-${column.header}-${index}`}
                   isNumeric={column.isNumeric}
                   cursor={sortable ? "pointer" : "default"}
                   onClick={() => {
@@ -157,9 +157,9 @@ export function DataTable<T>({
           <Tbody>
             {isLoading ? (
               Array.from({ length: itemsPerPage }).map((_, index) => (
-                <Tr key={`skeleton-${index}`}>
+                <Tr key={`skeleton-row-${index}`}>
                   {columns.map((_, colIndex) => (
-                    <Td key={`skeleton-cell-${colIndex}`}>
+                    <Td key={`skeleton-cell-${index}-${colIndex}`}>
                       <Skeleton height="20px" />
                     </Td>
                   ))}
@@ -168,13 +168,13 @@ export function DataTable<T>({
             ) : paginatedData.length > 0 ? (
               paginatedData.map((item) => (
                 <Tr
-                  key={keyExtractor(item)}
+                  key={`row-${keyExtractor(item)}`}
                   _hover={{ bg: "gray.50" }}
                   cursor={onRowClick ? "pointer" : "default"}
                   onClick={() => onRowClick && onRowClick(item)}
                 >
                   {columns.map((column, colIndex) => (
-                    <Td key={`${keyExtractor(item)}-${colIndex}`} isNumeric={column.isNumeric}>
+                    <Td key={`cell-${keyExtractor(item)}-${colIndex}`} isNumeric={column.isNumeric}>
                       {typeof column.accessor === "function"
                         ? column.accessor(item)
                         : (item[column.accessor] as ReactNode)}

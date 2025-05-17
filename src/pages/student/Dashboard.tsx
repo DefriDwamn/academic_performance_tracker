@@ -127,8 +127,8 @@ export default function StudentDashboard() {
                 </VStack>
               ) : recentGrades.length > 0 ? (
                 <VStack spacing={4} align="stretch">
-                  {recentGrades.map((grade) => (
-                    <Box key={grade.id} p={3} borderRadius="md" bg="gray.50">
+                  {recentGrades.map((grade, index) => (
+                    <Box key={`${grade.id}-${grade.courseName}-${grade.submissionDate}-${index}`} p={3} borderRadius="md" bg="gray.50">
                       <Flex justify="space-between" align="center">
                         <VStack align="start" spacing={0}>
                           <Text fontWeight="medium">{grade.courseName}</Text>

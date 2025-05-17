@@ -282,8 +282,8 @@ export default function AdminDashboard() {
                         dataKey="value"
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       >
-                        {studentStatusData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        {studentStatusData.map((entry) => (
+                          <Cell key={entry.name} fill={COLORS[COLORS.indexOf(entry.name) % COLORS.length]} />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -324,7 +324,7 @@ export default function AdminDashboard() {
                       <Bar dataKey="value" name="Students">
                         {gradeDistributionData.map((entry, index) => (
                           <Cell
-                            key={`cell-${index}`}
+                            key={entry.name}
                             fill={
                               GRADE_COLORS[entry.name as keyof typeof GRADE_COLORS] || COLORS[index % COLORS.length]
                             }
@@ -364,7 +364,7 @@ export default function AdminDashboard() {
                         label={({ name, percent }) => `${name.replace(/_/g, " ")} ${(percent * 100).toFixed(0)}%`}
                       >
                         {departmentData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          <Cell key={`dept-${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -386,13 +386,13 @@ export default function AdminDashboard() {
               {isLoading ? (
                 <Stack spacing={4}>
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <Skeleton key={i} height="40px" />
+                    <Skeleton key={`skeleton-${i}`} height="40px" />
                   ))}
                 </Stack>
               ) : (
                 <VStack spacing={4} align="stretch">
                   {recentStudents.map((student) => (
-                    <Flex key={student.id} p={3} bg="gray.50" borderRadius="md" align="center">
+                    <Flex key={`student-${student.id}-${student.enrollmentDate}`} p={3} bg="gray.50" borderRadius="md" align="center">
                       <Box flex="1">
                         <Text fontWeight="medium">{`${student.firstName} ${student.lastName}`}</Text>
                         <Text fontSize="sm" color="gray.600">
