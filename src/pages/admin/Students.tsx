@@ -349,32 +349,34 @@ export default function AdminStudents() {
       )}
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog isOpen={isDeleteOpen} leastDestructiveRef={cancelRef} onClose={onDeleteClose}>
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Student
-            </AlertDialogHeader>
+      <CustomModal
+        isOpen={isDeleteOpen}
+        onClose={onDeleteClose}
+        title="Delete Student"
+      >
+        <Box>
+          <Text mb={4}>
+            Are you sure you want to delete{' '}
+            {selectedStudent
+              ? `${selectedStudent.firstName} ${selectedStudent.lastName}`
+              : 'this student'}
+            ? This action cannot be undone.
+          </Text>
 
-            <AlertDialogBody>
-              Are you sure you want to delete{' '}
-              {selectedStudent
-                ? `${selectedStudent.firstName} ${selectedStudent.lastName}`
-                : 'this student'}
-              ? This action cannot be undone.
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onDeleteClose}>
-                Cancel
-              </Button>
-              <Button colorScheme="red" onClick={handleDeleteConfirm} ml={3} isLoading={isLoading}>
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+          <HStack spacing={4} justify="flex-end">
+            <Button onClick={onDeleteClose}>
+              Cancel
+            </Button>
+            <Button
+              colorScheme="red"
+              onClick={handleDeleteConfirm}
+              isLoading={isLoading}
+            >
+              Delete
+            </Button>
+          </HStack>
+        </Box>
+      </CustomModal>
     </Box>
   )
 }
