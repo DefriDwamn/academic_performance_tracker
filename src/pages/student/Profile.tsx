@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import {
   Box,
   Heading,
@@ -23,10 +23,10 @@ import {
   FormLabel,
   Input,
   useDisclosure,
-} from "@chakra-ui/react"
-import { EditIcon } from "@chakra-ui/icons"
-import { useStudentStore } from "../../store/studentStore"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
+} from '@chakra-ui/react'
+import { EditIcon } from '@chakra-ui/icons'
+import { useStudentStore } from '../../store/studentStore'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
 import { Modal } from '../../components/common/Modal'
 
 export default function StudentProfile() {
@@ -34,8 +34,8 @@ export default function StudentProfile() {
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [formData, setFormData] = useState({
-    phoneNumber: "",
-    address: "",
+    phoneNumber: '',
+    address: '',
   })
 
   useEffect(() => {
@@ -65,18 +65,18 @@ export default function StudentProfile() {
     try {
       await updateStudent(currentStudent.id, formData)
       toast({
-        title: "Profile updated",
-        description: "Your profile has been successfully updated.",
-        status: "success",
+        title: 'Profile updated',
+        description: 'Your profile has been successfully updated.',
+        status: 'success',
         duration: 2000,
         isClosable: true,
       })
       onClose()
     } catch (error) {
       toast({
-        title: "Update failed",
-        description: error instanceof Error ? error.message : "Failed to update profile",
-        status: "error",
+        title: 'Update failed',
+        description: error instanceof Error ? error.message : 'Failed to update profile',
+        status: 'error',
         duration: 2000,
         isClosable: true,
       })
@@ -112,12 +112,22 @@ export default function StudentProfile() {
             <Card>
               <CardBody>
                 <Flex direction="column" align="center" justify="center" py={6}>
-                  <Avatar size="2xl" name={`${currentStudent.firstName} ${currentStudent.lastName}`} mb={4} />
+                  <Avatar
+                    size="2xl"
+                    name={`${currentStudent.firstName} ${currentStudent.lastName}`}
+                    mb={4}
+                  />
                   <Heading size="md">{`${currentStudent.firstName} ${currentStudent.lastName}`}</Heading>
                   <Text color="gray.600" mb={4}>
                     {currentStudent.email}
                   </Text>
-                  <Badge colorScheme="brand" px={3} py={1} borderRadius="full" textTransform="capitalize">
+                  <Badge
+                    colorScheme="brand"
+                    px={3}
+                    py={1}
+                    borderRadius="full"
+                    textTransform="capitalize"
+                  >
                     {currentStudent.status}
                   </Badge>
                   <Button leftIcon={<EditIcon />} mt={6} size="sm" onClick={onOpen}>
@@ -179,7 +189,9 @@ export default function StudentProfile() {
                     <Text fontWeight="medium" color="gray.500" fontSize="sm">
                       Department
                     </Text>
-                    <Text textTransform="capitalize">{currentStudent.department.replace(/_/g, " ")}</Text>
+                    <Text textTransform="capitalize">
+                      {currentStudent.department.replace(/_/g, ' ')}
+                    </Text>
                   </Box>
                   <Box>
                     <Text fontWeight="medium" color="gray.500" fontSize="sm">
@@ -200,14 +212,14 @@ export default function StudentProfile() {
                     <Text>
                       {currentStudent.graduationDate
                         ? new Date(currentStudent.graduationDate).toLocaleDateString()
-                        : "Not set"}
+                        : 'Not set'}
                     </Text>
                   </Box>
                   <Box>
                     <Text fontWeight="medium" color="gray.500" fontSize="sm">
                       Status
                     </Text>
-                    <Badge colorScheme={currentStudent.status === "active" ? "green" : "gray"}>
+                    <Badge colorScheme={currentStudent.status === 'active' ? 'green' : 'gray'}>
                       {currentStudent.status}
                     </Badge>
                   </Box>
@@ -219,11 +231,7 @@ export default function StudentProfile() {
       </SimpleGrid>
 
       {/* Edit Profile Modal */}
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        title="Edit Contact Information"
-      >
+      <Modal isOpen={isOpen} onClose={onClose} title="Edit Contact Information">
         <Stack spacing={4}>
           <FormControl>
             <FormLabel>Phone Number</FormLabel>

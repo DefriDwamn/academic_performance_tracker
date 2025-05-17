@@ -19,7 +19,7 @@ export function PageTransition({ children }: PageTransitionProps) {
       opacity: [0, 1],
       translateY: [20, 0],
       duration: 300,
-      easing: 'easeOutQuad'
+      easing: 'easeOutQuad',
     })
   }, [])
 

@@ -232,12 +232,7 @@ export default function AdminStudents() {
 
       {/* View Student Modal */}
       {selectedStudent && (
-        <CustomModal
-          isOpen={isViewOpen}
-          onClose={onViewClose}
-          title="Student Details"
-          size="lg"
-        >
+        <CustomModal isOpen={isViewOpen} onClose={onViewClose} title="Student Details" size="lg">
           <Box mb={4}>
             <Heading size="md">{`${selectedStudent.firstName} ${selectedStudent.lastName}`}</Heading>
             <Badge
@@ -334,11 +329,7 @@ export default function AdminStudents() {
       )}
 
       {/* Delete Confirmation Dialog */}
-      <CustomModal
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-        title="Delete Student"
-      >
+      <CustomModal isOpen={isDeleteOpen} onClose={onDeleteClose} title="Delete Student">
         <Box>
           <Text mb={4}>
             Are you sure you want to delete{' '}
@@ -349,14 +340,8 @@ export default function AdminStudents() {
           </Text>
 
           <HStack spacing={4} justify="flex-end">
-            <Button onClick={onDeleteClose}>
-              Cancel
-            </Button>
-            <Button
-              colorScheme="red"
-              onClick={handleDeleteConfirm}
-              isLoading={isLoading}
-            >
+            <Button onClick={onDeleteClose}>Cancel</Button>
+            <Button colorScheme="red" onClick={handleDeleteConfirm} isLoading={isLoading}>
               Delete
             </Button>
           </HStack>

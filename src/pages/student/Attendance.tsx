@@ -22,6 +22,7 @@ import {
   StatHelpText,
   CircularProgress,
   CircularProgressLabel,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { CalendarIcon } from '@chakra-ui/icons'
 import { useAttendanceStore } from '../../store/attendanceStore'
@@ -33,6 +34,18 @@ export default function StudentAttendance() {
   const { attendanceRecords, fetchAttendance, isLoading } = useAttendanceStore()
   const [selectedCourse, setSelectedCourse] = useState<string>('all')
   const [selectedMonth, setSelectedMonth] = useState<string>('all')
+
+  const attendanceCardBg = useColorModeValue('gray.50', 'whiteAlpha.100')
+  const textColor = useColorModeValue('gray.800', 'white')
+  const secondaryTextColor = useColorModeValue('gray.600', 'gray.400')
+  const presentIconBg = useColorModeValue('green.100', 'green.900')
+  const presentIconColor = useColorModeValue('green.700', 'green.300')
+  const lateIconBg = useColorModeValue('yellow.100', 'yellow.900')
+  const lateIconColor = useColorModeValue('yellow.700', 'yellow.300')
+  const excusedIconBg = useColorModeValue('blue.100', 'blue.900')
+  const excusedIconColor = useColorModeValue('blue.700', 'blue.300')
+  const absentIconBg = useColorModeValue('red.100', 'red.900')
+  const absentIconColor = useColorModeValue('red.700', 'red.300')
 
   useEffect(() => {
     fetchAttendance()
@@ -294,25 +307,31 @@ export default function StudentAttendance() {
                     .map((record) => {
                       const uniqueKey = `${record.courseName}-${record.date}-${record.status}`
                       return (
-                        <Flex key={uniqueKey} p={3} bg="gray.50" borderRadius="md" align="center">
+                        <Flex
+                          key={uniqueKey}
+                          p={3}
+                          bg={attendanceCardBg}
+                          borderRadius="md"
+                          align="center"
+                        >
                           <Box
                             bg={
                               record.status === 'present'
-                                ? 'green.100'
+                                ? presentIconBg
                                 : record.status === 'late'
-                                  ? 'yellow.100'
+                                  ? lateIconBg
                                   : record.status === 'excused'
-                                    ? 'blue.100'
-                                    : 'red.100'
+                                    ? excusedIconBg
+                                    : absentIconBg
                             }
                             color={
                               record.status === 'present'
-                                ? 'green.700'
+                                ? presentIconColor
                                 : record.status === 'late'
-                                  ? 'yellow.700'
+                                  ? lateIconColor
                                   : record.status === 'excused'
-                                    ? 'blue.700'
-                                    : 'red.700'
+                                    ? excusedIconColor
+                                    : absentIconColor
                             }
                             p={2}
                             borderRadius="md"
@@ -321,8 +340,10 @@ export default function StudentAttendance() {
                             <CalendarIcon />
                           </Box>
                           <Box flex="1">
-                            <Text fontWeight="medium">{record.courseName}</Text>
-                            <Text fontSize="sm" color="gray.600">
+                            <Text fontWeight="medium" color={textColor}>
+                              {record.courseName}
+                            </Text>
+                            <Text fontSize="sm" color={secondaryTextColor}>
                               {new Date(record.date).toLocaleDateString()}
                             </Text>
                           </Box>

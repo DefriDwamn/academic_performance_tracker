@@ -42,10 +42,7 @@ const dashboardRoutes: RouteObject[] = [
   {
     index: true,
     element: (
-      <RoleBasedRoute
-        studentComponent={<StudentDashboard />}
-        adminComponent={<AdminDashboard />}
-      />
+      <RoleBasedRoute studentComponent={<StudentDashboard />} adminComponent={<AdminDashboard />} />
     ),
   },
   {
@@ -60,10 +57,7 @@ const dashboardRoutes: RouteObject[] = [
   {
     path: 'grades',
     element: (
-      <RoleBasedRoute
-        studentComponent={<StudentGrades />}
-        adminComponent={<AdminGrades />}
-      />
+      <RoleBasedRoute studentComponent={<StudentGrades />} adminComponent={<AdminGrades />} />
     ),
   },
   {
@@ -78,10 +72,7 @@ const dashboardRoutes: RouteObject[] = [
   {
     path: 'analytics',
     element: (
-      <RoleBasedRoute
-        studentComponent={<StudentAnalytics />}
-        adminComponent={<AdminAnalytics />}
-      />
+      <RoleBasedRoute studentComponent={<StudentAnalytics />} adminComponent={<AdminAnalytics />} />
     ),
   },
   {
@@ -90,54 +81,57 @@ const dashboardRoutes: RouteObject[] = [
   },
 ]
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <RootLayout />,
+      children: [
+        {
+          index: true,
+          element: <Navigate to="/dashboard" replace />,
+        },
+        {
+          path: 'auth',
+          element: <AuthLayout />,
+          children: [
+            {
+              index: true,
+              element: <Navigate to="login" replace />,
+            },
+            {
+              path: 'login',
+              element: (
+                <Suspense fallback={<LoadingFallback />}>
+                  <LoginPage />
+                </Suspense>
+              ),
+            },
+          ],
+        },
+        {
+          path: 'dashboard',
+          element: (
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          ),
+          children: dashboardRoutes,
+        },
+        {
+          path: '*',
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <NotFoundPage />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+  ],
   {
-    path: '/',
-    element: <RootLayout />,
-    children: [
-      {
-        index: true,
-        element: <Navigate to="/dashboard" replace />,
-      },
-      {
-        path: 'auth',
-        element: <AuthLayout />,
-        children: [
-          {
-            index: true,
-            element: <Navigate to="login" replace />,
-          },
-          {
-            path: 'login',
-            element: (
-              <Suspense fallback={<LoadingFallback />}>
-                <LoginPage />
-              </Suspense>
-            ),
-          },
-        ],
-      },
-      {
-        path: 'dashboard',
-        element: (
-          <ProtectedRoute>
-            <DashboardLayout />
-          </ProtectedRoute>
-        ),
-        children: dashboardRoutes,
-      },
-      {
-        path: '*',
-        element: (
-          <Suspense fallback={<LoadingFallback />}>
-            <NotFoundPage />
-          </Suspense>
-        ),
-      },
-    ],
-  },
-], {
-  future: {
-    unstable_middleware: false
+    future: {
+      unstable_middleware: false,
+    },
   }
-})
+)

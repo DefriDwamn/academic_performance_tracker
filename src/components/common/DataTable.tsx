@@ -18,6 +18,7 @@ import {
   Skeleton,
   HStack,
   IconButton,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { type ReactNode, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons'
@@ -58,6 +59,14 @@ export function DataTable<T extends Record<string, any>>({
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(defaultItemsPerPage)
+
+  const hoverBgColor = useColorModeValue('gray.50', 'whiteAlpha.100')
+  const tableBgColor = useColorModeValue('white', 'gray.800')
+  const borderColor = useColorModeValue('gray.200', 'gray.700')
+  const textColor = useColorModeValue('gray.800', 'white')
+  const headerBgColor = useColorModeValue('gray.50', 'gray.700')
+  const rowBgColor = useColorModeValue('white', 'gray.800')
+  const rowHoverBgColor = useColorModeValue('gray.50', 'whiteAlpha.100')
 
   // Filter data based on search term
   const filteredData = searchTerm
@@ -134,8 +143,8 @@ export function DataTable<T extends Record<string, any>>({
       )}
 
       <TableContainer>
-        <Table variant="simple">
-          <Thead>
+        <Table variant="simple" bg={tableBgColor} borderColor={borderColor}>
+          <Thead bg={headerBgColor}>
             <Tr>
               {columns.map((column, index) => (
                 <Th
@@ -147,6 +156,7 @@ export function DataTable<T extends Record<string, any>>({
                       handleSort(column.accessor)
                     }
                   }}
+                  color={textColor}
                 >
                   {column.header}
                   {sortable &&
@@ -175,12 +185,17 @@ export function DataTable<T extends Record<string, any>>({
               paginatedData.map((item) => (
                 <Tr
                   key={`row-${keyExtractor(item)}`}
-                  _hover={{ bg: 'gray.50' }}
+                  bg={rowBgColor}
+                  _hover={{ bg: rowHoverBgColor }}
                   cursor={onRowClick ? 'pointer' : 'default'}
                   onClick={() => onRowClick && onRowClick(item)}
                 >
                   {columns.map((column, colIndex) => (
-                    <Td key={`cell-${keyExtractor(item)}-${colIndex}`} isNumeric={column.isNumeric}>
+                    <Td
+                      key={`cell-${keyExtractor(item)}-${colIndex}`}
+                      isNumeric={column.isNumeric}
+                      color={textColor}
+                    >
                       {typeof column.accessor === 'function'
                         ? column.accessor(item)
                         : (item[column.accessor] as ReactNode)}
@@ -190,7 +205,7 @@ export function DataTable<T extends Record<string, any>>({
               ))
             ) : (
               <Tr>
-                <Td colSpan={columns.length} textAlign="center" py={6}>
+                <Td colSpan={columns.length} textAlign="center" py={6} color={textColor}>
                   No data available
                 </Td>
               </Tr>
@@ -200,7 +215,13 @@ export function DataTable<T extends Record<string, any>>({
       </TableContainer>
 
       {pagination && totalPages > 0 && (
-        <Flex justify="space-between" align="center" mt={4} direction={{ base: 'column', md: 'row' }} gap={4}>
+        <Flex
+          justify="space-between"
+          align="center"
+          mt={4}
+          direction={{ base: 'column', md: 'row' }}
+          gap={4}
+        >
           <HStack>
             <Text>Rows per page:</Text>
             <Select value={itemsPerPage} onChange={handleItemsPerPageChange} size="sm" w="70px">

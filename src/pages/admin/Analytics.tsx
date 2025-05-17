@@ -212,7 +212,7 @@ export default function AdminAnalytics() {
     if (!size || size.width === 0 || size.height === 0) {
       return (
         <Box
-          height={{ base: "250px", md: "400px" }}
+          height={{ base: '250px', md: '400px' }}
           minHeight="250px"
           width="100%"
           bg="gray.50"
@@ -241,18 +241,18 @@ export default function AdminAnalytics() {
         </Heading>
       </AnimatedElement>
 
-      <Tabs 
-        variant="enclosed" 
-        colorScheme="brand" 
-        isLazy
-        onChange={(index) => setActiveTab(index)}
-      >
-        <TabList mb={6} overflowX="auto" overflowY="hidden" css={{
-          scrollbarWidth: 'none',
-          '::-webkit-scrollbar': {
-            display: 'none'
-          }
-        }}>
+      <Tabs variant="enclosed" colorScheme="brand" isLazy onChange={(index) => setActiveTab(index)}>
+        <TabList
+          mb={6}
+          overflowX="auto"
+          overflowY="hidden"
+          css={{
+            scrollbarWidth: 'none',
+            '::-webkit-scrollbar': {
+              display: 'none',
+            },
+          }}
+        >
           <Tab whiteSpace="nowrap">System Overview</Tab>
           <Tab whiteSpace="nowrap">Student Analysis</Tab>
           <Tab whiteSpace="nowrap">Course Analysis</Tab>
@@ -275,7 +275,7 @@ export default function AdminAnalytics() {
                       <Box
                         key="gradeDistribution"
                         ref={(el) => (containerRefs.current['gradeDistribution'] = el)}
-                        height={{ base: "250px", md: "400px" }}
+                        height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
                         position="relative"
@@ -305,13 +305,13 @@ export default function AdminAnalytics() {
                               ))}
                             </Pie>
                             <Tooltip content={<CustomTooltip />} />
-                            <Legend 
-                              layout="horizontal" 
-                              verticalAlign="bottom" 
+                            <Legend
+                              layout="horizontal"
+                              verticalAlign="bottom"
                               align="center"
                               wrapperStyle={{
                                 paddingTop: '20px',
-                                fontSize: '12px'
+                                fontSize: '12px',
                               }}
                             />
                           </PieChart>
@@ -334,7 +334,7 @@ export default function AdminAnalytics() {
                       <Box
                         key="gpaTrend"
                         ref={(el) => (containerRefs.current['gpaTrend'] = el)}
-                        height={{ base: "250px", md: "400px" }}
+                        height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
                         position="relative"
@@ -384,7 +384,7 @@ export default function AdminAnalytics() {
                       <Box
                         key="coursePerformance"
                         ref={(el) => (containerRefs.current['coursePerformance'] = el)}
-                        height={{ base: "250px", md: "400px" }}
+                        height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
                         position="relative"
@@ -429,7 +429,7 @@ export default function AdminAnalytics() {
                       <Box
                         key="monthlyAttendance"
                         ref={(el) => (containerRefs.current['monthlyAttendance'] = el)}
-                        height={{ base: "250px", md: "400px" }}
+                        height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
                         position="relative"
@@ -529,7 +529,7 @@ export default function AdminAnalytics() {
                       </Heading>
                       <Box
                         key="studentPerformance"
-                        height={{ base: "250px", md: "400px" }}
+                        height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
                         position="relative"
@@ -574,7 +574,7 @@ export default function AdminAnalytics() {
                           </Heading>
                           <Box
                             key="studentGradeDistribution"
-                            height={{ base: "250px", md: "400px" }}
+                            height={{ base: '250px', md: '400px' }}
                             minHeight="250px"
                             width="100%"
                             position="relative"
@@ -607,13 +607,13 @@ export default function AdminAnalytics() {
                                   )}
                                 </Pie>
                                 <Tooltip content={<CustomTooltip />} />
-                                <Legend 
-                                  layout="horizontal" 
-                                  verticalAlign="bottom" 
+                                <Legend
+                                  layout="horizontal"
+                                  verticalAlign="bottom"
                                   align="center"
                                   wrapperStyle={{
                                     paddingTop: '20px',
-                                    fontSize: '12px'
+                                    fontSize: '12px',
                                   }}
                                 />
                               </PieChart>
@@ -627,7 +627,7 @@ export default function AdminAnalytics() {
                           </Heading>
                           <Box
                             key="studentCourseAttendance"
-                            height={{ base: "250px", md: "400px" }}
+                            height={{ base: '250px', md: '400px' }}
                             minHeight="250px"
                             width="100%"
                             position="relative"
@@ -722,7 +722,7 @@ export default function AdminAnalytics() {
 
                           <Box
                             key={`courseGradeDistribution-${course.courseId}`}
-                            height={{ base: "250px", md: "400px" }}
+                            height={{ base: '250px', md: '400px' }}
                             minHeight="250px"
                             width="100%"
                             position="relative"
@@ -753,13 +753,13 @@ export default function AdminAnalytics() {
                                   ))}
                                 </Pie>
                                 <Tooltip content={<CustomTooltip />} />
-                                <Legend 
-                                  layout="horizontal" 
-                                  verticalAlign="bottom" 
+                                <Legend
+                                  layout="horizontal"
+                                  verticalAlign="bottom"
                                   align="center"
                                   wrapperStyle={{
                                     paddingTop: '20px',
-                                    fontSize: '12px'
+                                    fontSize: '12px',
                                   }}
                                 />
                               </PieChart>
@@ -820,7 +820,7 @@ export default function AdminAnalytics() {
                       </Heading>
                       <Box
                         key="attendanceMonthlyTrend"
-                        height={{ base: "250px", md: "400px" }}
+                        height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
                         position="relative"
@@ -858,7 +858,7 @@ export default function AdminAnalytics() {
                       </Heading>
                       <Box
                         key="attendanceCourseComparison"
-                        height={{ base: "250px", md: "400px" }}
+                        height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
                         position="relative"

@@ -27,15 +27,17 @@ import {
   HStack,
   useColorModeValue,
   useBreakpointValue,
+  useColorMode,
+  Tooltip,
 } from '@chakra-ui/react'
-import { HamburgerIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import {
-  BarChart,
-  Home,
-  Users,
-  BookOpen,
-  Calendar
-} from 'lucide-react'
+  HamburgerIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  MoonIcon,
+  SunIcon,
+} from '@chakra-ui/icons'
+import { BarChart, Home, Users, BookOpen, Calendar } from 'lucide-react'
 import { useAuthStore } from '../store/authStore'
 import { AnimatedElement } from '../components/common/AnimatedElement'
 import { PageTransition } from '../components/common/PageTransition'
@@ -46,10 +48,19 @@ export default function DashboardLayout() {
   const location = useLocation()
   const navigate = useNavigate()
   const [pageTitle, setPageTitle] = useState('Dashboard')
+  const { colorMode, toggleColorMode } = useColorMode()
 
   const isDesktop = useBreakpointValue({ base: false, lg: true })
   const bgColor = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
+  const textColor = useColorModeValue('gray.800', 'white')
+  const hoverBgColor = useColorModeValue('brand.50', 'whiteAlpha.200')
+  const activeBgColor = useColorModeValue('brand.50', 'whiteAlpha.300')
+  const iconColor = useColorModeValue('gray.500', 'gray.400')
+  const activeIconColor = useColorModeValue('brand.600', 'brand.400')
+  const menuBgColor = useColorModeValue('white', 'gray.800')
+  const menuBorderColor = useColorModeValue('gray.200', 'gray.700')
+  const contentBgColor = useColorModeValue('gray.50', 'gray.900')
 
   useEffect(() => {
     // Set page title based on current route
@@ -93,23 +104,23 @@ export default function DashboardLayout() {
         borderRadius="md"
         role="group"
         cursor="pointer"
-        bg={isActive ? 'brand.50' : 'transparent'}
-        color={isActive ? 'brand.600' : 'inherit'}
+        bg={isActive ? activeBgColor : 'transparent'}
+        color={isActive ? 'brand.600' : textColor}
         fontWeight={isActive ? 'medium' : 'normal'}
         _hover={{
-          bg: { base: 'transparent', md: 'brand.50' },
+          bg: { base: 'transparent', md: hoverBgColor },
           color: { base: 'inherit', md: 'brand.600' },
         }}
         onClick={handleClick}
         {...rest}
       >
         {icon && (
-          <Box mr="3" color={isActive ? 'brand.600' : 'gray.500'}>
+          <Box mr="3" color={isActive ? activeIconColor : iconColor}>
             {icon}
           </Box>
         )}
         {children}
-        {isActive && <ChevronRightIcon ml="auto" boxSize={4} />}
+        {isActive && <ChevronRightIcon ml="auto" boxSize={4} color={activeIconColor} />}
       </Flex>
     )
 
@@ -199,7 +210,7 @@ export default function DashboardLayout() {
                 mr={4}
               />
             )}
-            <Heading size="md" display={{ base: 'none', md: 'block' }}>
+            <Heading size="md" color="brand.600" display={{ base: 'none', md: 'block' }}>
               {pageTitle}
             </Heading>
           </Flex>
@@ -207,6 +218,17 @@ export default function DashboardLayout() {
 
         <AnimatedElement animation="fadeIn" delay={200}>
           <HStack spacing={4}>
+            <Tooltip
+              label={colorMode === 'light' ? 'Включить темную тему' : 'Включить светлую тему'}
+            >
+              <IconButton
+                size="sm"
+                aria-label="Переключить тему"
+                icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                variant="ghost"
+                onClick={toggleColorMode}
+              />
+            </Tooltip>
             <Menu>
               <MenuButton as={Box} cursor="pointer">
                 <HStack>
@@ -222,13 +244,15 @@ export default function DashboardLayout() {
                   <ChevronDownIcon />
                 </HStack>
               </MenuButton>
-              <MenuList>
+              <MenuList bg={menuBgColor} borderColor={menuBorderColor}>
                 {user?.role === 'STUDENT' && (
-                  <MenuItem as={Link} to="/dashboard/profile">
+                  <MenuItem as={Link} to="/dashboard/profile" _hover={{ bg: hoverBgColor }}>
                     Profile
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout} _hover={{ bg: hoverBgColor }}>
+                  Logout
+                </MenuItem>
               </MenuList>
             </Menu>
           </HStack>
@@ -257,8 +281,8 @@ export default function DashboardLayout() {
         </Drawer>
 
         {/* Page Content */}
-        <Box flex="1" p={6} overflow="auto">
-          <Container maxW="container.xl">
+        <Box flex="1" p={6} overflow="auto" bg={contentBgColor}>
+          <Container maxW="container.xl" bg={bgColor} p={6} borderRadius="lg" boxShadow="sm">
             <PageTransition>
               <Outlet />
             </PageTransition>

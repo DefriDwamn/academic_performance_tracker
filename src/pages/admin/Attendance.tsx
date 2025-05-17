@@ -278,18 +278,18 @@ export default function AdminAttendance() {
   return (
     <Box>
       <AnimatedElement animation="fadeIn">
-        <Flex 
-          justify="space-between" 
-          align="center" 
+        <Flex
+          justify="space-between"
+          align="center"
           mb={6}
           direction={{ base: 'column', md: 'row' }}
           gap={{ base: 4, md: 0 }}
         >
           <Heading size="lg">Attendance</Heading>
           <HStack spacing={4} w={{ base: 'full', md: 'auto' }}>
-            <Button 
-              leftIcon={<AddIcon />} 
-              variant="outline" 
+            <Button
+              leftIcon={<AddIcon />}
+              variant="outline"
               onClick={handleAddAttendance}
               w={{ base: 'full', md: 'auto' }}
             >

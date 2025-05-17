@@ -20,6 +20,7 @@ import {
   Skeleton,
   Stack,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { ArrowUpIcon, ArrowDownIcon } from '@chakra-ui/icons'
 import { Users, GraduationCap, BookOpen, Calendar } from 'lucide-react'
@@ -60,7 +61,7 @@ export default function AdminDashboard() {
         fetchStudents(),
         fetchGrades(),
         fetchAttendance(),
-        fetchPerformanceMetrics()
+        fetchPerformanceMetrics(),
       ])
     }
     loadData()
@@ -69,7 +70,15 @@ export default function AdminDashboard() {
   const isLoading = studentsLoading || gradesLoading || attendanceLoading || analyticsLoading
 
   // Memoize calculations to prevent unnecessary recalculations
-  const { totalCourses, averageGPA, attendanceRate, studentStatusData, departmentData, gradeDistributionData, recentStudents } = useMemo(() => {
+  const {
+    totalCourses,
+    averageGPA,
+    attendanceRate,
+    studentStatusData,
+    departmentData,
+    gradeDistributionData,
+    recentStudents,
+  } = useMemo(() => {
     const totalCourses = grades.length > 0 ? new Set(grades.map((g) => g.courseId)).size : 0
     const averageGPA = performanceMetrics?.overallGPA || 0
     const attendanceRate =
@@ -129,7 +138,7 @@ export default function AdminDashboard() {
       studentStatusData,
       departmentData,
       gradeDistributionData,
-      recentStudents
+      recentStudents,
     }
   }, [students, grades, attendanceRecords, performanceMetrics])
 
@@ -452,19 +461,30 @@ export default function AdminDashboard() {
                     <Flex
                       key={student.uniqueKey}
                       p={3}
-                      bg="gray.50"
+                      bg={useColorModeValue('gray.50', 'gray.700')}
                       borderRadius="md"
                       align="center"
+                      border="1px solid"
+                      borderColor={useColorModeValue('gray.200', 'gray.600')}
+                      _hover={{
+                        bg: useColorModeValue('gray.100', 'gray.600'),
+                        transform: 'translateY(-1px)',
+                        transition: 'all 0.2s',
+                      }}
                     >
                       <Box flex="1">
-                        <Text fontWeight="medium">{`${student.firstName} ${student.lastName}`}</Text>
-                        <Text fontSize="sm" color="gray.600">
+                        <Text fontWeight="medium" color={useColorModeValue('gray.800', 'white')}>
+                          {`${student.firstName} ${student.lastName}`}
+                        </Text>
+                        <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
                           {student.email}
                         </Text>
                       </Box>
                       <VStack align="flex-end" spacing={1}>
-                        <Badge colorScheme="brand">{student.program}</Badge>
-                        <Text fontSize="xs" color="gray.500">
+                        <Badge colorScheme="brand" px={2} py={1} borderRadius="md">
+                          {student.program}
+                        </Badge>
+                        <Text fontSize="xs" color={useColorModeValue('gray.500', 'gray.400')}>
                           Enrolled: {new Date(student.enrollmentDate).toLocaleDateString()}
                         </Text>
                       </VStack>

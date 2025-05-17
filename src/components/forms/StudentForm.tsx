@@ -54,9 +54,15 @@ export const StudentForm = ({
     resolver: zodResolver(studentSchema),
     defaultValues: {
       ...initialData,
-      dateOfBirth: initialData.dateOfBirth ? new Date(initialData.dateOfBirth).toISOString().split('T')[0] : '',
-      enrollmentDate: initialData.enrollmentDate ? new Date(initialData.enrollmentDate).toISOString().split('T')[0] : '',
-      graduationDate: initialData.graduationDate ? new Date(initialData.graduationDate).toISOString().split('T')[0] : '',
+      dateOfBirth: initialData.dateOfBirth
+        ? new Date(initialData.dateOfBirth).toISOString().split('T')[0]
+        : '',
+      enrollmentDate: initialData.enrollmentDate
+        ? new Date(initialData.enrollmentDate).toISOString().split('T')[0]
+        : '',
+      graduationDate: initialData.graduationDate
+        ? new Date(initialData.graduationDate).toISOString().split('T')[0]
+        : '',
     },
   })
 

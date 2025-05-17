@@ -213,12 +213,7 @@ export default function StudentGrades() {
       </AnimatedElement>
 
       {/* Grade Detail Modal */}
-      <CustomModal
-        isOpen={isOpen}
-        onClose={onClose}
-        title="Grade Details"
-        size="lg"
-      >
+      <CustomModal isOpen={isOpen} onClose={onClose} title="Grade Details" size="lg">
         {selectedGrade && (
           <Stack spacing={4}>
             <Flex justify="space-between" align="center">

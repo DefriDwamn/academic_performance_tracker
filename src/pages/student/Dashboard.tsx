@@ -18,6 +18,7 @@ import {
   VStack,
   Flex,
   Skeleton,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { useAuthStore } from '../../store/authStore'
 import { useGradesStore } from '../../store/gradesStore'
@@ -34,6 +35,10 @@ export default function StudentDashboard() {
     fetchPerformanceMetrics,
     isLoading: analyticsLoading,
   } = useAnalyticsStore()
+
+  const gradeCardBg = useColorModeValue('gray.50', 'whiteAlpha.100')
+  const textColor = useColorModeValue('gray.800', 'white')
+  const secondaryTextColor = useColorModeValue('gray.600', 'gray.400')
 
   useEffect(() => {
     fetchGrades()
@@ -146,17 +151,19 @@ export default function StudentDashboard() {
                       key={`${grade.id}-${grade.courseName}-${grade.submissionDate}-${index}`}
                       p={3}
                       borderRadius="md"
-                      bg="gray.50"
+                      bg={gradeCardBg}
                     >
                       <Flex justify="space-between" align="center">
                         <VStack align="start" spacing={0}>
-                          <Text fontWeight="medium">{grade.courseName}</Text>
-                          <Text fontSize="sm" color="gray.600">
+                          <Text fontWeight="medium" color={textColor}>
+                            {grade.courseName}
+                          </Text>
+                          <Text fontSize="sm" color={secondaryTextColor}>
                             {new Date(grade.submissionDate).toLocaleDateString()}
                           </Text>
                         </VStack>
                         <HStack>
-                          <Text fontWeight="bold" fontSize="lg">
+                          <Text fontWeight="bold" fontSize="lg" color={textColor}>
                             {grade.grade}%
                           </Text>
                           <Text
