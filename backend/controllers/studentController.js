@@ -184,10 +184,10 @@ const updateStudent = asyncHandler(async (req, res) => {
         student.program = req.body.program || student.program
         student.status = req.body.status || student.status
 
-        // If email was updated, also update the associated user's email
-        if (req.body.email && req.body.email !== student.email && student.user) {
+        // Always update the associated user's data
+        if (student.user) {
           await User.findByIdAndUpdate(student.user, { 
-            email: req.body.email,
+            email: student.email,
             name: `${student.firstName} ${student.lastName}`
           })
         }
