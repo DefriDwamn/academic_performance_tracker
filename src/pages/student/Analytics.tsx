@@ -201,7 +201,7 @@ export default function StudentAnalytics() {
                           />
                         ))}
                       </Pie>
-                      <Tooltip />
+                      <Tooltip content={<CustomTooltip />} />
                       <Legend layout="horizontal" verticalAlign="bottom" align="center" />
                     </PieChart>
                   </ResponsiveContainer>
@@ -234,7 +234,7 @@ export default function StudentAnalytics() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="semester" />
                       <YAxis domain={[0, 4]} />
-                      <Tooltip />
+                      <Tooltip content={<CustomTooltip />} />
                       <Legend />
                       <Line type="monotone" dataKey="gpa" stroke="#0284c7" activeDot={{ r: 8 }} />
                     </LineChart>
@@ -270,7 +270,7 @@ export default function StudentAnalytics() {
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis domain={[0, 100]} />
-                      <Tooltip />
+                      <Tooltip content={<CustomTooltip />} />
                       <Legend />
                       <Bar dataKey="average" fill="#0284c7" name="Average" />
                       <Bar dataKey="highest" fill="#22c55e" name="Highest" />
