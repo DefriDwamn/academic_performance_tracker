@@ -7,7 +7,11 @@ import User from "../models/userModel.js"
 // @access  Private/Admin
 const getStudents = asyncHandler(async (req, res) => {
   const students = await Student.find({})
-  res.json(students)
+  const studentsWithId = students.map(student => ({
+    ...student.toObject(),
+    id: student._id.toString()
+  }))
+  res.json(studentsWithId)
 })
 
 // @desc    Get student by ID
@@ -17,7 +21,11 @@ const getStudentById = asyncHandler(async (req, res) => {
   const student = await Student.findById(req.params.id)
 
   if (student) {
-    res.json(student)
+    const studentWithId = {
+      ...student.toObject(),
+      id: student._id.toString()
+    }
+    res.json(studentWithId)
   } else {
     res.status(404)
     throw new Error("Student not found")
@@ -33,7 +41,11 @@ const getCurrentStudent = asyncHandler(async (req, res) => {
     const student = await Student.findById(req.user.studentId)
 
     if (student) {
-      res.json(student)
+      const studentWithId = {
+        ...student.toObject(),
+        id: student._id.toString()
+      }
+      res.json(studentWithId)
     } else {
       res.status(404)
       throw new Error("Student profile not found")
@@ -106,7 +118,11 @@ const createStudent = asyncHandler(async (req, res) => {
       await student.save()
     }
 
-    res.status(201).json(student)
+    const studentWithId = {
+      ...student.toObject(),
+      id: student._id.toString()
+    }
+    res.status(201).json(studentWithId)
   } else {
     res.status(400)
     throw new Error("Invalid student data")
@@ -147,7 +163,11 @@ const updateStudent = asyncHandler(async (req, res) => {
       }
 
       const updatedStudent = await student.save()
-      res.json(updatedStudent)
+      const studentWithId = {
+        ...updatedStudent.toObject(),
+        id: updatedStudent._id.toString()
+      }
+      res.json(studentWithId)
     } else {
       res.status(403)
       throw new Error("Not authorized to update this student")

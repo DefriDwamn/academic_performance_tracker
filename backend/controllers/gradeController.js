@@ -36,7 +36,11 @@ const getGrades = asyncHandler(async (req, res) => {
   }
 
   const grades = await Grade.find(filters)
-  res.json(grades)
+  const gradesWithId = grades.map(grade => ({
+    ...grade.toObject(),
+    id: grade._id.toString()
+  }))
+  res.json(gradesWithId)
 })
 
 // @desc    Add a new grade
@@ -81,7 +85,11 @@ const addGrade = asyncHandler(async (req, res) => {
   })
 
   if (newGrade) {
-    res.status(201).json(newGrade)
+    const gradeWithId = {
+      ...newGrade.toObject(),
+      id: newGrade._id.toString()
+    }
+    res.status(201).json(gradeWithId)
   } else {
     res.status(400)
     throw new Error("Invalid grade data")

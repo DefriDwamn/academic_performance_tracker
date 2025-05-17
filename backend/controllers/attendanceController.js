@@ -35,8 +35,12 @@ const getAttendance = asyncHandler(async (req, res) => {
     }
   }
 
-  const attendance = await Attendance.find(filters)
-  res.json(attendance)
+  const records = await Attendance.find(filters)
+  const recordsWithId = records.map(record => ({
+    ...record.toObject(),
+    id: record._id.toString()
+  }))
+  res.json(recordsWithId)
 })
 
 // @desc    Bulk upload attendance records
@@ -67,8 +71,11 @@ const bulkUploadAttendance = asyncHandler(async (req, res) => {
 
   // Insert all records
   const createdRecords = await Attendance.insertMany(records)
-
-  res.status(201).json(createdRecords)
+  const recordsWithId = createdRecords.map(record => ({
+    ...record.toObject(),
+    id: record._id.toString()
+  }))
+  res.status(201).json(recordsWithId)
 })
 
 export { getAttendance, bulkUploadAttendance }
