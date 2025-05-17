@@ -1,5 +1,5 @@
 export interface Attendance {
-  id: string
+  _id: string
   studentId: string
   courseId: string
   courseName: string

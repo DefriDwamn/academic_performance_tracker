@@ -7,7 +7,7 @@ interface AttendanceState {
   isLoading: boolean
   error: string | null
   fetchAttendance: (filters?: Record<string, any>) => Promise<void>
-  bulkUploadAttendance: (records: Omit<Attendance, "id">[]) => Promise<void>
+  bulkUploadAttendance: (records: Omit<Attendance, "_id">[]) => Promise<void>
 }
 
 export const useAttendanceStore = create<AttendanceState>((set, get) => ({

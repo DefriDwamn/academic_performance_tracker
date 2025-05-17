@@ -11,7 +11,7 @@ export const AttendanceService = {
     }
   },
 
-  async bulkUploadAttendance(records: Omit<Attendance, "id">[]): Promise<Attendance[]> {
+  async bulkUploadAttendance(records: Omit<Attendance, "_id">[]): Promise<Attendance[]> {
     try {
       const response = await api.post<Attendance[]>("/attendance/bulk", { records })
       return response.data
