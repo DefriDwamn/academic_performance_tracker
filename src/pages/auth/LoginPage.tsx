@@ -82,7 +82,12 @@ export default function LoginPage() {
           <VStack spacing={4} align="stretch">
             <FormControl isInvalid={!!errors.email}>
               <FormLabel>Email</FormLabel>
-              <Input type="email" placeholder="your.email@example.com" {...register('email')} />
+              <Input
+                type="email"
+                placeholder="your.email@example.com"
+                {...register('email')}
+                autoComplete="username"
+              />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
@@ -93,6 +98,7 @@ export default function LoginPage() {
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
                   {...register('password')}
+                  autoComplete="current-password"
                 />
                 <InputRightElement>
                   <IconButton
