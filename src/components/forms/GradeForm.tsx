@@ -41,11 +41,16 @@ const gradeSchema = z.object({
 
 type GradeFormData = z.infer<typeof gradeSchema>
 
+interface StudentOption {
+  id: string
+  name: string
+}
+
 interface GradeFormProps {
   initialData?: Partial<Grade>
-  onSubmit: (data: GradeFormData) => void
+  onSubmit: (data: Omit<Grade, "id">) => void
   isLoading?: boolean
-  students: { id: string; name: string }[]
+  students: StudentOption[]
   courses: { id: string; name: string }[]
   instructors: { id: string; name: string }[]
 }

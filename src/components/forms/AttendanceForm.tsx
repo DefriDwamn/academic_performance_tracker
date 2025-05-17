@@ -36,11 +36,16 @@ const attendanceSchema = z.object({
 
 type AttendanceFormData = z.infer<typeof attendanceSchema>
 
+interface StudentOption {
+  id: string
+  name: string
+}
+
 interface AttendanceFormProps {
   initialData?: Partial<Attendance>
-  onSubmit: (data: AttendanceFormData) => void
+  onSubmit: (data: Omit<Attendance, "id">) => void
   isLoading?: boolean
-  students: { id: string; name: string }[]
+  students: StudentOption[]
   courses: { id: string; name: string }[]
 }
 
