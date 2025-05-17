@@ -11,6 +11,7 @@ import {
   CardBody,
   Text,
   SimpleGrid,
+  GridItem,
   Flex,
   Avatar,
   Button,
@@ -114,111 +115,115 @@ export default function StudentProfile() {
       </AnimatedElement>
 
       <SimpleGrid columns={{ base: 1, lg: 3 }} spacing={6}>
-        <AnimatedElement animation="slideUp" delay={100} colSpan={{ base: 1, lg: 1 }}>
-          <Card>
-            <CardBody>
-              <Flex direction="column" align="center" justify="center" py={6}>
-                <Avatar size="2xl" name={`${currentStudent.firstName} ${currentStudent.lastName}`} mb={4} />
-                <Heading size="md">{`${currentStudent.firstName} ${currentStudent.lastName}`}</Heading>
-                <Text color="gray.600" mb={4}>
-                  {currentStudent.email}
-                </Text>
-                <Badge colorScheme="brand" px={3} py={1} borderRadius="full" textTransform="capitalize">
-                  {currentStudent.status}
-                </Badge>
-                <Button leftIcon={<EditIcon />} mt={6} size="sm" onClick={onOpen}>
-                  Edit Contact Info
-                </Button>
-              </Flex>
-            </CardBody>
-          </Card>
-        </AnimatedElement>
-
-        <AnimatedElement animation="slideUp" delay={200} colSpan={{ base: 1, lg: 2 }}>
-          <Card>
-            <CardHeader>
-              <Heading size="md">Personal Information</Heading>
-            </CardHeader>
-            <CardBody>
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Student ID
+        <GridItem colSpan={{ base: 1, lg: 1 }}>
+          <AnimatedElement animation="slideUp" delay={100}>
+            <Card>
+              <CardBody>
+                <Flex direction="column" align="center" justify="center" py={6}>
+                  <Avatar size="2xl" name={`${currentStudent.firstName} ${currentStudent.lastName}`} mb={4} />
+                  <Heading size="md">{`${currentStudent.firstName} ${currentStudent.lastName}`}</Heading>
+                  <Text color="gray.600" mb={4}>
+                    {currentStudent.email}
                   </Text>
-                  <Text>{currentStudent.studentId}</Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Date of Birth
-                  </Text>
-                  <Text>{new Date(currentStudent.dateOfBirth).toLocaleDateString()}</Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Gender
-                  </Text>
-                  <Text textTransform="capitalize">{currentStudent.gender}</Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Phone Number
-                  </Text>
-                  <Text>{currentStudent.phoneNumber}</Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Address
-                  </Text>
-                  <Text>{currentStudent.address}</Text>
-                </Box>
-              </SimpleGrid>
-
-              <Divider my={6} />
-
-              <Heading size="sm" mb={4}>
-                Academic Information
-              </Heading>
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Department
-                  </Text>
-                  <Text textTransform="capitalize">{currentStudent.department.replace(/_/g, " ")}</Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Program
-                  </Text>
-                  <Text textTransform="capitalize">{currentStudent.program}</Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Enrollment Date
-                  </Text>
-                  <Text>{new Date(currentStudent.enrollmentDate).toLocaleDateString()}</Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Expected Graduation
-                  </Text>
-                  <Text>
-                    {currentStudent.graduationDate
-                      ? new Date(currentStudent.graduationDate).toLocaleDateString()
-                      : "Not set"}
-                  </Text>
-                </Box>
-                <Box>
-                  <Text fontWeight="medium" color="gray.500" fontSize="sm">
-                    Status
-                  </Text>
-                  <Badge colorScheme={currentStudent.status === "active" ? "green" : "gray"}>
+                  <Badge colorScheme="brand" px={3} py={1} borderRadius="full" textTransform="capitalize">
                     {currentStudent.status}
                   </Badge>
-                </Box>
-              </SimpleGrid>
-            </CardBody>
-          </Card>
-        </AnimatedElement>
+                  <Button leftIcon={<EditIcon />} mt={6} size="sm" onClick={onOpen}>
+                    Edit Contact Info
+                  </Button>
+                </Flex>
+              </CardBody>
+            </Card>
+          </AnimatedElement>
+        </GridItem>
+
+        <GridItem colSpan={{ base: 1, lg: 2 }}>
+          <AnimatedElement animation="slideUp" delay={200}>
+            <Card>
+              <CardHeader>
+                <Heading size="md">Personal Information</Heading>
+              </CardHeader>
+              <CardBody>
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Student ID
+                    </Text>
+                    <Text>{currentStudent.studentId}</Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Date of Birth
+                    </Text>
+                    <Text>{new Date(currentStudent.dateOfBirth).toLocaleDateString()}</Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Gender
+                    </Text>
+                    <Text textTransform="capitalize">{currentStudent.gender}</Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Phone Number
+                    </Text>
+                    <Text>{currentStudent.phoneNumber}</Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Address
+                    </Text>
+                    <Text>{currentStudent.address}</Text>
+                  </Box>
+                </SimpleGrid>
+
+                <Divider my={6} />
+
+                <Heading size="sm" mb={4}>
+                  Academic Information
+                </Heading>
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Department
+                    </Text>
+                    <Text textTransform="capitalize">{currentStudent.department.replace(/_/g, " ")}</Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Program
+                    </Text>
+                    <Text textTransform="capitalize">{currentStudent.program}</Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Enrollment Date
+                    </Text>
+                    <Text>{new Date(currentStudent.enrollmentDate).toLocaleDateString()}</Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Expected Graduation
+                    </Text>
+                    <Text>
+                      {currentStudent.graduationDate
+                        ? new Date(currentStudent.graduationDate).toLocaleDateString()
+                        : "Not set"}
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Status
+                    </Text>
+                    <Badge colorScheme={currentStudent.status === "active" ? "green" : "gray"}>
+                      {currentStudent.status}
+                    </Badge>
+                  </Box>
+                </SimpleGrid>
+              </CardBody>
+            </Card>
+          </AnimatedElement>
+        </GridItem>
       </SimpleGrid>
 
       {/* Edit Profile Modal */}
