@@ -58,7 +58,6 @@ export default function AdminDashboard() {
   const isLoading = studentsLoading || gradesLoading || attendanceLoading || analyticsLoading
 
   // Calculate statistics
-  const activeStudents = students.filter((s) => s.status === "active").length
   const totalCourses = grades.length > 0 ? new Set(grades.map((g) => g.courseId)).size : 0
   const averageGPA = performanceMetrics?.overallGPA || 0
   const attendanceRate =
@@ -104,6 +103,15 @@ export default function AdminDashboard() {
     [] as { name: string; value: number }[],
   )
 
+  // Get recent students
+  const recentStudents = [...students]
+    .sort((a, b) => new Date(b.enrollmentDate).getTime() - new Date(a.enrollmentDate).getTime())
+    .slice(0, 5)
+    .map(student => ({
+      ...student,
+      uniqueKey: `${student.firstName}-${student.lastName}-${student.enrollmentDate}`
+    }))
+
   // Colors for charts
   const COLORS = ["#0284c7", "#0ea5e9", "#38bdf8", "#7dd3fc", "#bae6fd"]
   const GRADE_COLORS = {
@@ -113,11 +121,6 @@ export default function AdminDashboard() {
     D: "#f97316",
     F: "#ef4444",
   }
-
-  // Get recent students
-  const recentStudents = [...students]
-    .sort((a, b) => new Date(b.enrollmentDate).getTime() - new Date(a.enrollmentDate).getTime())
-    .slice(0, 5)
 
   return (
     <Box>
@@ -282,8 +285,8 @@ export default function AdminDashboard() {
                         dataKey="value"
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       >
-                        {studentStatusData.map((entry) => (
-                          <Cell key={entry.name} fill={COLORS[COLORS.indexOf(entry.name) % COLORS.length]} />
+                        {studentStatusData.map((entry, index) => (
+                          <Cell key={`status-${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -324,7 +327,7 @@ export default function AdminDashboard() {
                       <Bar dataKey="value" name="Students">
                         {gradeDistributionData.map((entry, index) => (
                           <Cell
-                            key={entry.name}
+                            key={`grade-${entry.name}-${index}`}
                             fill={
                               GRADE_COLORS[entry.name as keyof typeof GRADE_COLORS] || COLORS[index % COLORS.length]
                             }
@@ -392,7 +395,7 @@ export default function AdminDashboard() {
               ) : (
                 <VStack spacing={4} align="stretch">
                   {recentStudents.map((student) => (
-                    <Flex key={`student-${student.id}-${student.enrollmentDate}`} p={3} bg="gray.50" borderRadius="md" align="center">
+                    <Flex key={student.uniqueKey} p={3} bg="gray.50" borderRadius="md" align="center">
                       <Box flex="1">
                         <Text fontWeight="medium">{`${student.firstName} ${student.lastName}`}</Text>
                         <Text fontSize="sm" color="gray.600">
