@@ -43,7 +43,7 @@ interface StudentOption {
 
 interface AttendanceFormProps {
   initialData?: Partial<Attendance>
-  onSubmit: (data: Omit<Attendance, "id">) => void
+  onSubmit: (data: Omit<Attendance, "_id">) => void
   isLoading?: boolean
   students: StudentOption[]
   courses: { id: string; name: string }[]
@@ -156,7 +156,7 @@ export const AttendanceForm = ({
         </FormControl>
 
         <Button mt={6} colorScheme="brand" type="submit" isLoading={isLoading} loadingText="Submitting">
-          {initialData.id ? "Update Attendance" : "Add Attendance"}
+          {initialData._id ? "Update Attendance" : "Add Attendance"}
         </Button>
       </VStack>
     </Box>
