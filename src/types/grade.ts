@@ -1,6 +1,7 @@
 export interface Grade {
   id: string
   studentId: string
+  studentName?: string
   courseId: string
   courseName: string
   semester: string

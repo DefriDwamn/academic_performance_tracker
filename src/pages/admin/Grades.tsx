@@ -105,7 +105,10 @@ export default function AdminGrades() {
   }
 
   // Filter grades based on selected filters
-  const filteredGrades = grades.filter((grade) => {
+  const filteredGrades = grades.map(grade => ({
+    ...grade,
+    studentName: getStudentNameById(grade.studentId)
+  })).filter((grade) => {
     const studentMatch = selectedStudent === "all" || grade.studentId === selectedStudent
     const courseMatch = selectedCourse === "all" || grade.courseId === selectedCourse
     return studentMatch && courseMatch
@@ -115,7 +118,7 @@ export default function AdminGrades() {
   const columns = [
     {
       header: "Student",
-      accessor: (grade: Grade): ReactNode => getStudentNameById(grade.studentId),
+      accessor: (grade: Grade): ReactNode => grade.studentName,
     },
     {
       header: "Course",
@@ -165,7 +168,7 @@ export default function AdminGrades() {
 
   // Mock data for form dropdowns
   const studentOptions = students.map((student) => ({
-    id: student.id,
+    id: student._id,
     name: `${student.firstName} ${student.lastName}`,
   }))
 
