@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
 import {
   Box,
@@ -18,18 +18,18 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-} from "@chakra-ui/react"
-import { useForm, Controller } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import type { Attendance } from "../../types/attendance"
+} from '@chakra-ui/react'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import type { Attendance } from '../../types/attendance'
 
 const attendanceSchema = z.object({
-  studentId: z.string().min(1, "Student is required"),
-  courseId: z.string().min(1, "Course is required"),
-  courseName: z.string().min(1, "Course name is required"),
-  date: z.string().min(1, "Date is required"),
-  status: z.enum(["present", "absent", "late", "excused"]),
+  studentId: z.string().min(1, 'Student is required'),
+  courseId: z.string().min(1, 'Course is required'),
+  courseName: z.string().min(1, 'Course name is required'),
+  date: z.string().min(1, 'Date is required'),
+  status: z.enum(['present', 'absent', 'late', 'excused']),
   duration: z.number().optional(),
   notes: z.string().optional(),
 })
@@ -43,7 +43,7 @@ interface StudentOption {
 
 interface AttendanceFormProps {
   initialData?: Partial<Attendance>
-  onSubmit: (data: Omit<Attendance, "_id">) => void
+  onSubmit: (data: Omit<Attendance, '_id'>) => void
   isLoading?: boolean
   students: StudentOption[]
   courses: { id: string; name: string }[]
@@ -75,7 +75,7 @@ export const AttendanceForm = ({
     const courseId = e.target.value
     const course = courses.find((c) => c.id === courseId)
     if (course) {
-      setValue("courseName", course.name)
+      setValue('courseName', course.name)
     }
   }
 
@@ -85,7 +85,7 @@ export const AttendanceForm = ({
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
           <FormControl isInvalid={!!errors.studentId}>
             <FormLabel>Student</FormLabel>
-            <Select placeholder="Select student" {...register("studentId")}>
+            <Select placeholder="Select student" {...register('studentId')}>
               {students.map((student) => (
                 <option key={student.id} value={student.id}>
                   {student.name}
@@ -97,7 +97,11 @@ export const AttendanceForm = ({
 
           <FormControl isInvalid={!!errors.courseId}>
             <FormLabel>Course</FormLabel>
-            <Select placeholder="Select course" {...register("courseId")} onChange={handleCourseChange}>
+            <Select
+              placeholder="Select course"
+              {...register('courseId')}
+              onChange={handleCourseChange}
+            >
               {courses.map((course) => (
                 <option key={course.id} value={course.id}>
                   {course.name}
@@ -109,19 +113,19 @@ export const AttendanceForm = ({
 
           <FormControl isInvalid={!!errors.courseName} display="none">
             <FormLabel>Course Name</FormLabel>
-            <Input {...register("courseName")} />
+            <Input {...register('courseName')} />
             <FormErrorMessage>{errors.courseName?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl isInvalid={!!errors.date}>
             <FormLabel>Date</FormLabel>
-            <Input type="date" {...register("date")} />
+            <Input type="date" {...register('date')} />
             <FormErrorMessage>{errors.date?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl isInvalid={!!errors.status}>
             <FormLabel>Status</FormLabel>
-            <Select placeholder="Select status" {...register("status")}>
+            <Select placeholder="Select status" {...register('status')}>
               <option value="present">Present</option>
               <option value="absent">Absent</option>
               <option value="late">Late</option>
@@ -151,12 +155,22 @@ export const AttendanceForm = ({
 
         <FormControl isInvalid={!!errors.notes}>
           <FormLabel>Notes</FormLabel>
-          <Textarea {...register("notes")} placeholder="Additional notes about attendance" rows={4} />
+          <Textarea
+            {...register('notes')}
+            placeholder="Additional notes about attendance"
+            rows={4}
+          />
           <FormErrorMessage>{errors.notes?.message}</FormErrorMessage>
         </FormControl>
 
-        <Button mt={6} colorScheme="brand" type="submit" isLoading={isLoading} loadingText="Submitting">
-          {initialData._id ? "Update Attendance" : "Add Attendance"}
+        <Button
+          mt={6}
+          colorScheme="brand"
+          type="submit"
+          isLoading={isLoading}
+          loadingText="Submitting"
+        >
+          {initialData._id ? 'Update Attendance' : 'Add Attendance'}
         </Button>
       </VStack>
     </Box>

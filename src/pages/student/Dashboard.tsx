@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect } from "react"
+import { useEffect } from 'react'
 import {
   Box,
   Grid,
@@ -18,18 +18,22 @@ import {
   VStack,
   Flex,
   Skeleton,
-} from "@chakra-ui/react"
-import { useAuthStore } from "../../store/authStore"
-import { useGradesStore } from "../../store/gradesStore"
-import { useAttendanceStore } from "../../store/attendanceStore"
-import { useAnalyticsStore } from "../../store/analyticsStore"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
+} from '@chakra-ui/react'
+import { useAuthStore } from '../../store/authStore'
+import { useGradesStore } from '../../store/gradesStore'
+import { useAttendanceStore } from '../../store/attendanceStore'
+import { useAnalyticsStore } from '../../store/analyticsStore'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
 
 export default function StudentDashboard() {
   const { user } = useAuthStore()
   const { grades, fetchGrades, isLoading: gradesLoading } = useGradesStore()
   const { attendanceRecords, fetchAttendance, isLoading: attendanceLoading } = useAttendanceStore()
-  const { performanceMetrics, fetchPerformanceMetrics, isLoading: analyticsLoading } = useAnalyticsStore()
+  const {
+    performanceMetrics,
+    fetchPerformanceMetrics,
+    isLoading: analyticsLoading,
+  } = useAnalyticsStore()
 
   useEffect(() => {
     fetchGrades()
@@ -42,7 +46,9 @@ export default function StudentDashboard() {
   // Calculate attendance rate
   const attendanceRate =
     attendanceRecords.length > 0
-      ? (attendanceRecords.filter((record) => record.status === "present").length / attendanceRecords.length) * 100
+      ? (attendanceRecords.filter((record) => record.status === 'present').length /
+          attendanceRecords.length) *
+        100
       : 0
 
   // Get recent grades
@@ -58,7 +64,7 @@ export default function StudentDashboard() {
         </Heading>
       </AnimatedElement>
 
-      <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6} mb={8}>
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6} mb={8}>
         <AnimatedElement animation="slideUp" delay={100}>
           <Card>
             <CardHeader pb={0}>
@@ -70,7 +76,7 @@ export default function StudentDashboard() {
                   {isLoading ? (
                     <Skeleton height="36px" width="80px" />
                   ) : (
-                    performanceMetrics?.overallGPA.toFixed(2) || "N/A"
+                    performanceMetrics?.overallGPA.toFixed(2) || 'N/A'
                   )}
                 </StatNumber>
                 <StatHelpText>Out of 4.0</StatHelpText>
@@ -87,7 +93,11 @@ export default function StudentDashboard() {
             <CardBody>
               <Stat>
                 <StatNumber fontSize="3xl">
-                  {isLoading ? <Skeleton height="36px" width="80px" /> : `${attendanceRate.toFixed(0)}%`}
+                  {isLoading ? (
+                    <Skeleton height="36px" width="80px" />
+                  ) : (
+                    `${attendanceRate.toFixed(0)}%`
+                  )}
                 </StatNumber>
                 <StatHelpText>Overall attendance</StatHelpText>
               </Stat>
@@ -103,7 +113,11 @@ export default function StudentDashboard() {
             <CardBody>
               <Stat>
                 <StatNumber fontSize="3xl">
-                  {isLoading ? <Skeleton height="36px" width="80px" /> : new Set(grades.map((g) => g.courseId)).size}
+                  {isLoading ? (
+                    <Skeleton height="36px" width="80px" />
+                  ) : (
+                    new Set(grades.map((g) => g.courseId)).size
+                  )}
                 </StatNumber>
                 <StatHelpText>Enrolled courses</StatHelpText>
               </Stat>
@@ -128,7 +142,12 @@ export default function StudentDashboard() {
               ) : recentGrades.length > 0 ? (
                 <VStack spacing={4} align="stretch">
                   {recentGrades.map((grade, index) => (
-                    <Box key={`${grade.id}-${grade.courseName}-${grade.submissionDate}-${index}`} p={3} borderRadius="md" bg="gray.50">
+                    <Box
+                      key={`${grade.id}-${grade.courseName}-${grade.submissionDate}-${index}`}
+                      p={3}
+                      borderRadius="md"
+                      bg="gray.50"
+                    >
                       <Flex justify="space-between" align="center">
                         <VStack align="start" spacing={0}>
                           <Text fontWeight="medium">{grade.courseName}</Text>
@@ -143,15 +162,15 @@ export default function StudentDashboard() {
                           <Text
                             fontWeight="bold"
                             color={
-                              grade.letterGrade === "A"
-                                ? "green.500"
-                                : grade.letterGrade === "B"
-                                  ? "blue.500"
-                                  : grade.letterGrade === "C"
-                                    ? "yellow.500"
-                                    : grade.letterGrade === "D"
-                                      ? "orange.500"
-                                      : "red.500"
+                              grade.letterGrade === 'A'
+                                ? 'green.500'
+                                : grade.letterGrade === 'B'
+                                  ? 'blue.500'
+                                  : grade.letterGrade === 'C'
+                                    ? 'yellow.500'
+                                    : grade.letterGrade === 'D'
+                                      ? 'orange.500'
+                                      : 'red.500'
                             }
                           >
                             {grade.letterGrade}
@@ -192,14 +211,14 @@ export default function StudentDashboard() {
                         value={course.averageGrade}
                         colorScheme={
                           course.averageGrade >= 90
-                            ? "green"
+                            ? 'green'
                             : course.averageGrade >= 80
-                              ? "blue"
+                              ? 'blue'
                               : course.averageGrade >= 70
-                                ? "yellow"
+                                ? 'yellow'
                                 : course.averageGrade >= 60
-                                  ? "orange"
-                                  : "red"
+                                  ? 'orange'
+                                  : 'red'
                         }
                         borderRadius="full"
                         size="sm"

@@ -1,6 +1,6 @@
-import { Outlet } from "react-router-dom"
-import { Box, Container, Flex, Heading, Text } from "@chakra-ui/react"
-import { AnimatedElement } from "../components/common/AnimatedElement"
+import { Outlet } from 'react-router'
+import { Box, Container, Flex, Heading, Text } from '@chakra-ui/react'
+import { AnimatedElement } from '../components/common/AnimatedElement'
 
 export default function AuthLayout() {
   return (

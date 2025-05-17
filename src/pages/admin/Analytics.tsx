@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from 'react'
 import {
   Box,
   Heading,
@@ -23,10 +23,10 @@ import {
   TabPanel,
   Badge,
   Divider,
-} from "@chakra-ui/react"
-import { useAnalyticsStore } from "../../store/analyticsStore"
-import { useStudentStore } from "../../store/studentStore"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
+} from '@chakra-ui/react'
+import { useAnalyticsStore } from '../../store/analyticsStore'
+import { useStudentStore } from '../../store/studentStore'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
 import {
   LineChart,
   Line,
@@ -43,7 +43,7 @@ import {
   ResponsiveContainer,
   AreaChart,
   Area,
-} from "recharts"
+} from 'recharts'
 
 export default function AdminAnalytics() {
   const {
@@ -56,8 +56,10 @@ export default function AdminAnalytics() {
     isLoading,
   } = useAnalyticsStore()
   const { students, fetchStudents } = useStudentStore()
-  const [selectedStudent, setSelectedStudent] = useState<string>("")
-  const [containerSizes, setContainerSizes] = useState<{ [key: string]: { width: number; height: number } }>({})
+  const [selectedStudent, setSelectedStudent] = useState<string>('')
+  const [containerSizes, setContainerSizes] = useState<{
+    [key: string]: { width: number; height: number }
+  }>({})
   const containerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
   useEffect(() => {
@@ -95,13 +97,13 @@ export default function AdminAnalytics() {
   }, [selectedStudent, fetchStudentReport])
 
   // Colors for charts
-  const COLORS = ["#0284c7", "#0ea5e9", "#38bdf8", "#7dd3fc", "#bae6fd"]
+  const COLORS = ['#0284c7', '#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd']
   const GRADE_COLORS = {
-    A: "#22c55e",
-    B: "#3b82f6",
-    C: "#eab308",
-    D: "#f97316",
-    F: "#ef4444",
+    A: '#22c55e',
+    B: '#3b82f6',
+    C: '#eab308',
+    D: '#f97316',
+    F: '#ef4444',
   }
 
   // Prepare data for grade distribution pie chart
@@ -120,13 +122,16 @@ export default function AdminAnalytics() {
         })
         return acc
       },
-      [] as { name: string; value: number }[],
+      [] as { name: string; value: number }[]
     )
 
     // Sort by grade (A, B, C, D, F)
     return gradeDistribution.sort((a, b) => {
       const gradeOrder = { A: 0, B: 1, C: 2, D: 3, F: 4 }
-      return gradeOrder[a.name as keyof typeof gradeOrder] - gradeOrder[b.name as keyof typeof gradeOrder]
+      return (
+        gradeOrder[a.name as keyof typeof gradeOrder] -
+        gradeOrder[b.name as keyof typeof gradeOrder]
+      )
     })
   }
 
@@ -145,7 +150,10 @@ export default function AdminAnalytics() {
     if (!performanceMetrics?.coursePerformance) return []
 
     return performanceMetrics.coursePerformance.map((course) => ({
-      name: course.courseName.length > 15 ? course.courseName.substring(0, 15) + "..." : course.courseName,
+      name:
+        course.courseName.length > 15
+          ? course.courseName.substring(0, 15) + '...'
+          : course.courseName,
       average: course.averageGrade,
       highest: course.highestGrade,
       lowest: course.lowestGrade,
@@ -221,16 +229,17 @@ export default function AdminAnalytics() {
                     {isLoading ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
-                      <Box 
+                      <Box
                         key="gradeDistribution"
-                        ref={el => containerRefs.current['gradeDistribution'] = el}
-                        height="400px" 
+                        ref={(el) => (containerRefs.current['gradeDistribution'] = el)}
+                        height="400px"
                         minHeight="300px"
                         width="100%"
                         position="relative"
                         mb={4}
                       >
-                        {renderChart('gradeDistribution', (
+                        {renderChart(
+                          'gradeDistribution',
                           <PieChart>
                             <Pie
                               data={gradeDistributionData}
@@ -240,7 +249,9 @@ export default function AdminAnalytics() {
                               outerRadius={80}
                               fill="#8884d8"
                               dataKey="value"
-                              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                              label={({ name, percent }) =>
+                                `${name} ${(percent * 100).toFixed(0)}%`
+                              }
                             >
                               {gradeDistributionData.map((entry, index) => (
                                 <Cell
@@ -255,7 +266,7 @@ export default function AdminAnalytics() {
                             <Tooltip />
                             <Legend />
                           </PieChart>
-                        ))}
+                        )}
                       </Box>
                     )}
                   </CardBody>
@@ -271,16 +282,17 @@ export default function AdminAnalytics() {
                     {isLoading ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
-                      <Box 
+                      <Box
                         key="gpaTrend"
-                        ref={el => containerRefs.current['gpaTrend'] = el}
-                        height="400px" 
+                        ref={(el) => (containerRefs.current['gpaTrend'] = el)}
+                        height="400px"
                         minHeight="300px"
                         width="100%"
                         position="relative"
                         mb={4}
                       >
-                        {renderChart('gpaTrend', (
+                        {renderChart(
+                          'gpaTrend',
                           <LineChart
                             data={gpaTrendData}
                             margin={{
@@ -295,16 +307,21 @@ export default function AdminAnalytics() {
                             <YAxis domain={[0, 4]} />
                             <Tooltip />
                             <Legend />
-                            <Line type="monotone" dataKey="gpa" stroke="#0284c7" activeDot={{ r: 8 }} />
+                            <Line
+                              type="monotone"
+                              dataKey="gpa"
+                              stroke="#0284c7"
+                              activeDot={{ r: 8 }}
+                            />
                           </LineChart>
-                        ))}
+                        )}
                       </Box>
                     )}
                   </CardBody>
                 </Card>
               </AnimatedElement>
             </SimpleGrid>
-            
+
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
               <AnimatedElement animation="slideUp" delay={300}>
                 <Card>
@@ -315,16 +332,17 @@ export default function AdminAnalytics() {
                     {isLoading ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
-                      <Box 
+                      <Box
                         key="coursePerformance"
-                        ref={el => containerRefs.current['coursePerformance'] = el}
-                        height="400px" 
+                        ref={(el) => (containerRefs.current['coursePerformance'] = el)}
+                        height="400px"
                         minHeight="300px"
                         width="100%"
                         position="relative"
                         mb={4}
                       >
-                        {renderChart('coursePerformance', (
+                        {renderChart(
+                          'coursePerformance',
                           <BarChart
                             data={coursePerformanceData}
                             margin={{
@@ -343,7 +361,7 @@ export default function AdminAnalytics() {
                             <Bar dataKey="highest" fill="#22c55e" name="Highest" />
                             <Bar dataKey="lowest" fill="#ef4444" name="Lowest" />
                           </BarChart>
-                        ))}
+                        )}
                       </Box>
                     )}
                   </CardBody>
@@ -359,16 +377,17 @@ export default function AdminAnalytics() {
                     {isLoading ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
-                      <Box 
+                      <Box
                         key="monthlyAttendance"
-                        ref={el => containerRefs.current['monthlyAttendance'] = el}
-                        height="400px" 
+                        ref={(el) => (containerRefs.current['monthlyAttendance'] = el)}
+                        height="400px"
                         minHeight="300px"
                         width="100%"
                         position="relative"
                         mb={4}
                       >
-                        {renderChart('monthlyAttendance', (
+                        {renderChart(
+                          'monthlyAttendance',
                           <AreaChart
                             data={monthlyAttendanceData}
                             margin={{
@@ -392,7 +411,7 @@ export default function AdminAnalytics() {
                               name="Attendance Rate %"
                             />
                           </AreaChart>
-                        ))}
+                        )}
                       </Box>
                     )}
                   </CardBody>
@@ -431,18 +450,26 @@ export default function AdminAnalytics() {
                       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={6}>
                         <Stat>
                           <StatLabel>Current GPA</StatLabel>
-                          <StatNumber>{studentReport.academicPerformance.currentGPA.toFixed(2)}</StatNumber>
+                          <StatNumber>
+                            {studentReport.academicPerformance.currentGPA.toFixed(2)}
+                          </StatNumber>
                           <StatHelpText>Out of 4.0</StatHelpText>
                         </Stat>
                         <Stat>
                           <StatLabel>Completed Credits</StatLabel>
                           <StatNumber>{studentReport.academicPerformance.totalCredits}</StatNumber>
-                          <StatHelpText>{studentReport.academicPerformance.completedCourses} courses</StatHelpText>
+                          <StatHelpText>
+                            {studentReport.academicPerformance.completedCourses} courses
+                          </StatHelpText>
                         </Stat>
                         <Stat>
                           <StatLabel>Attendance Rate</StatLabel>
-                          <StatNumber>{studentReport.attendanceRecord.overallAttendanceRate.toFixed(1)}%</StatNumber>
-                          <StatHelpText>{studentReport.attendanceRecord.absenceCount} absences</StatHelpText>
+                          <StatNumber>
+                            {studentReport.attendanceRecord.overallAttendanceRate.toFixed(1)}%
+                          </StatNumber>
+                          <StatHelpText>
+                            {studentReport.attendanceRecord.absenceCount} absences
+                          </StatHelpText>
                         </Stat>
                       </SimpleGrid>
 
@@ -451,10 +478,10 @@ export default function AdminAnalytics() {
                       <Heading size="sm" mb={4}>
                         Performance Comparison
                       </Heading>
-                      <Box 
+                      <Box
                         key="studentPerformance"
-                        height="400px" 
-                        mb={6} 
+                        height="400px"
+                        mb={6}
                         minHeight="300px"
                         width="100%"
                         position="relative"
@@ -481,7 +508,12 @@ export default function AdminAnalytics() {
                               name="Student GPA"
                               activeDot={{ r: 8 }}
                             />
-                            <Line type="monotone" dataKey="classAverage" stroke="#22c55e" name="Class Average" />
+                            <Line
+                              type="monotone"
+                              dataKey="classAverage"
+                              stroke="#22c55e"
+                              name="Class Average"
+                            />
                           </LineChart>
                         </ResponsiveContainer>
                       </Box>
@@ -491,9 +523,9 @@ export default function AdminAnalytics() {
                           <Heading size="sm" mb={4}>
                             Grade Distribution
                           </Heading>
-                          <Box 
+                          <Box
                             key="studentGradeDistribution"
-                            height="300px" 
+                            height="300px"
                             minHeight="200px"
                             width="100%"
                             position="relative"
@@ -510,17 +542,22 @@ export default function AdminAnalytics() {
                                   fill="#8884d8"
                                   dataKey="count"
                                   nameKey="letterGrade"
-                                  label={({ letterGrade, percent }) => `${letterGrade} ${(percent * 100).toFixed(0)}%`}
+                                  label={({ letterGrade, percent }) =>
+                                    `${letterGrade} ${(percent * 100).toFixed(0)}%`
+                                  }
                                 >
-                                  {studentReport.academicPerformance.gradeDistribution.map((entry, index) => (
-                                    <Cell
-                                      key={`cell-${index}`}
-                                      fill={
-                                        GRADE_COLORS[entry.letterGrade as keyof typeof GRADE_COLORS] ||
-                                        COLORS[index % COLORS.length]
-                                      }
-                                    />
-                                  ))}
+                                  {studentReport.academicPerformance.gradeDistribution.map(
+                                    (entry, index) => (
+                                      <Cell
+                                        key={`cell-${index}`}
+                                        fill={
+                                          GRADE_COLORS[
+                                            entry.letterGrade as keyof typeof GRADE_COLORS
+                                          ] || COLORS[index % COLORS.length]
+                                        }
+                                      />
+                                    )
+                                  )}
                                 </Pie>
                                 <Tooltip />
                                 <Legend />
@@ -533,9 +570,9 @@ export default function AdminAnalytics() {
                           <Heading size="sm" mb={4}>
                             Course Attendance
                           </Heading>
-                          <Box 
+                          <Box
                             key="studentCourseAttendance"
-                            height="300px" 
+                            height="300px"
                             minHeight="200px"
                             width="100%"
                             position="relative"
@@ -556,7 +593,11 @@ export default function AdminAnalytics() {
                                 <YAxis domain={[0, 100]} />
                                 <Tooltip />
                                 <Legend />
-                                <Bar dataKey="attendanceRate" fill="#22c55e" name="Attendance Rate %" />
+                                <Bar
+                                  dataKey="attendanceRate"
+                                  fill="#22c55e"
+                                  name="Attendance Rate %"
+                                />
                               </BarChart>
                             </ResponsiveContainer>
                           </Box>
@@ -566,8 +607,8 @@ export default function AdminAnalytics() {
                   ) : (
                     <Text color="gray.500" textAlign="center" py={10}>
                       {selectedStudent
-                        ? "Loading student data..."
-                        : "Select a student to view detailed performance analysis"}
+                        ? 'Loading student data...'
+                        : 'Select a student to view detailed performance analysis'}
                     </Text>
                   )}
                 </CardBody>
@@ -597,16 +638,20 @@ export default function AdminAnalytics() {
                               <HStack>
                                 <Badge
                                   colorScheme={
-                                    course.averageGrade >= 80 ? "green" : course.averageGrade >= 70 ? "blue" : "yellow"
+                                    course.averageGrade >= 80
+                                      ? 'green'
+                                      : course.averageGrade >= 70
+                                        ? 'blue'
+                                        : 'yellow'
                                   }
                                 >
                                   {course.averageGrade >= 90
-                                    ? "Excellent"
+                                    ? 'Excellent'
                                     : course.averageGrade >= 80
-                                      ? "Good"
+                                      ? 'Good'
                                       : course.averageGrade >= 70
-                                        ? "Average"
-                                        : "Needs Improvement"}
+                                        ? 'Average'
+                                        : 'Needs Improvement'}
                                 </Badge>
                               </HStack>
                             </Stat>
@@ -620,9 +665,9 @@ export default function AdminAnalytics() {
                             </Stat>
                           </SimpleGrid>
 
-                          <Box 
+                          <Box
                             key={`courseGradeDistribution-${course.courseId}`}
-                            height="300px" 
+                            height="300px"
                             minHeight="200px"
                             width="100%"
                             position="relative"
@@ -639,14 +684,17 @@ export default function AdminAnalytics() {
                                   fill="#8884d8"
                                   dataKey="count"
                                   nameKey="letterGrade"
-                                  label={({ letterGrade, percent }) => `${letterGrade} ${(percent * 100).toFixed(0)}%`}
+                                  label={({ letterGrade, percent }) =>
+                                    `${letterGrade} ${(percent * 100).toFixed(0)}%`
+                                  }
                                 >
                                   {course.gradeDistribution.map((entry, index) => (
                                     <Cell
                                       key={`cell-${index}`}
                                       fill={
-                                        GRADE_COLORS[entry.letterGrade as keyof typeof GRADE_COLORS] ||
-                                        COLORS[index % COLORS.length]
+                                        GRADE_COLORS[
+                                          entry.letterGrade as keyof typeof GRADE_COLORS
+                                        ] || COLORS[index % COLORS.length]
                                       }
                                     />
                                   ))}
@@ -683,22 +731,24 @@ export default function AdminAnalytics() {
                       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={6}>
                         <Stat>
                           <StatLabel>Overall Attendance Rate</StatLabel>
-                          <StatNumber>{attendanceStatistics.overallAttendanceRate.toFixed(1)}%</StatNumber>
+                          <StatNumber>
+                            {attendanceStatistics.overallAttendanceRate.toFixed(1)}%
+                          </StatNumber>
                           <StatHelpText>
                             <Badge
                               colorScheme={
                                 attendanceStatistics.overallAttendanceRate >= 90
-                                  ? "green"
+                                  ? 'green'
                                   : attendanceStatistics.overallAttendanceRate >= 80
-                                    ? "blue"
-                                    : "yellow"
+                                    ? 'blue'
+                                    : 'yellow'
                               }
                             >
                               {attendanceStatistics.overallAttendanceRate >= 90
-                                ? "Excellent"
+                                ? 'Excellent'
                                 : attendanceStatistics.overallAttendanceRate >= 80
-                                  ? "Good"
-                                  : "Needs Improvement"}
+                                  ? 'Good'
+                                  : 'Needs Improvement'}
                             </Badge>
                           </StatHelpText>
                         </Stat>
@@ -707,10 +757,10 @@ export default function AdminAnalytics() {
                       <Heading size="sm" mb={4}>
                         Monthly Attendance Trend
                       </Heading>
-                      <Box 
+                      <Box
                         key="attendanceMonthlyTrend"
-                        height="400px" 
-                        mb={6} 
+                        height="400px"
+                        mb={6}
                         minHeight="300px"
                         width="100%"
                         position="relative"
@@ -745,9 +795,9 @@ export default function AdminAnalytics() {
                       <Heading size="sm" mb={4}>
                         Course Attendance Comparison
                       </Heading>
-                      <Box 
+                      <Box
                         key="attendanceCourseComparison"
-                        height="400px" 
+                        height="400px"
                         minHeight="300px"
                         width="100%"
                         position="relative"

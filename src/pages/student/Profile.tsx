@@ -32,12 +32,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react"
 import { EditIcon } from "@chakra-ui/icons"
-import { useAuthStore } from "../../store/authStore"
 import { useStudentStore } from "../../store/studentStore"
 import { AnimatedElement } from "../../components/common/AnimatedElement"
 
 export default function StudentProfile() {
-  const { user } = useAuthStore()
   const { currentStudent, fetchCurrentStudent, updateStudent, isLoading } = useStudentStore()
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()

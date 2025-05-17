@@ -1,5 +1,5 @@
-import api, { handleApiError } from "./api"
-import type { User } from "../store/authStore"
+import api, { handleApiError } from './api'
+import type { User } from '../store/authStore'
 
 interface LoginResponse {
   user: User
@@ -14,14 +14,14 @@ interface RefreshTokenResponse {
 export const AuthService = {
   async login(email: string, password: string): Promise<LoginResponse> {
     try {
-      const response = await api.post<LoginResponse>("/auth/login", {
+      const response = await api.post<LoginResponse>('/auth/login', {
         email,
         password,
       })
 
       // Store the refresh token in localStorage
       if (response.data.refreshToken) {
-        localStorage.setItem("refreshToken", response.data.refreshToken)
+        localStorage.setItem('refreshToken', response.data.refreshToken)
       }
 
       return response.data
@@ -29,48 +29,48 @@ export const AuthService = {
       throw new Error(handleApiError(error))
     }
   },
-  
+
   async validateToken(): Promise<User> {
     try {
-      const response = await api.get("/auth/validate");
-      return response.data.user;
+      const response = await api.get('/auth/validate')
+      return response.data.user
     } catch (error) {
-      throw new Error(handleApiError(error));
+      throw new Error(handleApiError(error))
     }
   },
 
   async refreshToken(): Promise<RefreshTokenResponse> {
     try {
       // Get the refresh token from localStorage
-      const refreshToken = localStorage.getItem("refreshToken")
+      const refreshToken = localStorage.getItem('refreshToken')
 
       if (!refreshToken) {
-        throw new Error("No refresh token available")
+        throw new Error('No refresh token available')
       }
 
       const response = await api.post<RefreshTokenResponse>(
-        "/auth/refresh",
+        '/auth/refresh',
         {
           token: refreshToken,
         },
         {
           // Skip the auth interceptor to prevent infinite loops
           headers: {
-            "Skip-Auth-Interceptor": "true",
+            'Skip-Auth-Interceptor': 'true',
           },
-        },
+        }
       )
 
       return response.data
     } catch (error) {
       // Clear tokens on refresh failure
-      localStorage.removeItem("refreshToken")
+      localStorage.removeItem('refreshToken')
       throw new Error(handleApiError(error))
     }
   },
 
   logout(): void {
     // Clear any client-side tokens
-    localStorage.removeItem("refreshToken")
+    localStorage.removeItem('refreshToken')
   },
 }

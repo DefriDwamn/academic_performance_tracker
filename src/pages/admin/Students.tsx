@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import React from "react"
+import React from 'react'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import {
   Box,
   Heading,
@@ -31,21 +31,22 @@ import {
   SimpleGrid,
   VStack,
   Text,
-} from "@chakra-ui/react"
-import { AddIcon, DeleteIcon, EditIcon, ViewIcon } from "@chakra-ui/icons"
-import { useStudentStore } from "../../store/studentStore"
-import { DataTable } from "../../components/common/DataTable"
-import { StudentForm, StudentFormData } from "../../components/forms/StudentForm"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
-import type { Student } from "../../types/student"
+} from '@chakra-ui/react'
+import { AddIcon, DeleteIcon, EditIcon, ViewIcon } from '@chakra-ui/icons'
+import { useStudentStore } from '../../store/studentStore'
+import { DataTable } from '../../components/common/DataTable'
+import { StudentForm, StudentFormData } from '../../components/forms/StudentForm'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import type { Student } from '../../types/student'
 
 export default function AdminStudents() {
-  const { students, fetchStudents, createStudent, updateStudent, deleteStudent, isLoading } = useStudentStore()
+  const { students, fetchStudents, createStudent, updateStudent, deleteStudent, isLoading } =
+    useStudentStore()
   const { isOpen: isFormOpen, onOpen: onFormOpen, onClose: onFormClose } = useDisclosure()
   const { isOpen: isViewOpen, onOpen: onViewOpen, onClose: onViewClose } = useDisclosure()
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
-  const [formMode, setFormMode] = useState<"add" | "edit">("add")
+  const [formMode, setFormMode] = useState<'add' | 'edit'>('add')
   const toast = useToast()
   const cancelRef = React.useRef<HTMLButtonElement>(null)
 
@@ -54,13 +55,13 @@ export default function AdminStudents() {
   }, [fetchStudents])
 
   const handleAddStudent = () => {
-    setFormMode("add")
+    setFormMode('add')
     setSelectedStudent(null)
     onFormOpen()
   }
 
   const handleEditStudent = (student: Student) => {
-    setFormMode("edit")
+    setFormMode('edit')
     setSelectedStudent(student)
     onFormOpen()
   }
@@ -81,18 +82,18 @@ export default function AdminStudents() {
     try {
       await deleteStudent(selectedStudent._id)
       toast({
-        title: "Student deleted",
-        description: "The student has been successfully deleted.",
-        status: "success",
+        title: 'Student deleted',
+        description: 'The student has been successfully deleted.',
+        status: 'success',
         duration: 3000,
         isClosable: true,
       })
       onDeleteClose()
     } catch (error) {
       toast({
-        title: "Delete failed",
-        description: error instanceof Error ? error.message : "Failed to delete student",
-        status: "error",
+        title: 'Delete failed',
+        description: error instanceof Error ? error.message : 'Failed to delete student',
+        status: 'error',
         duration: 3000,
         isClosable: true,
       })
@@ -101,21 +102,21 @@ export default function AdminStudents() {
 
   const handleFormSubmit = async (data: StudentFormData) => {
     try {
-      if (formMode === "add") {
+      if (formMode === 'add') {
         await createStudent(data)
         toast({
-          title: "Student added",
-          description: "The student has been successfully added.",
-          status: "success",
+          title: 'Student added',
+          description: 'The student has been successfully added.',
+          status: 'success',
           duration: 3000,
           isClosable: true,
         })
-      } else if (formMode === "edit" && selectedStudent) {
+      } else if (formMode === 'edit' && selectedStudent) {
         await updateStudent(selectedStudent._id, data)
         toast({
-          title: "Student updated",
-          description: "The student has been successfully updated.",
-          status: "success",
+          title: 'Student updated',
+          description: 'The student has been successfully updated.',
+          status: 'success',
           duration: 3000,
           isClosable: true,
         })
@@ -123,9 +124,9 @@ export default function AdminStudents() {
       onFormClose()
     } catch (error) {
       toast({
-        title: formMode === "add" ? "Add failed" : "Update failed",
+        title: formMode === 'add' ? 'Add failed' : 'Update failed',
         description: error instanceof Error ? error.message : `Failed to ${formMode} student`,
-        status: "error",
+        status: 'error',
         duration: 3000,
         isClosable: true,
       })
@@ -135,37 +136,37 @@ export default function AdminStudents() {
   // Define columns for the data table
   const columns = [
     {
-      header: "Name",
+      header: 'Name',
       accessor: (student: Student) => `${student.firstName} ${student.lastName}`,
     },
     {
-      header: "Student ID",
+      header: 'Student ID',
       accessor: (student: Student) => student.studentId,
     },
     {
-      header: "Email",
+      header: 'Email',
       accessor: (student: Student) => student.email,
     },
     {
-      header: "Department",
+      header: 'Department',
       accessor: (student: Student) => student.department,
     },
     {
-      header: "Program",
+      header: 'Program',
       accessor: (student: Student) => student.program,
     },
     {
-      header: "Status",
+      header: 'Status',
       accessor: (student: Student) => (
         <Badge
           colorScheme={
-            student.status === "active"
-              ? "green"
-              : student.status === "inactive"
-              ? "gray"
-              : student.status === "graduated"
-              ? "blue"
-              : "red"
+            student.status === 'active'
+              ? 'green'
+              : student.status === 'inactive'
+                ? 'gray'
+                : student.status === 'graduated'
+                  ? 'blue'
+                  : 'red'
           }
         >
           {student.status}
@@ -173,7 +174,7 @@ export default function AdminStudents() {
       ),
     },
     {
-      header: "Actions",
+      header: 'Actions',
       accessor: (student: Student) => (
         <HStack spacing={2}>
           <IconButton
@@ -235,10 +236,14 @@ export default function AdminStudents() {
       <Modal isOpen={isFormOpen} onClose={onFormClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{formMode === "add" ? "Add New Student" : "Edit Student"}</ModalHeader>
+          <ModalHeader>{formMode === 'add' ? 'Add New Student' : 'Edit Student'}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <StudentForm initialData={selectedStudent || {}} onSubmit={handleFormSubmit} isLoading={isLoading} />
+            <StudentForm
+              initialData={selectedStudent || {}}
+              onSubmit={handleFormSubmit}
+              isLoading={isLoading}
+            />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -255,13 +260,13 @@ export default function AdminStudents() {
                 <Heading size="md">{`${selectedStudent.firstName} ${selectedStudent.lastName}`}</Heading>
                 <Badge
                   colorScheme={
-                    selectedStudent.status === "active"
-                      ? "green"
-                      : selectedStudent.status === "graduated"
-                        ? "blue"
-                        : selectedStudent.status === "suspended"
-                          ? "red"
-                          : "gray"
+                    selectedStudent.status === 'active'
+                      ? 'green'
+                      : selectedStudent.status === 'graduated'
+                        ? 'blue'
+                        : selectedStudent.status === 'suspended'
+                          ? 'red'
+                          : 'gray'
                   }
                   mt={2}
                 >
@@ -309,7 +314,9 @@ export default function AdminStudents() {
                   <VStack align="start" spacing={2}>
                     <HStack>
                       <Text fontWeight="bold">Department:</Text>
-                      <Text textTransform="capitalize">{selectedStudent.department.replace(/_/g, " ")}</Text>
+                      <Text textTransform="capitalize">
+                        {selectedStudent.department.replace(/_/g, ' ')}
+                      </Text>
                     </HStack>
                     <HStack>
                       <Text fontWeight="bold">Program:</Text>
@@ -355,9 +362,11 @@ export default function AdminStudents() {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure you want to delete{" "}
-              {selectedStudent ? `${selectedStudent.firstName} ${selectedStudent.lastName}` : "this student"}? This
-              action cannot be undone.
+              Are you sure you want to delete{' '}
+              {selectedStudent
+                ? `${selectedStudent.firstName} ${selectedStudent.lastName}`
+                : 'this student'}
+              ? This action cannot be undone.
             </AlertDialogBody>
 
             <AlertDialogFooter>

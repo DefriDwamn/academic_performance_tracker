@@ -1,6 +1,6 @@
-import type { ReactNode } from "react"
-import { useAuthStore } from "../../store/authStore"
-import { NotAuthorized } from "../common/NotAuthorized"
+import type { ReactNode } from 'react'
+import { useAuthStore } from '../../store/authStore'
+import { NotAuthorized } from '../common/NotAuthorized'
 
 interface RoleBasedRouteProps {
   studentComponent: ReactNode
@@ -14,11 +14,11 @@ export const RoleBasedRoute = ({ studentComponent, adminComponent }: RoleBasedRo
     return null
   }
 
-  if (user.role === "STUDENT") {
+  if (user.role === 'STUDENT') {
     return <>{studentComponent}</>
   }
 
-  if (user.role === "ADMINISTRATOR") {
+  if (user.role === 'ADMINISTRATOR') {
     return <>{adminComponent}</>
   }
 

@@ -1,12 +1,12 @@
-import axios, { type AxiosError, type AxiosRequestConfig } from "axios"
-import { useAuthStore } from "../store/authStore"
+import axios, { type AxiosError, type AxiosRequestConfig } from 'axios'
+import { useAuthStore } from '../store/authStore'
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api"
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 })
 
@@ -19,7 +19,7 @@ api.interceptors.request.use(
     }
     return config
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 )
 
 // Response interceptor for token refresh
@@ -32,7 +32,7 @@ api.interceptors.response.use(
     }
 
     // Skip refresh token logic if the request has this header
-    if (originalRequest?.headers?.["Skip-Auth-Interceptor"]) {
+    if (originalRequest?.headers?.['Skip-Auth-Interceptor']) {
       return Promise.reject(error)
     }
 
@@ -64,7 +64,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error)
-  },
+  }
 )
 
 export const handleApiError = (error: unknown): string => {
@@ -72,10 +72,10 @@ export const handleApiError = (error: unknown): string => {
     const axiosError = error as AxiosError
     const responseData = axiosError.response?.data as { message?: string } | undefined
 
-    return responseData?.message || axiosError.message || "An error occurred"
+    return responseData?.message || axiosError.message || 'An error occurred'
   }
 
-  return error instanceof Error ? error.message : "An unknown error occurred"
+  return error instanceof Error ? error.message : 'An unknown error occurred'
 }
 
 export default api

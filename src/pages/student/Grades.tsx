@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import {
   Box,
   Heading,
@@ -22,16 +22,16 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
-} from "@chakra-ui/react"
-import { useGradesStore } from "../../store/gradesStore"
-import { DataTable } from "../../components/common/DataTable"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
-import type { Grade } from "../../types/grade"
+} from '@chakra-ui/react'
+import { useGradesStore } from '../../store/gradesStore'
+import { DataTable } from '../../components/common/DataTable'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import type { Grade } from '../../types/grade'
 
 export default function StudentGrades() {
   const { grades, fetchGrades, isLoading } = useGradesStore()
-  const [selectedSemester, setSelectedSemester] = useState<string>("all")
-  const [selectedYear, setSelectedYear] = useState<string>("all")
+  const [selectedSemester, setSelectedSemester] = useState<string>('all')
+  const [selectedYear, setSelectedYear] = useState<string>('all')
   const [selectedGrade, setSelectedGrade] = useState<Grade | null>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -45,8 +45,8 @@ export default function StudentGrades() {
 
   // Filter grades based on selected filters
   const filteredGrades = grades.filter((grade) => {
-    const semesterMatch = selectedSemester === "all" || grade.semester === selectedSemester
-    const yearMatch = selectedYear === "all" || grade.academicYear === selectedYear
+    const semesterMatch = selectedSemester === 'all' || grade.semester === selectedSemester
+    const yearMatch = selectedYear === 'all' || grade.academicYear === selectedYear
     return semesterMatch && yearMatch
   })
 
@@ -76,34 +76,36 @@ export default function StudentGrades() {
   // Define columns for the data table
   const columns = [
     {
-      header: "Course",
+      header: 'Course',
       accessor: (grade: Grade) => grade.courseName,
     },
     {
-      header: "Semester",
+      header: 'Semester',
       accessor: (grade: Grade) => grade.semester,
     },
     {
-      header: "Year",
+      header: 'Year',
       accessor: (grade: Grade) => grade.academicYear,
     },
     {
-      header: "Grade",
+      header: 'Grade',
       accessor: (grade: Grade) => (
         <Box>
           <HStack spacing={2}>
-            <Text as="span" fontWeight="bold">{grade.grade}%</Text>
+            <Text as="span" fontWeight="bold">
+              {grade.grade}%
+            </Text>
             <Badge
               colorScheme={
-                grade.letterGrade === "A"
-                  ? "green"
-                  : grade.letterGrade === "B"
-                    ? "blue"
-                    : grade.letterGrade === "C"
-                      ? "yellow"
-                      : grade.letterGrade === "D"
-                        ? "orange"
-                        : "red"
+                grade.letterGrade === 'A'
+                  ? 'green'
+                  : grade.letterGrade === 'B'
+                    ? 'blue'
+                    : grade.letterGrade === 'C'
+                      ? 'yellow'
+                      : grade.letterGrade === 'D'
+                        ? 'orange'
+                        : 'red'
               }
             >
               {grade.letterGrade}
@@ -113,12 +115,12 @@ export default function StudentGrades() {
       ),
     },
     {
-      header: "Credits",
+      header: 'Credits',
       accessor: (grade: Grade) => grade.creditHours,
       isNumeric: true,
     },
     {
-      header: "Submission Date",
+      header: 'Submission Date',
       accessor: (grade: Grade) => new Date(grade.submissionDate).toLocaleDateString(),
     },
   ]
@@ -146,14 +148,16 @@ export default function StudentGrades() {
               <Text as="span" fontSize="3xl" fontWeight="bold" color="brand.600">
                 {isLoading ? <Skeleton height="36px" width="80px" /> : currentGPA.toFixed(2)}
               </Text>
-              <Text as="span" color="gray.600">out of 4.0</Text>
+              <Text as="span" color="gray.600">
+                out of 4.0
+              </Text>
             </Flex>
           </CardBody>
         </Card>
       </AnimatedElement>
 
       <AnimatedElement animation="slideUp" delay={200}>
-        <Flex mb={6} gap={4} direction={{ base: "column", md: "row" }}>
+        <Flex mb={6} gap={4} direction={{ base: 'column', md: 'row' }}>
           <Box>
             <Text as="span" mb={2} fontWeight="medium">
               Filter by Semester
@@ -199,7 +203,9 @@ export default function StudentGrades() {
               <DataTable<Grade>
                 columns={columns}
                 data={filteredGrades}
-                keyExtractor={(item) => `${item.studentId}-${item.courseId}-${item.semester}-${item.academicYear}`}
+                keyExtractor={(item) =>
+                  `${item.studentId}-${item.courseId}-${item.semester}-${item.academicYear}`
+                }
                 isLoading={isLoading}
                 onRowClick={handleRowClick}
                 searchable={true}
@@ -229,15 +235,15 @@ export default function StudentGrades() {
                     <Badge
                       size="lg"
                       colorScheme={
-                        selectedGrade.letterGrade === "A"
-                          ? "green"
-                          : selectedGrade.letterGrade === "B"
-                            ? "blue"
-                            : selectedGrade.letterGrade === "C"
-                              ? "yellow"
-                              : selectedGrade.letterGrade === "D"
-                                ? "orange"
-                                : "red"
+                        selectedGrade.letterGrade === 'A'
+                          ? 'green'
+                          : selectedGrade.letterGrade === 'B'
+                            ? 'blue'
+                            : selectedGrade.letterGrade === 'C'
+                              ? 'yellow'
+                              : selectedGrade.letterGrade === 'D'
+                                ? 'orange'
+                                : 'red'
                       }
                       px={2}
                       py={1}
@@ -251,22 +257,36 @@ export default function StudentGrades() {
                 <Box bg="gray.50" p={4} borderRadius="md">
                   <Stack spacing={3}>
                     <Flex justify="space-between">
-                      <Text as="span" color="gray.600">Semester</Text>
+                      <Text as="span" color="gray.600">
+                        Semester
+                      </Text>
                       <Text as="span" fontWeight="medium">
                         {selectedGrade.semester} {selectedGrade.academicYear}
                       </Text>
                     </Flex>
                     <Flex justify="space-between">
-                      <Text as="span" color="gray.600">Credit Hours</Text>
-                      <Text as="span" fontWeight="medium">{selectedGrade.creditHours}</Text>
+                      <Text as="span" color="gray.600">
+                        Credit Hours
+                      </Text>
+                      <Text as="span" fontWeight="medium">
+                        {selectedGrade.creditHours}
+                      </Text>
                     </Flex>
                     <Flex justify="space-between">
-                      <Text as="span" color="gray.600">Instructor</Text>
-                      <Text as="span" fontWeight="medium">{selectedGrade.instructorName}</Text>
+                      <Text as="span" color="gray.600">
+                        Instructor
+                      </Text>
+                      <Text as="span" fontWeight="medium">
+                        {selectedGrade.instructorName}
+                      </Text>
                     </Flex>
                     <Flex justify="space-between">
-                      <Text as="span" color="gray.600">Submission Date</Text>
-                      <Text as="span" fontWeight="medium">{new Date(selectedGrade.submissionDate).toLocaleDateString()}</Text>
+                      <Text as="span" color="gray.600">
+                        Submission Date
+                      </Text>
+                      <Text as="span" fontWeight="medium">
+                        {new Date(selectedGrade.submissionDate).toLocaleDateString()}
+                      </Text>
                     </Flex>
                   </Stack>
                 </Box>

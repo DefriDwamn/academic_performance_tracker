@@ -1,13 +1,13 @@
-import { create } from "zustand"
-import { AttendanceService } from "../services/attendanceService"
-import type { Attendance } from "../types/attendance"
+import { create } from 'zustand'
+import { AttendanceService } from '../services/attendanceService'
+import type { Attendance } from '../types/attendance'
 
 interface AttendanceState {
   attendanceRecords: Attendance[]
   isLoading: boolean
   error: string | null
   fetchAttendance: (filters?: Record<string, any>) => Promise<void>
-  bulkUploadAttendance: (records: Omit<Attendance, "_id">[]) => Promise<void>
+  bulkUploadAttendance: (records: Omit<Attendance, '_id'>[]) => Promise<void>
 }
 
 export const useAttendanceStore = create<AttendanceState>((set, get) => ({
@@ -22,7 +22,7 @@ export const useAttendanceStore = create<AttendanceState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to fetch attendance",
+        error: error instanceof Error ? error.message : 'Failed to fetch attendance',
       })
     }
   },
@@ -37,7 +37,7 @@ export const useAttendanceStore = create<AttendanceState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to upload attendance",
+        error: error instanceof Error ? error.message : 'Failed to upload attendance',
       })
     }
   },

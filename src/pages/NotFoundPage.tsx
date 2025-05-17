@@ -1,6 +1,6 @@
-import { Box, Button, Heading, Text, VStack } from "@chakra-ui/react"
-import { Link } from "react-router-dom"
-import { AnimatedElement } from "../components/common/AnimatedElement"
+import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react'
+import { Link } from 'react-router'
+import { AnimatedElement } from '../components/common/AnimatedElement'
 
 export default function NotFoundPage() {
   return (

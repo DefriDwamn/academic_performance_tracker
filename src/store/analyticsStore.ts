@@ -1,6 +1,6 @@
-import { create } from "zustand"
-import { AnalyticsService } from "../services/analyticsService"
-import type { PerformanceMetrics, AttendanceStatistics, StudentReport } from "../types/analytics"
+import { create } from 'zustand'
+import { AnalyticsService } from '../services/analyticsService'
+import type { PerformanceMetrics, AttendanceStatistics, StudentReport } from '../types/analytics'
 
 interface AnalyticsState {
   performanceMetrics: PerformanceMetrics | null
@@ -27,7 +27,7 @@ export const useAnalyticsStore = create<AnalyticsState>((set) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to fetch performance metrics",
+        error: error instanceof Error ? error.message : 'Failed to fetch performance metrics',
       })
     }
   },
@@ -39,7 +39,7 @@ export const useAnalyticsStore = create<AnalyticsState>((set) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to fetch attendance statistics",
+        error: error instanceof Error ? error.message : 'Failed to fetch attendance statistics',
       })
     }
   },
@@ -51,7 +51,7 @@ export const useAnalyticsStore = create<AnalyticsState>((set) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to fetch student report",
+        error: error instanceof Error ? error.message : 'Failed to fetch student report',
       })
     }
   },

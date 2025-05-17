@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { type ReactNode, useRef, useEffect } from "react"
-import { Box } from "@chakra-ui/react"
-import anime from "animejs"
+import { type ReactNode, useRef, useEffect } from 'react'
+import { Box } from '@chakra-ui/react'
+import anime from 'animejs'
 
 interface PageTransitionProps {
   children: ReactNode
@@ -17,7 +17,7 @@ export const PageTransition = ({ children }: PageTransitionProps) => {
         targets: ref.current,
         opacity: [0, 1],
         translateY: [10, 0],
-        easing: "easeOutExpo",
+        easing: 'easeOutExpo',
         duration: 500,
       })
     }

@@ -1,13 +1,13 @@
-import { create } from "zustand"
-import { GradeService } from "../services/gradeService"
-import type { Grade } from "../types/grade"
+import { create } from 'zustand'
+import { GradeService } from '../services/gradeService'
+import type { Grade } from '../types/grade'
 
 interface GradesState {
   grades: Grade[]
   isLoading: boolean
   error: string | null
   fetchGrades: (filters?: Record<string, any>) => Promise<void>
-  addGrade: (grade: Omit<Grade, "id">) => Promise<void>
+  addGrade: (grade: Omit<Grade, 'id'>) => Promise<void>
   updateGrade: (id: string, grade: Partial<Grade>) => Promise<void>
 }
 
@@ -23,7 +23,7 @@ export const useGradesStore = create<GradesState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to fetch grades",
+        error: error instanceof Error ? error.message : 'Failed to fetch grades',
       })
     }
   },
@@ -38,7 +38,7 @@ export const useGradesStore = create<GradesState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to add grade",
+        error: error instanceof Error ? error.message : 'Failed to add grade',
       })
     }
   },
@@ -53,7 +53,7 @@ export const useGradesStore = create<GradesState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to update grade",
+        error: error instanceof Error ? error.message : 'Failed to update grade',
       })
     }
   },

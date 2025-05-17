@@ -4,7 +4,7 @@ export interface Attendance {
   courseId: string
   courseName: string
   date: string
-  status: "present" | "absent" | "late" | "excused"
+  status: 'present' | 'absent' | 'late' | 'excused'
   duration?: number
   notes?: string
 }

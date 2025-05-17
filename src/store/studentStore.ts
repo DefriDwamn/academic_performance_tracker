@@ -1,7 +1,7 @@
-import { create } from "zustand"
-import { StudentService } from "../services/studentService"
-import type { Student } from "../types/student"
-import type { StudentFormData } from "../components/forms/StudentForm"
+import { create } from 'zustand'
+import { StudentService } from '../services/studentService'
+import type { Student } from '../types/student'
+import type { StudentFormData } from '../components/forms/StudentForm'
 
 interface StudentState {
   students: Student[]
@@ -29,7 +29,7 @@ export const useStudentStore = create<StudentState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to fetch students",
+        error: error instanceof Error ? error.message : 'Failed to fetch students',
       })
     }
   },
@@ -41,7 +41,7 @@ export const useStudentStore = create<StudentState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to fetch student",
+        error: error instanceof Error ? error.message : 'Failed to fetch student',
       })
     }
   },
@@ -53,7 +53,7 @@ export const useStudentStore = create<StudentState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to fetch current student",
+        error: error instanceof Error ? error.message : 'Failed to fetch current student',
       })
     }
   },
@@ -68,7 +68,7 @@ export const useStudentStore = create<StudentState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to create student",
+        error: error instanceof Error ? error.message : 'Failed to create student',
       })
     }
   },
@@ -84,7 +84,7 @@ export const useStudentStore = create<StudentState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to update student",
+        error: error instanceof Error ? error.message : 'Failed to update student',
       })
     }
   },
@@ -99,7 +99,7 @@ export const useStudentStore = create<StudentState>((set, get) => ({
     } catch (error) {
       set({
         isLoading: false,
-        error: error instanceof Error ? error.message : "Failed to delete student",
+        error: error instanceof Error ? error.message : 'Failed to delete student',
       })
     }
   },

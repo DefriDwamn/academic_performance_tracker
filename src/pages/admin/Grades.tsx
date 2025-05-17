@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import {
   Box,
   Heading,
@@ -22,24 +22,24 @@ import {
   useToast,
   Select,
   Text,
-} from "@chakra-ui/react"
-import { AddIcon, EditIcon } from "@chakra-ui/icons"
-import { useGradesStore } from "../../store/gradesStore"
-import { useStudentStore } from "../../store/studentStore"
-import { DataTable } from "../../components/common/DataTable"
-import { GradeForm } from "../../components/forms/GradeForm"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
-import type { Grade } from "../../types/grade"
-import type { ReactNode } from "react"
+} from '@chakra-ui/react'
+import { AddIcon, EditIcon } from '@chakra-ui/icons'
+import { useGradesStore } from '../../store/gradesStore'
+import { useStudentStore } from '../../store/studentStore'
+import { DataTable } from '../../components/common/DataTable'
+import { GradeForm } from '../../components/forms/GradeForm'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import type { Grade } from '../../types/grade'
+import type { ReactNode } from 'react'
 
 export default function AdminGrades() {
   const { grades, fetchGrades, addGrade, updateGrade, isLoading: gradesLoading } = useGradesStore()
   const { students, fetchStudents, isLoading: studentsLoading } = useStudentStore()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedGrade, setSelectedGrade] = useState<Grade | null>(null)
-  const [formMode, setFormMode] = useState<"add" | "edit">("add")
-  const [selectedStudent, setSelectedStudent] = useState<string>("all")
-  const [selectedCourse, setSelectedCourse] = useState<string>("all")
+  const [formMode, setFormMode] = useState<'add' | 'edit'>('add')
+  const [selectedStudent, setSelectedStudent] = useState<string>('all')
+  const [selectedCourse, setSelectedCourse] = useState<string>('all')
   const toast = useToast()
 
   const isLoading = gradesLoading || studentsLoading
@@ -50,34 +50,34 @@ export default function AdminGrades() {
   }, [fetchGrades, fetchStudents])
 
   const handleAddGrade = () => {
-    setFormMode("add")
+    setFormMode('add')
     setSelectedGrade(null)
     onOpen()
   }
 
   const handleEditGrade = (grade: Grade) => {
-    setFormMode("edit")
+    setFormMode('edit')
     setSelectedGrade(grade)
     onOpen()
   }
 
-  const handleFormSubmit = async (data: Omit<Grade, "id">) => {
+  const handleFormSubmit = async (data: Omit<Grade, 'id'>) => {
     try {
-      if (formMode === "add") {
+      if (formMode === 'add') {
         await addGrade(data)
         toast({
-          title: "Grade added",
-          description: "The grade has been successfully added.",
-          status: "success",
+          title: 'Grade added',
+          description: 'The grade has been successfully added.',
+          status: 'success',
           duration: 3000,
           isClosable: true,
         })
-      } else if (formMode === "edit" && selectedGrade) {
+      } else if (formMode === 'edit' && selectedGrade) {
         await updateGrade(selectedGrade.id, data)
         toast({
-          title: "Grade updated",
-          description: "The grade has been successfully updated.",
-          status: "success",
+          title: 'Grade updated',
+          description: 'The grade has been successfully updated.',
+          status: 'success',
           duration: 3000,
           isClosable: true,
         })
@@ -85,9 +85,9 @@ export default function AdminGrades() {
       onClose()
     } catch (error) {
       toast({
-        title: formMode === "add" ? "Add failed" : "Update failed",
+        title: formMode === 'add' ? 'Add failed' : 'Update failed',
         description: error instanceof Error ? error.message : `Failed to ${formMode} grade`,
-        status: "error",
+        status: 'error',
         duration: 3000,
         isClosable: true,
       })
@@ -105,51 +105,63 @@ export default function AdminGrades() {
   }
 
   // Filter grades based on selected filters
-  const filteredGrades = grades.map(grade => ({
-    ...grade,
-    studentName: getStudentNameById(grade.studentId)
-  })).filter((grade) => {
-    const studentMatch = selectedStudent === "all" || grade.studentId === selectedStudent
-    const courseMatch = selectedCourse === "all" || grade.courseId === selectedCourse
-    return studentMatch && courseMatch
-  })
+  const filteredGrades = grades
+    .map((grade) => ({
+      ...grade,
+      studentName: getStudentNameById(grade.studentId),
+    }))
+    .filter((grade) => {
+      const studentMatch = selectedStudent === 'all' || grade.studentId === selectedStudent
+      const courseMatch = selectedCourse === 'all' || grade.courseId === selectedCourse
+      return studentMatch && courseMatch
+    })
 
   // Define columns for the data table
   const columns = [
     {
-      header: "Student",
+      header: 'Student',
       accessor: (grade: Grade): ReactNode => grade.studentName,
     },
     {
-      header: "Course",
+      header: 'Course',
       accessor: (grade: Grade): ReactNode => grade.courseName,
     },
     {
-      header: "Semester",
+      header: 'Semester',
       accessor: (grade: Grade): ReactNode => grade.semester,
     },
     {
-      header: "Grade",
+      header: 'Grade',
       accessor: (grade: Grade): ReactNode => (
         <HStack>
           <Text>{grade.grade}%</Text>
-          <Badge colorScheme={grade.letterGrade === "A" ? "green" : grade.letterGrade === "B" ? "blue" : grade.letterGrade === "C" ? "yellow" : "red"}>
+          <Badge
+            colorScheme={
+              grade.letterGrade === 'A'
+                ? 'green'
+                : grade.letterGrade === 'B'
+                  ? 'blue'
+                  : grade.letterGrade === 'C'
+                    ? 'yellow'
+                    : 'red'
+            }
+          >
             {grade.letterGrade}
           </Badge>
         </HStack>
       ),
     },
     {
-      header: "Credits",
+      header: 'Credits',
       accessor: (grade: Grade): ReactNode => grade.creditHours,
       isNumeric: true,
     },
     {
-      header: "Submission Date",
+      header: 'Submission Date',
       accessor: (grade: Grade): ReactNode => new Date(grade.submissionDate).toLocaleDateString(),
     },
     {
-      header: "Actions",
+      header: 'Actions',
       accessor: (grade: Grade): ReactNode => (
         <HStack spacing={2}>
           <IconButton
@@ -172,21 +184,25 @@ export default function AdminGrades() {
     name: `${student.firstName} ${student.lastName}`,
   }))
 
-  const courseOptions = Array.from(new Set(grades.map((grade) => grade.courseId))).map((courseId) => {
-    const course = grades.find((g) => g.courseId === courseId)
-    return {
-      id: courseId,
-      name: course ? course.courseName : courseId,
+  const courseOptions = Array.from(new Set(grades.map((grade) => grade.courseId))).map(
+    (courseId) => {
+      const course = grades.find((g) => g.courseId === courseId)
+      return {
+        id: courseId,
+        name: course ? course.courseName : courseId,
+      }
     }
-  })
+  )
 
-  const instructorOptions = Array.from(new Set(grades.map((grade) => grade.instructorId))).map((instructorId) => {
-    const grade = grades.find((g) => g.instructorId === instructorId)
-    return {
-      id: instructorId,
-      name: grade ? grade.instructorName : instructorId,
+  const instructorOptions = Array.from(new Set(grades.map((grade) => grade.instructorId))).map(
+    (instructorId) => {
+      const grade = grades.find((g) => g.instructorId === instructorId)
+      return {
+        id: instructorId,
+        name: grade ? grade.instructorName : instructorId,
+      }
     }
-  })
+  )
 
   return (
     <Box>
@@ -200,7 +216,7 @@ export default function AdminGrades() {
       </AnimatedElement>
 
       <AnimatedElement animation="slideUp" delay={100}>
-        <Flex mb={6} gap={4} direction={{ base: "column", md: "row" }}>
+        <Flex mb={6} gap={4} direction={{ base: 'column', md: 'row' }}>
           <Box>
             <Text mb={2} fontWeight="medium">
               Filter by Student
@@ -256,7 +272,7 @@ export default function AdminGrades() {
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{formMode === "add" ? "Add New Grade" : "Edit Grade"}</ModalHeader>
+          <ModalHeader>{formMode === 'add' ? 'Add New Grade' : 'Edit Grade'}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <GradeForm

@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { Heading, Text, Button, Center, VStack, Icon } from "@chakra-ui/react"
-import { LockIcon } from "@chakra-ui/icons"
-import { useNavigate } from "react-router-dom"
+import { Heading, Text, Button, Center, VStack, Icon } from '@chakra-ui/react'
+import { LockIcon } from '@chakra-ui/icons'
+import { useNavigate } from 'react-router'
 
 export const NotAuthorized = () => {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ export const NotAuthorized = () => {
         <Text fontSize="lg" color="gray.600">
           You don't have permission to access this page.
         </Text>
-        <Button colorScheme="brand" onClick={() => navigate("/dashboard")}>
+        <Button colorScheme="brand" onClick={() => navigate('/dashboard')}>
           Go to Dashboard
         </Button>
       </VStack>

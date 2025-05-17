@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect } from "react"
+import { useEffect } from 'react'
 import {
   Box,
   Heading,
@@ -20,14 +20,14 @@ import {
   Skeleton,
   Stack,
   Icon,
-} from "@chakra-ui/react"
-import { ArrowUpIcon, ArrowDownIcon } from "@chakra-ui/icons"
-import { Users, GraduationCap, BookOpen, Calendar } from "lucide-react"
-import { useStudentStore } from "../../store/studentStore"
-import { useGradesStore } from "../../store/gradesStore"
-import { useAttendanceStore } from "../../store/attendanceStore"
-import { useAnalyticsStore } from "../../store/analyticsStore"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
+} from '@chakra-ui/react'
+import { ArrowUpIcon, ArrowDownIcon } from '@chakra-ui/icons'
+import { Users, GraduationCap, BookOpen, Calendar } from 'lucide-react'
+import { useStudentStore } from '../../store/studentStore'
+import { useGradesStore } from '../../store/gradesStore'
+import { useAttendanceStore } from '../../store/attendanceStore'
+import { useAnalyticsStore } from '../../store/analyticsStore'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
 import {
   BarChart,
   Bar,
@@ -40,13 +40,17 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts"
+} from 'recharts'
 
 export default function AdminDashboard() {
   const { students, fetchStudents, isLoading: studentsLoading } = useStudentStore()
   const { grades, fetchGrades, isLoading: gradesLoading } = useGradesStore()
   const { attendanceRecords, fetchAttendance, isLoading: attendanceLoading } = useAttendanceStore()
-  const { performanceMetrics, fetchPerformanceMetrics, isLoading: analyticsLoading } = useAnalyticsStore()
+  const {
+    performanceMetrics,
+    fetchPerformanceMetrics,
+    isLoading: analyticsLoading,
+  } = useAnalyticsStore()
 
   useEffect(() => {
     fetchStudents()
@@ -62,15 +66,17 @@ export default function AdminDashboard() {
   const averageGPA = performanceMetrics?.overallGPA || 0
   const attendanceRate =
     attendanceRecords.length > 0
-      ? (attendanceRecords.filter((r) => r.status === "present").length / attendanceRecords.length) * 100
+      ? (attendanceRecords.filter((r) => r.status === 'present').length /
+          attendanceRecords.length) *
+        100
       : 0
 
   // Prepare data for student status distribution
   const studentStatusData = [
-    { name: "Active", value: students.filter((s) => s.status === "active").length },
-    { name: "Inactive", value: students.filter((s) => s.status === "inactive").length },
-    { name: "Graduated", value: students.filter((s) => s.status === "graduated").length },
-    { name: "Suspended", value: students.filter((s) => s.status === "suspended").length },
+    { name: 'Active', value: students.filter((s) => s.status === 'active').length },
+    { name: 'Inactive', value: students.filter((s) => s.status === 'inactive').length },
+    { name: 'Graduated', value: students.filter((s) => s.status === 'graduated').length },
+    { name: 'Suspended', value: students.filter((s) => s.status === 'suspended').length },
   ].filter((item) => item.value > 0)
 
   // Prepare data for department distribution
@@ -85,7 +91,7 @@ export default function AdminDashboard() {
       }
       return acc
     },
-    [] as { name: string; value: number }[],
+    [] as { name: string; value: number }[]
   )
 
   // Prepare data for grade distribution
@@ -100,26 +106,26 @@ export default function AdminDashboard() {
       }
       return acc
     },
-    [] as { name: string; value: number }[],
+    [] as { name: string; value: number }[]
   )
 
   // Get recent students
   const recentStudents = [...students]
     .sort((a, b) => new Date(b.enrollmentDate).getTime() - new Date(a.enrollmentDate).getTime())
     .slice(0, 5)
-    .map(student => ({
+    .map((student) => ({
       ...student,
-      uniqueKey: `${student.firstName}-${student.lastName}-${student.enrollmentDate}`
+      uniqueKey: `${student.firstName}-${student.lastName}-${student.enrollmentDate}`,
     }))
 
   // Colors for charts
-  const COLORS = ["#0284c7", "#0ea5e9", "#38bdf8", "#7dd3fc", "#bae6fd"]
+  const COLORS = ['#0284c7', '#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd']
   const GRADE_COLORS = {
-    A: "#22c55e",
-    B: "#3b82f6",
-    C: "#eab308",
-    D: "#f97316",
-    F: "#ef4444",
+    A: '#22c55e',
+    B: '#3b82f6',
+    C: '#eab308',
+    D: '#f97316',
+    F: '#ef4444',
   }
 
   return (
@@ -150,7 +156,9 @@ export default function AdminDashboard() {
                   </Box>
                   <StatLabel>Total Students</StatLabel>
                 </Flex>
-                <StatNumber>{isLoading ? <Skeleton height="36px" width="60px" /> : students.length}</StatNumber>
+                <StatNumber>
+                  {isLoading ? <Skeleton height="36px" width="60px" /> : students.length}
+                </StatNumber>
                 <StatHelpText>
                   <HStack>
                     <ArrowUpIcon color="green.400" />
@@ -182,7 +190,9 @@ export default function AdminDashboard() {
                   </Box>
                   <StatLabel>Average GPA</StatLabel>
                 </Flex>
-                <StatNumber>{isLoading ? <Skeleton height="36px" width="60px" /> : averageGPA.toFixed(2)}</StatNumber>
+                <StatNumber>
+                  {isLoading ? <Skeleton height="36px" width="60px" /> : averageGPA.toFixed(2)}
+                </StatNumber>
                 <StatHelpText>
                   <HStack>
                     <ArrowUpIcon color="green.400" />
@@ -214,7 +224,9 @@ export default function AdminDashboard() {
                   </Box>
                   <StatLabel>Active Courses</StatLabel>
                 </Flex>
-                <StatNumber>{isLoading ? <Skeleton height="36px" width="60px" /> : totalCourses}</StatNumber>
+                <StatNumber>
+                  {isLoading ? <Skeleton height="36px" width="60px" /> : totalCourses}
+                </StatNumber>
                 <StatHelpText>
                   <HStack>
                     <ArrowUpIcon color="green.400" />
@@ -247,7 +259,11 @@ export default function AdminDashboard() {
                   <StatLabel>Attendance Rate</StatLabel>
                 </Flex>
                 <StatNumber>
-                  {isLoading ? <Skeleton height="36px" width="60px" /> : `${attendanceRate.toFixed(1)}%`}
+                  {isLoading ? (
+                    <Skeleton height="36px" width="60px" />
+                  ) : (
+                    `${attendanceRate.toFixed(1)}%`
+                  )}
                 </StatNumber>
                 <StatHelpText>
                   <HStack>
@@ -286,7 +302,10 @@ export default function AdminDashboard() {
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       >
                         {studentStatusData.map((entry, index) => (
-                          <Cell key={`status-${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
+                          <Cell
+                            key={`status-${entry.name}-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -329,7 +348,8 @@ export default function AdminDashboard() {
                           <Cell
                             key={`grade-${entry.name}-${index}`}
                             fill={
-                              GRADE_COLORS[entry.name as keyof typeof GRADE_COLORS] || COLORS[index % COLORS.length]
+                              GRADE_COLORS[entry.name as keyof typeof GRADE_COLORS] ||
+                              COLORS[index % COLORS.length]
                             }
                           />
                         ))}
@@ -364,10 +384,15 @@ export default function AdminDashboard() {
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
-                        label={({ name, percent }) => `${name.replace(/_/g, " ")} ${(percent * 100).toFixed(0)}%`}
+                        label={({ name, percent }) =>
+                          `${name.replace(/_/g, ' ')} ${(percent * 100).toFixed(0)}%`
+                        }
                       >
                         {departmentData.map((entry, index) => (
-                          <Cell key={`dept-${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
+                          <Cell
+                            key={`dept-${entry.name}-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -395,7 +420,13 @@ export default function AdminDashboard() {
               ) : (
                 <VStack spacing={4} align="stretch">
                   {recentStudents.map((student) => (
-                    <Flex key={student.uniqueKey} p={3} bg="gray.50" borderRadius="md" align="center">
+                    <Flex
+                      key={student.uniqueKey}
+                      p={3}
+                      bg="gray.50"
+                      borderRadius="md"
+                      align="center"
+                    >
                       <Box flex="1">
                         <Text fontWeight="medium">{`${student.firstName} ${student.lastName}`}</Text>
                         <Text fontSize="sm" color="gray.600">

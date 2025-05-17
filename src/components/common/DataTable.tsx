@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
 import {
   Table,
@@ -18,9 +18,9 @@ import {
   Skeleton,
   HStack,
   IconButton,
-} from "@chakra-ui/react"
-import { type ReactNode, useState } from "react"
-import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from "@chakra-ui/icons"
+} from '@chakra-ui/react'
+import { type ReactNode, useState } from 'react'
+import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons'
 
 interface Column<T> {
   header: string
@@ -53,16 +53,18 @@ export function DataTable<T extends Record<string, any>>({
   itemsPerPageOptions = [10, 25, 50, 100],
   defaultItemsPerPage = 10,
 }: DataTableProps<T>) {
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null)
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(defaultItemsPerPage)
 
   // Filter data based on search term
   const filteredData = searchTerm
     ? data.filter((item) =>
-        Object.values(item).some((value) => value && value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
+        Object.values(item).some(
+          (value) => value && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        )
       )
     : data
 
@@ -72,12 +74,14 @@ export function DataTable<T extends Record<string, any>>({
         const aValue = a[sortColumn]
         const bValue = b[sortColumn]
 
-        if (typeof aValue === "string" && typeof bValue === "string") {
-          return sortDirection === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue)
+        if (typeof aValue === 'string' && typeof bValue === 'string') {
+          return sortDirection === 'asc'
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue)
         }
 
         if (aValue === bValue) return 0
-        if (sortDirection === "asc") {
+        if (sortDirection === 'asc') {
           return aValue > bValue ? 1 : -1
         } else {
           return aValue < bValue ? 1 : -1
@@ -95,10 +99,10 @@ export function DataTable<T extends Record<string, any>>({
     if (!sortable) return
 
     if (sortColumn === column) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
     } else {
       setSortColumn(column)
-      setSortDirection("asc")
+      setSortDirection('asc')
     }
   }
 
@@ -137,19 +141,21 @@ export function DataTable<T extends Record<string, any>>({
                 <Th
                   key={`header-${column.header}-${index}`}
                   isNumeric={column.isNumeric}
-                  cursor={sortable ? "pointer" : "default"}
+                  cursor={sortable ? 'pointer' : 'default'}
                   onClick={() => {
-                    if (typeof column.accessor === "string") {
+                    if (typeof column.accessor === 'string') {
                       handleSort(column.accessor)
                     }
                   }}
                 >
                   {column.header}
-                  {sortable && typeof column.accessor === "string" && sortColumn === column.accessor && (
-                    <Text as="span" ml={1}>
-                      {sortDirection === "asc" ? "↑" : "↓"}
-                    </Text>
-                  )}
+                  {sortable &&
+                    typeof column.accessor === 'string' &&
+                    sortColumn === column.accessor && (
+                      <Text as="span" ml={1}>
+                        {sortDirection === 'asc' ? '↑' : '↓'}
+                      </Text>
+                    )}
                 </Th>
               ))}
             </Tr>
@@ -169,13 +175,13 @@ export function DataTable<T extends Record<string, any>>({
               paginatedData.map((item) => (
                 <Tr
                   key={`row-${keyExtractor(item)}`}
-                  _hover={{ bg: "gray.50" }}
-                  cursor={onRowClick ? "pointer" : "default"}
+                  _hover={{ bg: 'gray.50' }}
+                  cursor={onRowClick ? 'pointer' : 'default'}
                   onClick={() => onRowClick && onRowClick(item)}
                 >
                   {columns.map((column, colIndex) => (
                     <Td key={`cell-${keyExtractor(item)}-${colIndex}`} isNumeric={column.isNumeric}>
-                      {typeof column.accessor === "function"
+                      {typeof column.accessor === 'function'
                         ? column.accessor(item)
                         : (item[column.accessor] as ReactNode)}
                     </Td>

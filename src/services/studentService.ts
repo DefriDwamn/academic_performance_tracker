@@ -1,11 +1,11 @@
-import api, { handleApiError } from "./api"
-import type { Student } from "../types/student"
-import type { StudentFormData } from "../components/forms/StudentForm"
+import api, { handleApiError } from './api'
+import type { Student } from '../types/student'
+import type { StudentFormData } from '../components/forms/StudentForm'
 
 export const StudentService = {
   async getStudents(): Promise<Student[]> {
     try {
-      const response = await api.get<Student[]>("/students")
+      const response = await api.get<Student[]>('/students')
       return response.data
     } catch (error) {
       throw new Error(handleApiError(error))
@@ -23,7 +23,7 @@ export const StudentService = {
 
   async getCurrentStudent(): Promise<Student> {
     try {
-      const response = await api.get<Student>("/students/me")
+      const response = await api.get<Student>('/students/me')
       return response.data
     } catch (error) {
       throw new Error(handleApiError(error))
@@ -32,7 +32,7 @@ export const StudentService = {
 
   async createStudent(student: StudentFormData): Promise<Student> {
     try {
-      const response = await api.post<Student>("/students", student)
+      const response = await api.post<Student>('/students', student)
       return response.data
     } catch (error) {
       throw new Error(handleApiError(error))

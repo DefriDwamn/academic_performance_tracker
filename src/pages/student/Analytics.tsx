@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect } from "react"
+import { useEffect } from 'react'
 import {
   Box,
   Heading,
@@ -15,9 +15,9 @@ import {
   StatNumber,
   StatHelpText,
   Divider,
-} from "@chakra-ui/react"
-import { useAnalyticsStore } from "../../store/analyticsStore"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
+} from '@chakra-ui/react'
+import { useAnalyticsStore } from '../../store/analyticsStore'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
 import {
   LineChart,
   Line,
@@ -32,11 +32,16 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts"
+} from 'recharts'
 
 export default function StudentAnalytics() {
-  const { performanceMetrics, attendanceStatistics, fetchPerformanceMetrics, fetchAttendanceStatistics, isLoading } =
-    useAnalyticsStore()
+  const {
+    performanceMetrics,
+    attendanceStatistics,
+    fetchPerformanceMetrics,
+    fetchAttendanceStatistics,
+    isLoading,
+  } = useAnalyticsStore()
 
   useEffect(() => {
     fetchPerformanceMetrics()
@@ -44,13 +49,13 @@ export default function StudentAnalytics() {
   }, [fetchPerformanceMetrics, fetchAttendanceStatistics])
 
   // Colors for charts
-  const COLORS = ["#0284c7", "#0ea5e9", "#38bdf8", "#7dd3fc", "#bae6fd"]
+  const COLORS = ['#0284c7', '#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd']
   const GRADE_COLORS = {
-    A: "#22c55e",
-    B: "#3b82f6",
-    C: "#eab308",
-    D: "#f97316",
-    F: "#ef4444",
+    A: '#22c55e',
+    B: '#3b82f6',
+    C: '#eab308',
+    D: '#f97316',
+    F: '#ef4444',
   }
 
   // Prepare data for grade distribution pie chart
@@ -69,13 +74,16 @@ export default function StudentAnalytics() {
         })
         return acc
       },
-      [] as { name: string; value: number }[],
+      [] as { name: string; value: number }[]
     )
 
     // Sort by grade (A, B, C, D, F)
     return gradeDistribution.sort((a, b) => {
       const gradeOrder = { A: 0, B: 1, C: 2, D: 3, F: 4 }
-      return gradeOrder[a.name as keyof typeof gradeOrder] - gradeOrder[b.name as keyof typeof gradeOrder]
+      return (
+        gradeOrder[a.name as keyof typeof gradeOrder] -
+        gradeOrder[b.name as keyof typeof gradeOrder]
+      )
     })
   }
 
@@ -94,7 +102,10 @@ export default function StudentAnalytics() {
     if (!performanceMetrics?.coursePerformance) return []
 
     return performanceMetrics.coursePerformance.map((course) => ({
-      name: course.courseName.length > 15 ? course.courseName.substring(0, 15) + "..." : course.courseName,
+      name:
+        course.courseName.length > 15
+          ? course.courseName.substring(0, 15) + '...'
+          : course.courseName,
       average: course.averageGrade,
       highest: course.highestGrade,
       lowest: course.lowestGrade,
@@ -181,7 +192,8 @@ export default function StudentAnalytics() {
                           <Cell
                             key={`cell-${index}`}
                             fill={
-                              GRADE_COLORS[entry.name as keyof typeof GRADE_COLORS] || COLORS[index % COLORS.length]
+                              GRADE_COLORS[entry.name as keyof typeof GRADE_COLORS] ||
+                              COLORS[index % COLORS.length]
                             }
                           />
                         ))}
@@ -293,7 +305,12 @@ export default function StudentAnalytics() {
                       <YAxis domain={[0, 100]} />
                       <Tooltip />
                       <Legend />
-                      <Line type="monotone" dataKey="rate" stroke="#22c55e" name="Attendance Rate %" />
+                      <Line
+                        type="monotone"
+                        dataKey="rate"
+                        stroke="#22c55e"
+                        name="Attendance Rate %"
+                      />
                     </LineChart>
                   </ResponsiveContainer>
                 </Box>

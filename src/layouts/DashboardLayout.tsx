@@ -3,7 +3,7 @@
 import type React from 'react'
 
 import { useState, useEffect } from 'react'
-import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
+import { Outlet, Link, useLocation, useNavigate } from 'react-router'
 import {
   Box,
   Flex,
@@ -31,13 +31,12 @@ import {
 } from '@chakra-ui/react'
 import { HamburgerIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import {
-  BookOpen,
-  Calendar,
-  BarChartIcon as ChartBar,
+  BarChart,
   Home,
-  LogOut,
   User,
   Users,
+  BookOpen,
+  Calendar
 } from 'lucide-react'
 import { useAuthStore } from '../store/authStore'
 import { AnimatedElement } from '../components/common/AnimatedElement'
@@ -77,7 +76,9 @@ export default function DashboardLayout() {
     to?: string
     onClick?: () => void
   }) => {
-    const isActive = to ? (location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(`${to}/`))) : false
+    const isActive = to
+      ? location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(`${to}/`))
+      : false
     const content = (
       <Flex
         align="center"
@@ -106,7 +107,13 @@ export default function DashboardLayout() {
       </Flex>
     )
 
-    return to ? <Link to={to} style={{ textDecoration: 'none', width: '100%' }}>{content}</Link> : content
+    return to ? (
+      <Link to={to} style={{ textDecoration: 'none', width: '100%' }}>
+        {content}
+      </Link>
+    ) : (
+      content
+    )
   }
 
   const SidebarContent = () => (
@@ -137,7 +144,7 @@ export default function DashboardLayout() {
             <NavItem icon={<Calendar size={18} />} to="/dashboard/attendance">
               My Attendance
             </NavItem>
-            <NavItem icon={<ChartBar size={18} />} to="/dashboard/analytics">
+            <NavItem icon={<BarChart size={18} />} to="/dashboard/analytics">
               My Analytics
             </NavItem>
             <NavItem icon={<User size={18} />} to="/dashboard/profile">
@@ -155,7 +162,7 @@ export default function DashboardLayout() {
             <NavItem icon={<Calendar size={18} />} to="/dashboard/attendance">
               Attendance
             </NavItem>
-            <NavItem icon={<ChartBar size={18} />} to="/dashboard/analytics">
+            <NavItem icon={<BarChart size={18} />} to="/dashboard/analytics">
               Analytics
             </NavItem>
           </>
@@ -163,7 +170,7 @@ export default function DashboardLayout() {
 
         <Divider my={4} />
 
-        <NavItem icon={<ChartBar size={18} />} onClick={handleLogout}>
+        <NavItem icon={<BarChart size={18} />} onClick={handleLogout}>
           Logout
         </NavItem>
       </VStack>

@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import {
   Box,
   Heading,
@@ -33,15 +33,15 @@ import {
   Td,
   RadioGroup,
   Radio,
-} from "@chakra-ui/react"
-import { AddIcon, EditIcon, AttachmentIcon } from "@chakra-ui/icons"
-import { useAttendanceStore } from "../../store/attendanceStore"
-import { useStudentStore } from "../../store/studentStore"
-import { DataTable } from "../../components/common/DataTable"
-import { AttendanceForm } from "../../components/forms/AttendanceForm"
-import { AnimatedElement } from "../../components/common/AnimatedElement"
-import type { Attendance } from "../../types/attendance"
-import type { Student } from "../../types/student"
+} from '@chakra-ui/react'
+import { AddIcon, EditIcon, AttachmentIcon } from '@chakra-ui/icons'
+import { useAttendanceStore } from '../../store/attendanceStore'
+import { useStudentStore } from '../../store/studentStore'
+import { DataTable } from '../../components/common/DataTable'
+import { AttendanceForm } from '../../components/forms/AttendanceForm'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import type { Attendance } from '../../types/attendance'
+import type { Student } from '../../types/student'
 
 export default function AdminAttendance() {
   const {
@@ -53,15 +53,15 @@ export default function AdminAttendance() {
   const { students, fetchStudents, isLoading: studentsLoading } = useStudentStore()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedAttendance, setSelectedAttendance] = useState<Attendance | null>(null)
-  const [formMode, setFormMode] = useState<"add" | "edit" | "bulk">("add")
-  const [selectedStudent, setSelectedStudent] = useState<string>("all")
-  const [selectedCourse, setSelectedCourse] = useState<string>("all")
-  const [selectedDate, setSelectedDate] = useState<string>("")
+  const [formMode, setFormMode] = useState<'add' | 'edit' | 'bulk'>('add')
+  const [selectedStudent, setSelectedStudent] = useState<string>('all')
+  const [selectedCourse, setSelectedCourse] = useState<string>('all')
+  const [selectedDate, setSelectedDate] = useState<string>('')
   const [bulkStudents, setBulkStudents] = useState<Student[]>([])
-  const [bulkCourseId, setBulkCourseId] = useState<string>("")
-  const [bulkCourseName, setBulkCourseName] = useState<string>("")
+  const [bulkCourseId, setBulkCourseId] = useState<string>('')
+  const [bulkCourseName, setBulkCourseName] = useState<string>('')
   const [bulkAttendanceData, setBulkAttendanceData] = useState<
-    Record<string, "present" | "absent" | "late" | "excused">
+    Record<string, 'present' | 'absent' | 'late' | 'excused'>
   >({})
   const toast = useToast()
 
@@ -73,42 +73,42 @@ export default function AdminAttendance() {
   }, [fetchAttendance, fetchStudents])
 
   const handleAddAttendance = () => {
-    setFormMode("add")
+    setFormMode('add')
     setSelectedAttendance(null)
     onOpen()
   }
 
   const handleEditAttendance = (attendance: Attendance) => {
-    setFormMode("edit")
+    setFormMode('edit')
     setSelectedAttendance(attendance)
     onOpen()
   }
 
   const handleBulkAttendance = () => {
-    setFormMode("bulk")
-    setBulkStudents(students.filter((s) => s.status === "active"))
+    setFormMode('bulk')
+    setBulkStudents(students.filter((s) => s.status === 'active'))
     onOpen()
   }
 
-  const handleFormSubmit = async (data: Omit<Attendance, "_id">) => {
+  const handleFormSubmit = async (data: Omit<Attendance, '_id'>) => {
     try {
-      if (formMode === "add") {
+      if (formMode === 'add') {
         await bulkUploadAttendance([data])
         toast({
-          title: "Attendance added",
-          description: "The attendance record has been successfully added.",
-          status: "success",
+          title: 'Attendance added',
+          description: 'The attendance record has been successfully added.',
+          status: 'success',
           duration: 3000,
           isClosable: true,
         })
-      } else if (formMode === "edit" && selectedAttendance) {
+      } else if (formMode === 'edit' && selectedAttendance) {
         // For simplicity, we're using the bulk upload endpoint for updates as well
         const updatedRecord = { ...data, _id: selectedAttendance._id }
-        await bulkUploadAttendance([updatedRecord as Omit<Attendance, "_id">])
+        await bulkUploadAttendance([updatedRecord as Omit<Attendance, '_id'>])
         toast({
-          title: "Attendance updated",
-          description: "The attendance record has been successfully updated.",
-          status: "success",
+          title: 'Attendance updated',
+          description: 'The attendance record has been successfully updated.',
+          status: 'success',
           duration: 3000,
           isClosable: true,
         })
@@ -116,9 +116,9 @@ export default function AdminAttendance() {
       onClose()
     } catch (error) {
       toast({
-        title: formMode === "add" ? "Add failed" : "Update failed",
+        title: formMode === 'add' ? 'Add failed' : 'Update failed',
         description: error instanceof Error ? error.message : `Failed to ${formMode} attendance`,
-        status: "error",
+        status: 'error',
         duration: 3000,
         isClosable: true,
       })
@@ -126,11 +126,17 @@ export default function AdminAttendance() {
   }
 
   const handleBulkSubmit = async () => {
-    if (!bulkCourseId || !bulkCourseName || !selectedDate || Object.keys(bulkAttendanceData).length === 0) {
+    if (
+      !bulkCourseId ||
+      !bulkCourseName ||
+      !selectedDate ||
+      Object.keys(bulkAttendanceData).length === 0
+    ) {
       toast({
-        title: "Validation error",
-        description: "Please fill in all required fields and mark attendance for at least one student.",
-        status: "error",
+        title: 'Validation error',
+        description:
+          'Please fill in all required fields and mark attendance for at least one student.',
+        status: 'error',
         duration: 3000,
         isClosable: true,
       })
@@ -149,18 +155,18 @@ export default function AdminAttendance() {
 
       await bulkUploadAttendance(records)
       toast({
-        title: "Attendance uploaded",
+        title: 'Attendance uploaded',
         description: `Attendance records for ${records.length} students have been successfully uploaded.`,
-        status: "success",
+        status: 'success',
         duration: 3000,
         isClosable: true,
       })
       onClose()
     } catch (error) {
       toast({
-        title: "Upload failed",
-        description: error instanceof Error ? error.message : "Failed to upload attendance records",
-        status: "error",
+        title: 'Upload failed',
+        description: error instanceof Error ? error.message : 'Failed to upload attendance records',
+        status: 'error',
         duration: 3000,
         isClosable: true,
       })
@@ -180,41 +186,42 @@ export default function AdminAttendance() {
   // Filter attendance records based on selected filters
   const filteredRecords = attendanceRecords
     .filter((record) => {
-      const studentMatch = selectedStudent === "all" || record.studentId === selectedStudent
-      const courseMatch = selectedCourse === "all" || record.courseId === selectedCourse
+      const studentMatch = selectedStudent === 'all' || record.studentId === selectedStudent
+      const courseMatch = selectedCourse === 'all' || record.courseId === selectedCourse
       return studentMatch && courseMatch
     })
-    .map(record => ({
+    .map((record) => ({
       ...record,
-      studentName: getStudentNameById(record.studentId)
+      studentName: getStudentNameById(record.studentId),
     }))
 
   // Define columns for the data table
   const columns = [
     {
-      header: "Date",
-      accessor: (record: Attendance & { studentName: string }) => new Date(record.date).toLocaleDateString(),
+      header: 'Date',
+      accessor: (record: Attendance & { studentName: string }) =>
+        new Date(record.date).toLocaleDateString(),
     },
     {
-      header: "Student",
+      header: 'Student',
       accessor: (record: Attendance & { studentName: string }) => record.studentName,
     },
     {
-      header: "Course",
+      header: 'Course',
       accessor: (record: Attendance) => record.courseName,
     },
     {
-      header: "Status",
+      header: 'Status',
       accessor: (record: Attendance) => (
         <Badge
           colorScheme={
-            record.status === "present"
-              ? "green"
-              : record.status === "late"
-                ? "yellow"
-                : record.status === "excused"
-                  ? "blue"
-                  : "red"
+            record.status === 'present'
+              ? 'green'
+              : record.status === 'late'
+                ? 'yellow'
+                : record.status === 'excused'
+                  ? 'blue'
+                  : 'red'
           }
         >
           {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
@@ -222,15 +229,15 @@ export default function AdminAttendance() {
       ),
     },
     {
-      header: "Duration",
-      accessor: (record: Attendance) => (record.duration ? `${record.duration} min` : "N/A"),
+      header: 'Duration',
+      accessor: (record: Attendance) => (record.duration ? `${record.duration} min` : 'N/A'),
     },
     {
-      header: "Notes",
-      accessor: (record: Attendance) => record.notes || "—",
+      header: 'Notes',
+      accessor: (record: Attendance) => record.notes || '—',
     },
     {
-      header: "Actions",
+      header: 'Actions',
       accessor: (record: Attendance) => (
         <IconButton
           aria-label="Edit attendance"
@@ -252,16 +259,21 @@ export default function AdminAttendance() {
     name: `${student.firstName} ${student.lastName}`,
   }))
 
-  const courseOptions = Array.from(new Set(attendanceRecords.map((record) => record.courseId))).map((courseId) => {
-    const record = attendanceRecords.find((r) => r.courseId === courseId)
-    return {
-      id: courseId,
-      name: record ? record.courseName : courseId,
+  const courseOptions = Array.from(new Set(attendanceRecords.map((record) => record.courseId))).map(
+    (courseId) => {
+      const record = attendanceRecords.find((r) => r.courseId === courseId)
+      return {
+        id: courseId,
+        name: record ? record.courseName : courseId,
+      }
     }
-  })
+  )
 
   // Handle bulk attendance status change
-  const handleStatusChange = (studentId: string, status: "present" | "absent" | "late" | "excused") => {
+  const handleStatusChange = (
+    studentId: string,
+    status: 'present' | 'absent' | 'late' | 'excused'
+  ) => {
     setBulkAttendanceData((prev) => ({
       ...prev,
       [studentId]: status,
@@ -277,7 +289,11 @@ export default function AdminAttendance() {
             <Button leftIcon={<AddIcon />} variant="outline" onClick={handleAddAttendance}>
               Add Single
             </Button>
-            <Button leftIcon={<AttachmentIcon />} colorScheme="brand" onClick={handleBulkAttendance}>
+            <Button
+              leftIcon={<AttachmentIcon />}
+              colorScheme="brand"
+              onClick={handleBulkAttendance}
+            >
               Bulk Upload
             </Button>
           </HStack>
@@ -285,7 +301,7 @@ export default function AdminAttendance() {
       </AnimatedElement>
 
       <AnimatedElement animation="slideUp" delay={100}>
-        <Flex mb={6} gap={4} direction={{ base: "column", md: "row" }}>
+        <Flex mb={6} gap={4} direction={{ base: 'column', md: 'row' }}>
           <Box>
             <Text mb={2} fontWeight="medium">
               Filter by Student
@@ -338,24 +354,28 @@ export default function AdminAttendance() {
       </AnimatedElement>
 
       {/* Add/Edit/Bulk Attendance Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} size={formMode === "bulk" ? "4xl" : "xl"}>
+      <Modal isOpen={isOpen} onClose={onClose} size={formMode === 'bulk' ? '4xl' : 'xl'}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {formMode === "add"
-              ? "Add Attendance Record"
-              : formMode === "edit"
-                ? "Edit Attendance Record"
-                : "Bulk Upload Attendance"}
+            {formMode === 'add'
+              ? 'Add Attendance Record'
+              : formMode === 'edit'
+                ? 'Edit Attendance Record'
+                : 'Bulk Upload Attendance'}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            {formMode === "bulk" ? (
+            {formMode === 'bulk' ? (
               <Box>
                 <Flex gap={4} mb={6}>
                   <FormControl isRequired>
                     <FormLabel>Date</FormLabel>
-                    <Input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />
+                    <Input
+                      type="date"
+                      value={selectedDate}
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                    />
                   </FormControl>
                   <FormControl isRequired>
                     <FormLabel>Course</FormLabel>
@@ -396,20 +416,37 @@ export default function AdminAttendance() {
                           <Td>{`${student.firstName} ${student.lastName}`}</Td>
                           <Td>
                             <RadioGroup
-                              value={bulkAttendanceData[student._id] || ""}
-                              onChange={(value) => handleStatusChange(student._id, value as "present" | "absent" | "late" | "excused")}
+                              value={bulkAttendanceData[student._id] || ''}
+                              onChange={(value) =>
+                                handleStatusChange(
+                                  student._id,
+                                  value as 'present' | 'absent' | 'late' | 'excused'
+                                )
+                              }
                             >
                               <HStack spacing={4}>
-                                <Radio value="present" isChecked={bulkAttendanceData[student._id] === "present"}>
+                                <Radio
+                                  value="present"
+                                  isChecked={bulkAttendanceData[student._id] === 'present'}
+                                >
                                   Present
                                 </Radio>
-                                <Radio value="absent" isChecked={bulkAttendanceData[student._id] === "absent"}>
+                                <Radio
+                                  value="absent"
+                                  isChecked={bulkAttendanceData[student._id] === 'absent'}
+                                >
                                   Absent
                                 </Radio>
-                                <Radio value="late" isChecked={bulkAttendanceData[student._id] === "late"}>
+                                <Radio
+                                  value="late"
+                                  isChecked={bulkAttendanceData[student._id] === 'late'}
+                                >
                                   Late
                                 </Radio>
-                                <Radio value="excused" isChecked={bulkAttendanceData[student._id] === "excused"}>
+                                <Radio
+                                  value="excused"
+                                  isChecked={bulkAttendanceData[student._id] === 'excused'}
+                                >
                                   Excused
                                 </Radio>
                               </HStack>

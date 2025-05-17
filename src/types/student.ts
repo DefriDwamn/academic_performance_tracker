@@ -13,6 +13,6 @@ export interface Student {
   graduationDate?: string
   department: string
   program: string
-  status: "active" | "inactive" | "graduated" | "suspended"
+  status: 'active' | 'inactive' | 'graduated' | 'suspended'
   avatar?: string
 }

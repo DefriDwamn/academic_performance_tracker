@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { type ReactNode, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { useAuthStore } from "../../store/authStore"
-import { Spinner, Center } from "@chakra-ui/react"
+import { type ReactNode, useEffect } from 'react'
+import { useNavigate } from 'react-router'
+import { useAuthStore } from '../../store/authStore'
+import { Spinner, Center } from '@chakra-ui/react'
 
 interface ProtectedRouteProps {
   children: ReactNode
@@ -15,7 +15,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      navigate("/auth/login", { replace: true })
+      navigate('/auth/login', { replace: true })
     }
   }, [isAuthenticated, isLoading, navigate])
 
