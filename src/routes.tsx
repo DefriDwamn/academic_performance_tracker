@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router'
+import { createBrowserRouter, Navigate, RouteObject } from 'react-router'
 import { lazy, Suspense } from 'react'
 import { Spinner, Center } from '@chakra-ui/react'
 
@@ -37,121 +37,107 @@ const LoadingFallback = () => (
   </Center>
 )
 
-export const router = createBrowserRouter(
-  [
-    {
-      path: '/',
-      element: <RootLayout />,
-      children: [
-        {
-          index: true,
-          element: <Navigate to="/dashboard" replace />,
-        },
-        {
-          path: 'auth',
-          element: <AuthLayout />,
-          children: [
-            {
-              index: true,
-              element: <Navigate to="login" replace />,
-            },
-            {
-              path: 'login',
-              element: (
-                <Suspense fallback={<LoadingFallback />}>
-                  <LoginPage />
-                </Suspense>
-              ),
-            },
-          ],
-        },
-        {
-          path: 'dashboard',
-          element: (
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          ),
-          children: [
-            {
-              index: true,
-              element: (
-                <Suspense fallback={<LoadingFallback />}>
-                  <RoleBasedRoute
-                    studentComponent={<StudentDashboard />}
-                    adminComponent={<AdminDashboard />}
-                  />
-                </Suspense>
-              ),
-            },
-            {
-              path: 'students',
-              element: (
-                <Suspense fallback={<LoadingFallback />}>
-                  <RoleBasedRoute
-                    studentComponent={<Navigate to="/dashboard" replace />}
-                    adminComponent={<AdminStudents />}
-                  />
-                </Suspense>
-              ),
-            },
-            {
-              path: 'grades',
-              element: (
-                <Suspense fallback={<LoadingFallback />}>
-                  <RoleBasedRoute
-                    studentComponent={<StudentGrades />}
-                    adminComponent={<AdminGrades />}
-                  />
-                </Suspense>
-              ),
-            },
-            {
-              path: 'attendance',
-              element: (
-                <Suspense fallback={<LoadingFallback />}>
-                  <RoleBasedRoute
-                    studentComponent={<StudentAttendance />}
-                    adminComponent={<AdminAttendance />}
-                  />
-                </Suspense>
-              ),
-            },
-            {
-              path: 'analytics',
-              element: (
-                <Suspense fallback={<LoadingFallback />}>
-                  <RoleBasedRoute
-                    studentComponent={<StudentAnalytics />}
-                    adminComponent={<AdminAnalytics />}
-                  />
-                </Suspense>
-              ),
-            },
-            {
-              path: 'profile',
-              element: (
-                <Suspense fallback={<LoadingFallback />}>
-                  <StudentProfile />
-                </Suspense>
-              ),
-            },
-          ],
-        },
-        {
-          path: '*',
-          element: (
-            <Suspense fallback={<LoadingFallback />}>
-              <NotFoundPage />
-            </Suspense>
-          ),
-        },
-      ],
-    },
-  ],
+// Dashboard routes configuration
+const dashboardRoutes: RouteObject[] = [
   {
-    future: {
-      unstable_middleware: false
-    }
+    index: true,
+    element: (
+      <RoleBasedRoute
+        studentComponent={<StudentDashboard />}
+        adminComponent={<AdminDashboard />}
+      />
+    ),
+  },
+  {
+    path: 'students',
+    element: (
+      <RoleBasedRoute
+        studentComponent={<Navigate to="/dashboard" replace />}
+        adminComponent={<AdminStudents />}
+      />
+    ),
+  },
+  {
+    path: 'grades',
+    element: (
+      <RoleBasedRoute
+        studentComponent={<StudentGrades />}
+        adminComponent={<AdminGrades />}
+      />
+    ),
+  },
+  {
+    path: 'attendance',
+    element: (
+      <RoleBasedRoute
+        studentComponent={<StudentAttendance />}
+        adminComponent={<AdminAttendance />}
+      />
+    ),
+  },
+  {
+    path: 'analytics',
+    element: (
+      <RoleBasedRoute
+        studentComponent={<StudentAnalytics />}
+        adminComponent={<AdminAnalytics />}
+      />
+    ),
+  },
+  {
+    path: 'profile',
+    element: <StudentProfile />,
+  },
+]
+
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/dashboard" replace />,
+      },
+      {
+        path: 'auth',
+        element: <AuthLayout />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="login" replace />,
+          },
+          {
+            path: 'login',
+            element: (
+              <Suspense fallback={<LoadingFallback />}>
+                <LoginPage />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: 'dashboard',
+        element: (
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        ),
+        children: dashboardRoutes,
+      },
+      {
+        path: '*',
+        element: (
+          <Suspense fallback={<LoadingFallback />}>
+            <NotFoundPage />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+], {
+  future: {
+    unstable_middleware: false
   }
-)
+})
