@@ -105,7 +105,7 @@ export const GradeForm = ({
     return "F"
   }
 
-  const handleGradeChange = (valueAsString: string, valueAsNumber: number) => {
+  const handleGradeChange = (_: string, valueAsNumber: number) => {
     setValue("grade", valueAsNumber)
     setValue("letterGrade", calculateLetterGrade(valueAsNumber))
   }

@@ -33,7 +33,7 @@ const studentSchema = z.object({
   status: z.enum(["active", "inactive", "graduated", "suspended"]),
 })
 
-type StudentFormData = z.infer<typeof studentSchema>
+export type StudentFormData = z.infer<typeof studentSchema>
 
 interface StudentFormProps {
   initialData?: Partial<Student>
