@@ -90,7 +90,7 @@ export default function AdminAttendance() {
     onOpen()
   }
 
-  const handleFormSubmit = async (data: Omit<Attendance, "id">) => {
+  const handleFormSubmit = async (data: Omit<Attendance, "_id">) => {
     try {
       if (formMode === "add") {
         await bulkUploadAttendance([data])
@@ -103,8 +103,8 @@ export default function AdminAttendance() {
         })
       } else if (formMode === "edit" && selectedAttendance) {
         // For simplicity, we're using the bulk upload endpoint for updates as well
-        const updatedRecord = { ...data, id: selectedAttendance.id }
-        await bulkUploadAttendance([updatedRecord as Omit<Attendance, "id">])
+        const updatedRecord = { ...data, _id: selectedAttendance._id }
+        await bulkUploadAttendance([updatedRecord as Omit<Attendance, "_id">])
         toast({
           title: "Attendance updated",
           description: "The attendance record has been successfully updated.",
@@ -173,26 +173,31 @@ export default function AdminAttendance() {
 
   // Get student name by ID
   const getStudentNameById = (studentId: string) => {
-    const student = students.find((s) => s.id === studentId)
+    const student = students.find((s) => s._id === studentId)
     return student ? `${student.firstName} ${student.lastName}` : studentId
   }
 
   // Filter attendance records based on selected filters
-  const filteredRecords = attendanceRecords.filter((record) => {
-    const studentMatch = selectedStudent === "all" || record.studentId === selectedStudent
-    const courseMatch = selectedCourse === "all" || record.courseId === selectedCourse
-    return studentMatch && courseMatch
-  })
+  const filteredRecords = attendanceRecords
+    .filter((record) => {
+      const studentMatch = selectedStudent === "all" || record.studentId === selectedStudent
+      const courseMatch = selectedCourse === "all" || record.courseId === selectedCourse
+      return studentMatch && courseMatch
+    })
+    .map(record => ({
+      ...record,
+      studentName: getStudentNameById(record.studentId)
+    }))
 
   // Define columns for the data table
   const columns = [
     {
       header: "Date",
-      accessor: (record: Attendance) => new Date(record.date).toLocaleDateString(),
+      accessor: (record: Attendance & { studentName: string }) => new Date(record.date).toLocaleDateString(),
     },
     {
       header: "Student",
-      accessor: (record: Attendance) => getStudentNameById(record.studentId),
+      accessor: (record: Attendance & { studentName: string }) => record.studentName,
     },
     {
       header: "Course",
@@ -243,7 +248,7 @@ export default function AdminAttendance() {
 
   // Mock data for form dropdowns
   const studentOptions = students.map((student) => ({
-    id: student.id,
+    id: student._id,
     name: `${student.firstName} ${student.lastName}`,
   }))
 
@@ -322,7 +327,7 @@ export default function AdminAttendance() {
             <DataTable
               columns={columns}
               data={filteredRecords}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id}
               isLoading={isLoading}
               searchable={true}
               sortable={true}
@@ -387,24 +392,24 @@ export default function AdminAttendance() {
                     </Thead>
                     <Tbody>
                       {bulkStudents.map((student) => (
-                        <Tr key={student.id}>
+                        <Tr key={student._id}>
                           <Td>{`${student.firstName} ${student.lastName}`}</Td>
                           <Td>
                             <RadioGroup
-                              value={bulkAttendanceData[student.id] || ""}
-                              onChange={(value) => handleStatusChange(student.id, value as "present" | "absent" | "late" | "excused")}
+                              value={bulkAttendanceData[student._id] || ""}
+                              onChange={(value) => handleStatusChange(student._id, value as "present" | "absent" | "late" | "excused")}
                             >
                               <HStack spacing={4}>
-                                <Radio value="present" isChecked={bulkAttendanceData[student.id] === "present"}>
+                                <Radio value="present" isChecked={bulkAttendanceData[student._id] === "present"}>
                                   Present
                                 </Radio>
-                                <Radio value="absent" isChecked={bulkAttendanceData[student.id] === "absent"}>
+                                <Radio value="absent" isChecked={bulkAttendanceData[student._id] === "absent"}>
                                   Absent
                                 </Radio>
-                                <Radio value="late" isChecked={bulkAttendanceData[student.id] === "late"}>
+                                <Radio value="late" isChecked={bulkAttendanceData[student._id] === "late"}>
                                   Late
                                 </Radio>
-                                <Radio value="excused" isChecked={bulkAttendanceData[student.id] === "excused"}>
+                                <Radio value="excused" isChecked={bulkAttendanceData[student._id] === "excused"}>
                                   Excused
                                 </Radio>
                               </HStack>
