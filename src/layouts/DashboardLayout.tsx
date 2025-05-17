@@ -25,7 +25,6 @@ import {
   useDisclosure,
   VStack,
   HStack,
-  Divider,
   useColorModeValue,
   useBreakpointValue,
 } from '@chakra-ui/react'
@@ -33,7 +32,6 @@ import { HamburgerIcon, ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/ico
 import {
   BarChart,
   Home,
-  User,
   Users,
   BookOpen,
   Calendar
@@ -79,6 +77,14 @@ export default function DashboardLayout() {
     const isActive = to
       ? location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(`${to}/`))
       : false
+
+    const handleClick = () => {
+      if (!isDesktop) {
+        onClose()
+      }
+      onClick?.()
+    }
+
     const content = (
       <Flex
         align="center"
@@ -91,10 +97,10 @@ export default function DashboardLayout() {
         color={isActive ? 'brand.600' : 'inherit'}
         fontWeight={isActive ? 'medium' : 'normal'}
         _hover={{
-          bg: 'brand.50',
-          color: 'brand.600',
+          bg: { base: 'transparent', md: 'brand.50' },
+          color: { base: 'inherit', md: 'brand.600' },
         }}
-        onClick={onClick}
+        onClick={handleClick}
         {...rest}
       >
         {icon && (

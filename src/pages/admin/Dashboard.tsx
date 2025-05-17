@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
   Box,
   Heading,
@@ -53,71 +53,85 @@ export default function AdminDashboard() {
     isLoading: analyticsLoading,
   } = useAnalyticsStore()
 
+  // Load all data in parallel
   useEffect(() => {
-    fetchStudents()
-    fetchGrades()
-    fetchAttendance()
-    fetchPerformanceMetrics()
+    const loadData = async () => {
+      await Promise.all([
+        fetchStudents(),
+        fetchGrades(),
+        fetchAttendance(),
+        fetchPerformanceMetrics()
+      ])
+    }
+    loadData()
   }, [fetchStudents, fetchGrades, fetchAttendance, fetchPerformanceMetrics])
 
   const isLoading = studentsLoading || gradesLoading || attendanceLoading || analyticsLoading
 
-  // Calculate statistics
-  const totalCourses = grades.length > 0 ? new Set(grades.map((g) => g.courseId)).size : 0
-  const averageGPA = performanceMetrics?.overallGPA || 0
-  const attendanceRate =
-    attendanceRecords.length > 0
-      ? (attendanceRecords.filter((r) => r.status === 'present').length /
-          attendanceRecords.length) *
-        100
-      : 0
+  // Memoize calculations to prevent unnecessary recalculations
+  const { totalCourses, averageGPA, attendanceRate, studentStatusData, departmentData, gradeDistributionData, recentStudents } = useMemo(() => {
+    const totalCourses = grades.length > 0 ? new Set(grades.map((g) => g.courseId)).size : 0
+    const averageGPA = performanceMetrics?.overallGPA || 0
+    const attendanceRate =
+      attendanceRecords.length > 0
+        ? (attendanceRecords.filter((r) => r.status === 'present').length /
+            attendanceRecords.length) *
+          100
+        : 0
 
-  // Prepare data for student status distribution
-  const studentStatusData = [
-    { name: 'Active', value: students.filter((s) => s.status === 'active').length },
-    { name: 'Inactive', value: students.filter((s) => s.status === 'inactive').length },
-    { name: 'Graduated', value: students.filter((s) => s.status === 'graduated').length },
-    { name: 'Suspended', value: students.filter((s) => s.status === 'suspended').length },
-  ].filter((item) => item.value > 0)
+    const studentStatusData = [
+      { name: 'Active', value: students.filter((s) => s.status === 'active').length },
+      { name: 'Inactive', value: students.filter((s) => s.status === 'inactive').length },
+      { name: 'Graduated', value: students.filter((s) => s.status === 'graduated').length },
+      { name: 'Suspended', value: students.filter((s) => s.status === 'suspended').length },
+    ].filter((item) => item.value > 0)
 
-  // Prepare data for department distribution
-  const departmentData = students.reduce(
-    (acc, student) => {
-      const dept = student.department
-      const existingDept = acc.find((d) => d.name === dept)
-      if (existingDept) {
-        existingDept.value++
-      } else {
-        acc.push({ name: dept, value: 1 })
-      }
-      return acc
-    },
-    [] as { name: string; value: number }[]
-  )
+    const departmentData = students.reduce(
+      (acc, student) => {
+        const dept = student.department
+        const existingDept = acc.find((d) => d.name === dept)
+        if (existingDept) {
+          existingDept.value++
+        } else {
+          acc.push({ name: dept, value: 1 })
+        }
+        return acc
+      },
+      [] as { name: string; value: number }[]
+    )
 
-  // Prepare data for grade distribution
-  const gradeDistributionData = grades.reduce(
-    (acc, grade) => {
-      const letterGrade = grade.letterGrade
-      const existingGrade = acc.find((g) => g.name === letterGrade)
-      if (existingGrade) {
-        existingGrade.value++
-      } else {
-        acc.push({ name: letterGrade, value: 1 })
-      }
-      return acc
-    },
-    [] as { name: string; value: number }[]
-  )
+    const gradeDistributionData = grades.reduce(
+      (acc, grade) => {
+        const letterGrade = grade.letterGrade
+        const existingGrade = acc.find((g) => g.name === letterGrade)
+        if (existingGrade) {
+          existingGrade.value++
+        } else {
+          acc.push({ name: letterGrade, value: 1 })
+        }
+        return acc
+      },
+      [] as { name: string; value: number }[]
+    )
 
-  // Get recent students
-  const recentStudents = [...students]
-    .sort((a, b) => new Date(b.enrollmentDate).getTime() - new Date(a.enrollmentDate).getTime())
-    .slice(0, 5)
-    .map((student) => ({
-      ...student,
-      uniqueKey: `${student.firstName}-${student.lastName}-${student.enrollmentDate}`,
-    }))
+    const recentStudents = [...students]
+      .sort((a, b) => new Date(b.enrollmentDate).getTime() - new Date(a.enrollmentDate).getTime())
+      .slice(0, 5)
+      .map((student) => ({
+        ...student,
+        uniqueKey: `${student.firstName}-${student.lastName}-${student.enrollmentDate}`,
+      }))
+
+    return {
+      totalCourses,
+      averageGPA,
+      attendanceRate,
+      studentStatusData,
+      departmentData,
+      gradeDistributionData,
+      recentStudents
+    }
+  }, [students, grades, attendanceRecords, performanceMetrics])
 
   // Colors for charts
   const COLORS = ['#0284c7', '#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd']
