@@ -30,6 +30,7 @@ import { DataTable } from "../../components/common/DataTable"
 import { GradeForm } from "../../components/forms/GradeForm"
 import { AnimatedElement } from "../../components/common/AnimatedElement"
 import type { Grade } from "../../types/grade"
+import type { ReactNode } from "react"
 
 export default function AdminGrades() {
   const { grades, fetchGrades, addGrade, updateGrade, isLoading: gradesLoading } = useGradesStore()
@@ -99,7 +100,7 @@ export default function AdminGrades() {
 
   // Get student name by ID
   const getStudentNameById = (studentId: string) => {
-    const student = students.find((s) => s.id === studentId)
+    const student = students.find((s) => s._id === studentId)
     return student ? `${student.firstName} ${student.lastName}` : studentId
   }
 
@@ -114,34 +115,22 @@ export default function AdminGrades() {
   const columns = [
     {
       header: "Student",
-      accessor: (grade: Grade) => getStudentNameById(grade.studentId),
+      accessor: (grade: Grade): ReactNode => getStudentNameById(grade.studentId),
     },
     {
       header: "Course",
-      accessor: "courseName",
+      accessor: (grade: Grade): ReactNode => grade.courseName,
     },
     {
       header: "Semester",
-      accessor: (grade: Grade) => `${grade.semester} ${grade.academicYear}`,
+      accessor: (grade: Grade): ReactNode => grade.semester,
     },
     {
       header: "Grade",
-      accessor: (grade: Grade) => (
-        <HStack spacing={2}>
-          <Text fontWeight="bold">{grade.grade}%</Text>
-          <Badge
-            colorScheme={
-              grade.letterGrade === "A"
-                ? "green"
-                : grade.letterGrade === "B"
-                  ? "blue"
-                  : grade.letterGrade === "C"
-                    ? "yellow"
-                    : grade.letterGrade === "D"
-                      ? "orange"
-                      : "red"
-            }
-          >
+      accessor: (grade: Grade): ReactNode => (
+        <HStack>
+          <Text>{grade.grade}%</Text>
+          <Badge colorScheme={grade.letterGrade === "A" ? "green" : grade.letterGrade === "B" ? "blue" : grade.letterGrade === "C" ? "yellow" : "red"}>
             {grade.letterGrade}
           </Badge>
         </HStack>
@@ -149,26 +138,27 @@ export default function AdminGrades() {
     },
     {
       header: "Credits",
-      accessor: "creditHours",
+      accessor: (grade: Grade): ReactNode => grade.creditHours,
       isNumeric: true,
     },
     {
       header: "Submission Date",
-      accessor: (grade: Grade) => new Date(grade.submissionDate).toLocaleDateString(),
+      accessor: (grade: Grade): ReactNode => new Date(grade.submissionDate).toLocaleDateString(),
     },
     {
       header: "Actions",
-      accessor: (grade: Grade) => (
-        <IconButton
-          aria-label="Edit grade"
-          icon={<EditIcon />}
-          size="sm"
-          variant="ghost"
-          onClick={(e) => {
-            e.stopPropagation()
-            handleEditGrade(grade)
-          }}
-        />
+      accessor: (grade: Grade): ReactNode => (
+        <HStack spacing={2}>
+          <IconButton
+            aria-label="Edit grade"
+            icon={<EditIcon />}
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation()
+              handleEditGrade(grade)
+            }}
+          />
+        </HStack>
       ),
     },
   ]
@@ -249,7 +239,7 @@ export default function AdminGrades() {
             <DataTable
               columns={columns}
               data={filteredGrades}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => `${item.studentId}-${item.courseId}`}
               isLoading={isLoading}
               searchable={true}
               sortable={true}
