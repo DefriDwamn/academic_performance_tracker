@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { StudentService } from "../services/studentService"
 import type { Student } from "../types/student"
+import type { StudentFormData } from "../components/forms/StudentForm"
 
 interface StudentState {
   students: Student[]
@@ -10,7 +11,7 @@ interface StudentState {
   fetchStudents: () => Promise<void>
   fetchStudentById: (id: string) => Promise<void>
   fetchCurrentStudent: () => Promise<void>
-  createStudent: (student: Omit<Student, "id">) => Promise<void>
+  createStudent: (student: StudentFormData) => Promise<void>
   updateStudent: (id: string, student: Partial<Student>) => Promise<void>
   deleteStudent: (id: string) => Promise<void>
 }

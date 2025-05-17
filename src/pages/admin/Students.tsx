@@ -35,7 +35,7 @@ import {
 import { AddIcon, DeleteIcon, EditIcon, ViewIcon } from "@chakra-ui/icons"
 import { useStudentStore } from "../../store/studentStore"
 import { DataTable } from "../../components/common/DataTable"
-import { StudentForm } from "../../components/forms/StudentForm"
+import { StudentForm, StudentFormData } from "../../components/forms/StudentForm"
 import { AnimatedElement } from "../../components/common/AnimatedElement"
 import type { Student } from "../../types/student"
 
@@ -79,7 +79,7 @@ export default function AdminStudents() {
     if (!selectedStudent) return
 
     try {
-      await deleteStudent(selectedStudent.id)
+      await deleteStudent(selectedStudent._id)
       toast({
         title: "Student deleted",
         description: "The student has been successfully deleted.",
@@ -99,7 +99,7 @@ export default function AdminStudents() {
     }
   }
 
-  const handleFormSubmit = async (data: Omit<Student, "id">) => {
+  const handleFormSubmit = async (data: StudentFormData) => {
     try {
       if (formMode === "add") {
         await createStudent(data)
@@ -111,7 +111,7 @@ export default function AdminStudents() {
           isClosable: true,
         })
       } else if (formMode === "edit" && selectedStudent) {
-        await updateStudent(selectedStudent.id, data)
+        await updateStudent(selectedStudent._id, data)
         toast({
           title: "Student updated",
           description: "The student has been successfully updated.",
@@ -140,27 +140,19 @@ export default function AdminStudents() {
     },
     {
       header: "Student ID",
-      accessor: "studentId",
+      accessor: (student: Student) => student.studentId,
     },
     {
       header: "Email",
-      accessor: "email",
-    },
-    {
-      header: "Program",
-      accessor: (student: Student) => (
-        <Badge colorScheme="brand" textTransform="capitalize">
-          {student.program}
-        </Badge>
-      ),
+      accessor: (student: Student) => student.email,
     },
     {
       header: "Department",
-      accessor: (student: Student) => (
-        <Badge variant="outline" textTransform="capitalize">
-          {student.department.replace(/_/g, " ")}
-        </Badge>
-      ),
+      accessor: (student: Student) => student.department,
+    },
+    {
+      header: "Program",
+      accessor: (student: Student) => student.program,
     },
     {
       header: "Status",
@@ -169,11 +161,11 @@ export default function AdminStudents() {
           colorScheme={
             student.status === "active"
               ? "green"
+              : student.status === "inactive"
+              ? "gray"
               : student.status === "graduated"
-                ? "blue"
-                : student.status === "suspended"
-                  ? "red"
-                  : "gray"
+              ? "blue"
+              : "red"
           }
         >
           {student.status}
@@ -188,32 +180,20 @@ export default function AdminStudents() {
             aria-label="View student"
             icon={<ViewIcon />}
             size="sm"
-            variant="ghost"
-            onClick={(e) => {
-              e.stopPropagation()
-              handleViewStudent(student)
-            }}
+            onClick={() => handleViewStudent(student)}
           />
           <IconButton
             aria-label="Edit student"
             icon={<EditIcon />}
             size="sm"
-            variant="ghost"
-            onClick={(e) => {
-              e.stopPropagation()
-              handleEditStudent(student)
-            }}
+            onClick={() => handleEditStudent(student)}
           />
           <IconButton
             aria-label="Delete student"
             icon={<DeleteIcon />}
             size="sm"
-            variant="ghost"
             colorScheme="red"
-            onClick={(e) => {
-              e.stopPropagation()
-              handleDeleteClick(student)
-            }}
+            onClick={() => handleDeleteClick(student)}
           />
         </HStack>
       ),
@@ -240,7 +220,7 @@ export default function AdminStudents() {
             <DataTable
               columns={columns}
               data={students}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id}
               isLoading={isLoading}
               onRowClick={handleViewStudent}
               searchable={true}

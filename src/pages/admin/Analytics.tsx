@@ -55,7 +55,7 @@ export default function AdminAnalytics() {
     fetchStudentReport,
     isLoading,
   } = useAnalyticsStore()
-  const { students, fetchStudents, isLoading: studentsLoading } = useStudentStore()
+  const { students, fetchStudents } = useStudentStore()
   const [selectedStudent, setSelectedStudent] = useState<string>("")
 
   useEffect(() => {
@@ -350,7 +350,7 @@ export default function AdminAnalytics() {
                       onChange={(e) => setSelectedStudent(e.target.value)}
                     >
                       {students.map((student) => (
-                        <option key={student.id} value={student.id}>
+                        <option key={student._id} value={student._id}>
                           {`${student.firstName} ${student.lastName} (${student.studentId})`}
                         </option>
                       ))}

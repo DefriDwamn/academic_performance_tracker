@@ -1,5 +1,6 @@
 export interface Student {
-  id: string
+  _id: string
+  id: string // Alias for _id
   firstName: string
   lastName: string
   email: string

@@ -1,5 +1,6 @@
 import api, { handleApiError } from "./api"
 import type { Student } from "../types/student"
+import type { StudentFormData } from "../components/forms/StudentForm"
 
 export const StudentService = {
   async getStudents(): Promise<Student[]> {
@@ -29,7 +30,7 @@ export const StudentService = {
     }
   },
 
-  async createStudent(student: Omit<Student, "id">): Promise<Student> {
+  async createStudent(student: StudentFormData): Promise<Student> {
     try {
       const response = await api.post<Student>("/students", student)
       return response.data
