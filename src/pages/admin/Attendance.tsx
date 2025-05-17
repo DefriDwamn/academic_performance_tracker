@@ -42,6 +42,7 @@ import { AttendanceForm } from '../../components/forms/AttendanceForm'
 import { AnimatedElement } from '../../components/common/AnimatedElement'
 import type { Attendance } from '../../types/attendance'
 import type { Student } from '../../types/student'
+import { Modal as CustomModal } from '../../components/common/Modal'
 
 export default function AdminAttendance() {
   const {
@@ -354,131 +355,129 @@ export default function AdminAttendance() {
       </AnimatedElement>
 
       {/* Add/Edit/Bulk Attendance Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} size={formMode === 'bulk' ? '4xl' : 'xl'}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            {formMode === 'add'
-              ? 'Add Attendance Record'
-              : formMode === 'edit'
-                ? 'Edit Attendance Record'
-                : 'Bulk Upload Attendance'}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            {formMode === 'bulk' ? (
-              <Box>
-                <Flex gap={4} mb={6}>
-                  <FormControl isRequired>
-                    <FormLabel>Date</FormLabel>
-                    <Input
-                      type="date"
-                      value={selectedDate}
-                      onChange={(e) => setSelectedDate(e.target.value)}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Course</FormLabel>
-                    <Select
-                      placeholder="Select course"
-                      value={bulkCourseId}
-                      onChange={(e) => {
-                        setBulkCourseId(e.target.value)
-                        const course = courseOptions.find((c) => c.id === e.target.value)
-                        if (course) {
-                          setBulkCourseName(course.name)
-                        }
-                      }}
-                    >
-                      {courseOptions.map((course) => (
-                        <option key={course.id} value={course.id}>
-                          {course.name}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Flex>
+      <CustomModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={
+          formMode === 'add'
+            ? 'Add Attendance Record'
+            : formMode === 'edit'
+              ? 'Edit Attendance Record'
+              : 'Bulk Upload Attendance'
+        }
+        size={formMode === 'bulk' ? '4xl' : 'xl'}
+      >
+        {formMode === 'bulk' ? (
+          <Box>
+            <Flex gap={4} mb={6}>
+              <FormControl isRequired>
+                <FormLabel>Date</FormLabel>
+                <Input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Course</FormLabel>
+                <Select
+                  placeholder="Select course"
+                  value={bulkCourseId}
+                  onChange={(e) => {
+                    setBulkCourseId(e.target.value)
+                    const course = courseOptions.find((c) => c.id === e.target.value)
+                    if (course) {
+                      setBulkCourseName(course.name)
+                    }
+                  }}
+                >
+                  {courseOptions.map((course) => (
+                    <option key={course.id} value={course.id}>
+                      {course.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            </Flex>
 
-                <Box maxH="400px" overflowY="auto">
-                  <Table variant="simple">
-                    <Thead position="sticky" top={0} bg="white" zIndex={1}>
-                      <Tr>
-                        <Th>Student</Th>
-                        <Th>Present</Th>
-                        <Th>Absent</Th>
-                        <Th>Late</Th>
-                        <Th>Excused</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {bulkStudents.map((student) => (
-                        <Tr key={student._id}>
-                          <Td>{`${student.firstName} ${student.lastName}`}</Td>
-                          <Td>
-                            <RadioGroup
-                              value={bulkAttendanceData[student._id] || ''}
-                              onChange={(value) =>
-                                handleStatusChange(
-                                  student._id,
-                                  value as 'present' | 'absent' | 'late' | 'excused'
-                                )
-                              }
+            <Box maxH="400px" overflowY="auto">
+              <Table variant="simple">
+                <Thead position="sticky" top={0} bg="white" zIndex={1}>
+                  <Tr>
+                    <Th>Student</Th>
+                    <Th>Present</Th>
+                    <Th>Absent</Th>
+                    <Th>Late</Th>
+                    <Th>Excused</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {bulkStudents.map((student) => (
+                    <Tr key={student._id}>
+                      <Td>{`${student.firstName} ${student.lastName}`}</Td>
+                      <Td>
+                        <RadioGroup
+                          value={bulkAttendanceData[student._id] || ''}
+                          onChange={(value) =>
+                            handleStatusChange(
+                              student._id,
+                              value as 'present' | 'absent' | 'late' | 'excused'
+                            )
+                          }
+                        >
+                          <HStack spacing={4}>
+                            <Radio
+                              value="present"
+                              isChecked={bulkAttendanceData[student._id] === 'present'}
                             >
-                              <HStack spacing={4}>
-                                <Radio
-                                  value="present"
-                                  isChecked={bulkAttendanceData[student._id] === 'present'}
-                                >
-                                  Present
-                                </Radio>
-                                <Radio
-                                  value="absent"
-                                  isChecked={bulkAttendanceData[student._id] === 'absent'}
-                                >
-                                  Absent
-                                </Radio>
-                                <Radio
-                                  value="late"
-                                  isChecked={bulkAttendanceData[student._id] === 'late'}
-                                >
-                                  Late
-                                </Radio>
-                                <Radio
-                                  value="excused"
-                                  isChecked={bulkAttendanceData[student._id] === 'excused'}
-                                >
-                                  Excused
-                                </Radio>
-                              </HStack>
-                            </RadioGroup>
-                          </Td>
-                        </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                </Box>
+                              Present
+                            </Radio>
+                            <Radio
+                              value="absent"
+                              isChecked={bulkAttendanceData[student._id] === 'absent'}
+                            >
+                              Absent
+                            </Radio>
+                            <Radio
+                              value="late"
+                              isChecked={bulkAttendanceData[student._id] === 'late'}
+                            >
+                              Late
+                            </Radio>
+                            <Radio
+                              value="excused"
+                              isChecked={bulkAttendanceData[student._id] === 'excused'}
+                            >
+                              Excused
+                            </Radio>
+                          </HStack>
+                        </RadioGroup>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </Box>
 
-                <Flex justify="flex-end" mt={6}>
-                  <Button variant="ghost" mr={3} onClick={onClose}>
-                    Cancel
-                  </Button>
-                  <Button colorScheme="brand" onClick={handleBulkSubmit} isLoading={isLoading}>
-                    Upload Attendance
-                  </Button>
-                </Flex>
-              </Box>
-            ) : (
-              <AttendanceForm
-                initialData={selectedAttendance || {}}
-                onSubmit={handleFormSubmit}
-                isLoading={isLoading}
-                students={studentOptions}
-                courses={courseOptions}
-              />
-            )}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+            <Flex justify="flex-end" mt={6}>
+              <Button variant="ghost" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="brand" onClick={handleBulkSubmit} isLoading={isLoading}>
+                Upload Attendance
+              </Button>
+            </Flex>
+          </Box>
+        ) : (
+          <AttendanceForm
+            initialData={selectedAttendance || {}}
+            onSubmit={handleFormSubmit}
+            isLoading={isLoading}
+            students={studentOptions}
+            courses={courseOptions}
+          />
+        )}
+      </CustomModal>
     </Box>
   )
 }

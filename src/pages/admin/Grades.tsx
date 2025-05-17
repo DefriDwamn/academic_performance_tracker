@@ -31,6 +31,7 @@ import { GradeForm } from '../../components/forms/GradeForm'
 import { AnimatedElement } from '../../components/common/AnimatedElement'
 import type { Grade } from '../../types/grade'
 import type { ReactNode } from 'react'
+import { Modal as CustomModal } from '../../components/common/Modal'
 
 export default function AdminGrades() {
   const { grades, fetchGrades, addGrade, updateGrade, isLoading: gradesLoading } = useGradesStore()
@@ -269,23 +270,20 @@ export default function AdminGrades() {
       </AnimatedElement>
 
       {/* Add/Edit Grade Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{formMode === 'add' ? 'Add New Grade' : 'Edit Grade'}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <GradeForm
-              initialData={selectedGrade || {}}
-              onSubmit={handleFormSubmit}
-              isLoading={isLoading}
-              students={studentOptions}
-              courses={courseOptions}
-              instructors={instructorOptions}
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <CustomModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={formMode === 'add' ? 'Add New Grade' : 'Edit Grade'}
+      >
+        <GradeForm
+          initialData={selectedGrade || {}}
+          onSubmit={handleFormSubmit}
+          isLoading={isLoading}
+          students={studentOptions}
+          courses={courseOptions}
+          instructors={instructorOptions}
+        />
+      </CustomModal>
     </Box>
   )
 }

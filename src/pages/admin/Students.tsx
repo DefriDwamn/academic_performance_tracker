@@ -38,6 +38,7 @@ import { DataTable } from '../../components/common/DataTable'
 import { StudentForm, StudentFormData } from '../../components/forms/StudentForm'
 import { AnimatedElement } from '../../components/common/AnimatedElement'
 import type { Student } from '../../types/student'
+import { Modal as CustomModal } from '../../components/common/Modal'
 
 export default function AdminStudents() {
   const { students, fetchStudents, createStudent, updateStudent, deleteStudent, isLoading } =
@@ -232,124 +233,119 @@ export default function AdminStudents() {
       </AnimatedElement>
 
       {/* Add/Edit Student Modal */}
-      <Modal isOpen={isFormOpen} onClose={onFormClose} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{formMode === 'add' ? 'Add New Student' : 'Edit Student'}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <StudentForm
-              initialData={selectedStudent || {}}
-              onSubmit={handleFormSubmit}
-              isLoading={isLoading}
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <CustomModal
+        isOpen={isFormOpen}
+        onClose={onFormClose}
+        title={formMode === 'add' ? 'Add New Student' : 'Edit Student'}
+      >
+        <StudentForm
+          initialData={selectedStudent || {}}
+          onSubmit={handleFormSubmit}
+          isLoading={isLoading}
+        />
+      </CustomModal>
 
       {/* View Student Modal */}
       {selectedStudent && (
-        <Modal isOpen={isViewOpen} onClose={onViewClose} size="lg">
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Student Details</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody pb={6}>
-              <Box mb={4}>
-                <Heading size="md">{`${selectedStudent.firstName} ${selectedStudent.lastName}`}</Heading>
-                <Badge
-                  colorScheme={
-                    selectedStudent.status === 'active'
-                      ? 'green'
-                      : selectedStudent.status === 'graduated'
-                        ? 'blue'
-                        : selectedStudent.status === 'suspended'
-                          ? 'red'
-                          : 'gray'
-                  }
-                  mt={2}
-                >
-                  {selectedStudent.status}
-                </Badge>
-              </Box>
+        <CustomModal
+          isOpen={isViewOpen}
+          onClose={onViewClose}
+          title="Student Details"
+          size="lg"
+        >
+          <Box mb={4}>
+            <Heading size="md">{`${selectedStudent.firstName} ${selectedStudent.lastName}`}</Heading>
+            <Badge
+              colorScheme={
+                selectedStudent.status === 'active'
+                  ? 'green'
+                  : selectedStudent.status === 'graduated'
+                    ? 'blue'
+                    : selectedStudent.status === 'suspended'
+                      ? 'red'
+                      : 'gray'
+              }
+              mt={2}
+            >
+              {selectedStudent.status}
+            </Badge>
+          </Box>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={4}>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase" color="gray.500" mb={2}>
-                    Personal Information
-                  </Heading>
-                  <VStack align="start" spacing={2}>
-                    <HStack>
-                      <Text fontWeight="bold">Student ID:</Text>
-                      <Text>{selectedStudent.studentId}</Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontWeight="bold">Email:</Text>
-                      <Text>{selectedStudent.email}</Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontWeight="bold">Date of Birth:</Text>
-                      <Text>{new Date(selectedStudent.dateOfBirth).toLocaleDateString()}</Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontWeight="bold">Gender:</Text>
-                      <Text textTransform="capitalize">{selectedStudent.gender}</Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontWeight="bold">Phone:</Text>
-                      <Text>{selectedStudent.phoneNumber}</Text>
-                    </HStack>
-                    <HStack alignItems="flex-start">
-                      <Text fontWeight="bold">Address:</Text>
-                      <Text>{selectedStudent.address}</Text>
-                    </HStack>
-                  </VStack>
-                </Box>
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={4}>
+            <Box>
+              <Heading size="xs" textTransform="uppercase" color="gray.500" mb={2}>
+                Personal Information
+              </Heading>
+              <VStack align="start" spacing={2}>
+                <HStack>
+                  <Text fontWeight="bold">Student ID:</Text>
+                  <Text>{selectedStudent.studentId}</Text>
+                </HStack>
+                <HStack>
+                  <Text fontWeight="bold">Email:</Text>
+                  <Text>{selectedStudent.email}</Text>
+                </HStack>
+                <HStack>
+                  <Text fontWeight="bold">Date of Birth:</Text>
+                  <Text>{new Date(selectedStudent.dateOfBirth).toLocaleDateString()}</Text>
+                </HStack>
+                <HStack>
+                  <Text fontWeight="bold">Gender:</Text>
+                  <Text textTransform="capitalize">{selectedStudent.gender}</Text>
+                </HStack>
+                <HStack>
+                  <Text fontWeight="bold">Phone:</Text>
+                  <Text>{selectedStudent.phoneNumber}</Text>
+                </HStack>
+                <HStack alignItems="flex-start">
+                  <Text fontWeight="bold">Address:</Text>
+                  <Text>{selectedStudent.address}</Text>
+                </HStack>
+              </VStack>
+            </Box>
 
-                <Box>
-                  <Heading size="xs" textTransform="uppercase" color="gray.500" mb={2}>
-                    Academic Information
-                  </Heading>
-                  <VStack align="start" spacing={2}>
-                    <HStack>
-                      <Text fontWeight="bold">Department:</Text>
-                      <Text textTransform="capitalize">
-                        {selectedStudent.department.replace(/_/g, ' ')}
-                      </Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontWeight="bold">Program:</Text>
-                      <Text textTransform="capitalize">{selectedStudent.program}</Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontWeight="bold">Enrollment Date:</Text>
-                      <Text>{new Date(selectedStudent.enrollmentDate).toLocaleDateString()}</Text>
-                    </HStack>
-                    {selectedStudent.graduationDate && (
-                      <HStack>
-                        <Text fontWeight="bold">Expected Graduation:</Text>
-                        <Text>{new Date(selectedStudent.graduationDate).toLocaleDateString()}</Text>
-                      </HStack>
-                    )}
-                  </VStack>
-                </Box>
-              </SimpleGrid>
+            <Box>
+              <Heading size="xs" textTransform="uppercase" color="gray.500" mb={2}>
+                Academic Information
+              </Heading>
+              <VStack align="start" spacing={2}>
+                <HStack>
+                  <Text fontWeight="bold">Department:</Text>
+                  <Text textTransform="capitalize">
+                    {selectedStudent.department.replace(/_/g, ' ')}
+                  </Text>
+                </HStack>
+                <HStack>
+                  <Text fontWeight="bold">Program:</Text>
+                  <Text textTransform="capitalize">{selectedStudent.program}</Text>
+                </HStack>
+                <HStack>
+                  <Text fontWeight="bold">Enrollment Date:</Text>
+                  <Text>{new Date(selectedStudent.enrollmentDate).toLocaleDateString()}</Text>
+                </HStack>
+                {selectedStudent.graduationDate && (
+                  <HStack>
+                    <Text fontWeight="bold">Expected Graduation:</Text>
+                    <Text>{new Date(selectedStudent.graduationDate).toLocaleDateString()}</Text>
+                  </HStack>
+                )}
+              </VStack>
+            </Box>
+          </SimpleGrid>
 
-              <HStack spacing={4} mt={6}>
-                <Button onClick={onViewClose}>Close</Button>
-                <Button
-                  colorScheme="brand"
-                  onClick={() => {
-                    onViewClose()
-                    handleEditStudent(selectedStudent)
-                  }}
-                >
-                  Edit
-                </Button>
-              </HStack>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+          <HStack spacing={4} mt={6}>
+            <Button onClick={onViewClose}>Close</Button>
+            <Button
+              colorScheme="brand"
+              onClick={() => {
+                onViewClose()
+                handleEditStudent(selectedStudent)
+              }}
+            >
+              Edit
+            </Button>
+          </HStack>
+        </CustomModal>
       )}
 
       {/* Delete Confirmation Dialog */}

@@ -19,13 +19,6 @@ import {
   Stack,
   Badge,
   useToast,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
   FormControl,
   FormLabel,
   Input,
@@ -34,6 +27,7 @@ import {
 import { EditIcon } from "@chakra-ui/icons"
 import { useStudentStore } from "../../store/studentStore"
 import { AnimatedElement } from "../../components/common/AnimatedElement"
+import { Modal } from '../../components/common/Modal'
 
 export default function StudentProfile() {
   const { currentStudent, fetchCurrentStudent, updateStudent, isLoading } = useStudentStore()
@@ -225,32 +219,26 @@ export default function StudentProfile() {
       </SimpleGrid>
 
       {/* Edit Profile Modal */}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit Contact Information</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Stack spacing={4}>
-              <FormControl>
-                <FormLabel>Phone Number</FormLabel>
-                <Input name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Address</FormLabel>
-                <Input name="address" value={formData.address} onChange={handleInputChange} />
-              </FormControl>
-            </Stack>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="brand" onClick={handleSubmit} isLoading={isLoading}>
-              Save Changes
-            </Button>
-          </ModalFooter>
-        </ModalContent>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Edit Contact Information"
+      >
+        <Stack spacing={4}>
+          <FormControl>
+            <FormLabel>Phone Number</FormLabel>
+            <Input name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Address</FormLabel>
+            <Input name="address" value={formData.address} onChange={handleInputChange} />
+          </FormControl>
+        </Stack>
+        <Flex justify="center" mt={6}>
+          <Button colorScheme="brand" onClick={handleSubmit} isLoading={isLoading}>
+            Save Changes
+          </Button>
+        </Flex>
       </Modal>
     </Box>
   )

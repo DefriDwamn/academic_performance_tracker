@@ -13,4 +13,5 @@ export interface Grade {
   instructorId: string
   instructorName: string
   comments?: string
+  description?: string
 }

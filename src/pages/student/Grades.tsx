@@ -22,11 +22,13 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { useGradesStore } from '../../store/gradesStore'
 import { DataTable } from '../../components/common/DataTable'
 import { AnimatedElement } from '../../components/common/AnimatedElement'
 import type { Grade } from '../../types/grade'
+import { Modal as CustomModal } from '../../components/common/Modal'
 
 export default function StudentGrades() {
   const { grades, fetchGrades, isLoading } = useGradesStore()
@@ -218,98 +220,92 @@ export default function StudentGrades() {
       </AnimatedElement>
 
       {/* Grade Detail Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} size="lg">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Grade Details</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            {selectedGrade && (
-              <Stack spacing={4}>
-                <Flex justify="space-between" align="center">
-                  <Heading size="md">{selectedGrade.courseName}</Heading>
-                  <HStack>
-                    <Text as="span" fontWeight="bold" fontSize="xl">
-                      {selectedGrade.grade}%
-                    </Text>
-                    <Badge
-                      size="lg"
-                      colorScheme={
-                        selectedGrade.letterGrade === 'A'
-                          ? 'green'
-                          : selectedGrade.letterGrade === 'B'
-                            ? 'blue'
-                            : selectedGrade.letterGrade === 'C'
-                              ? 'yellow'
-                              : selectedGrade.letterGrade === 'D'
-                                ? 'orange'
-                                : 'red'
-                      }
-                      px={2}
-                      py={1}
-                      borderRadius="md"
-                    >
-                      {selectedGrade.letterGrade}
-                    </Badge>
-                  </HStack>
-                </Flex>
+      <CustomModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title="Grade Details"
+        size="lg"
+      >
+        {selectedGrade && (
+          <Stack spacing={4}>
+            <Flex justify="space-between" align="center">
+              <Heading size="md">{selectedGrade.courseName}</Heading>
+              <HStack>
+                <Text as="span" fontWeight="bold" fontSize="xl">
+                  {selectedGrade.grade}%
+                </Text>
+                <Badge
+                  size="lg"
+                  colorScheme={
+                    selectedGrade.letterGrade === 'A'
+                      ? 'green'
+                      : selectedGrade.letterGrade === 'B'
+                        ? 'blue'
+                        : selectedGrade.letterGrade === 'C'
+                          ? 'yellow'
+                          : selectedGrade.letterGrade === 'D'
+                            ? 'orange'
+                            : 'red'
+                  }
+                  px={2}
+                  py={1}
+                  borderRadius="md"
+                >
+                  {selectedGrade.letterGrade}
+                </Badge>
+              </HStack>
+            </Flex>
 
-                <Box bg="gray.50" p={4} borderRadius="md">
-                  <Stack spacing={3}>
-                    <Flex justify="space-between">
-                      <Text as="span" color="gray.600">
-                        Semester
-                      </Text>
-                      <Text as="span" fontWeight="medium">
-                        {selectedGrade.semester} {selectedGrade.academicYear}
-                      </Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text as="span" color="gray.600">
-                        Credit Hours
-                      </Text>
-                      <Text as="span" fontWeight="medium">
-                        {selectedGrade.creditHours}
-                      </Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text as="span" color="gray.600">
-                        Instructor
-                      </Text>
-                      <Text as="span" fontWeight="medium">
-                        {selectedGrade.instructorName}
-                      </Text>
-                    </Flex>
-                    <Flex justify="space-between">
-                      <Text as="span" color="gray.600">
-                        Submission Date
-                      </Text>
-                      <Text as="span" fontWeight="medium">
-                        {new Date(selectedGrade.submissionDate).toLocaleDateString()}
-                      </Text>
-                    </Flex>
-                  </Stack>
-                </Box>
+            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+              <Box>
+                <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                  Semester
+                </Text>
+                <Text>{selectedGrade.semester}</Text>
+              </Box>
+              <Box>
+                <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                  Academic Year
+                </Text>
+                <Text>{selectedGrade.academicYear}</Text>
+              </Box>
+              <Box>
+                <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                  Credits
+                </Text>
+                <Text>{selectedGrade.creditHours}</Text>
+              </Box>
+              <Box>
+                <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                  Submission Date
+                </Text>
+                <Text>{new Date(selectedGrade.submissionDate).toLocaleDateString()}</Text>
+              </Box>
+            </SimpleGrid>
 
-                {selectedGrade.comments && (
-                  <Box>
-                    <Text as="span" fontWeight="medium" mb={2}>
-                      Instructor Comments
+            {(selectedGrade.description || selectedGrade.comments) && (
+              <Box mt={4}>
+                {selectedGrade.description && (
+                  <>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Description
                     </Text>
-                    <Box bg="gray.50" p={4} borderRadius="md">
-                      <Text as="span">{selectedGrade.comments}</Text>
-                    </Box>
-                  </Box>
+                    <Text mb={selectedGrade.comments ? 4 : 0}>{selectedGrade.description}</Text>
+                  </>
                 )}
-
-                <Button onClick={onClose} mt={4}>
-                  Close
-                </Button>
-              </Stack>
+                {selectedGrade.comments && (
+                  <>
+                    <Text fontWeight="medium" color="gray.500" fontSize="sm">
+                      Comments
+                    </Text>
+                    <Text>{selectedGrade.comments}</Text>
+                  </>
+                )}
+              </Box>
             )}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </Stack>
+        )}
+      </CustomModal>
     </Box>
   )
 }
