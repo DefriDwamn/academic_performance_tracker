@@ -15,19 +15,7 @@ import {
   Flex,
   IconButton,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
   useToast,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
   SimpleGrid,
   VStack,
   Text,
@@ -49,7 +37,6 @@ export default function AdminStudents() {
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
   const [formMode, setFormMode] = useState<'add' | 'edit'>('add')
   const toast = useToast()
-  const cancelRef = React.useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     fetchStudents()
