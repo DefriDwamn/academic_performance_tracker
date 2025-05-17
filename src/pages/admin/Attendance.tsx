@@ -98,7 +98,7 @@ export default function AdminAttendance() {
           title: 'Attendance added',
           description: 'The attendance record has been successfully added.',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
         })
       } else if (formMode === 'edit' && selectedAttendance) {
@@ -109,7 +109,7 @@ export default function AdminAttendance() {
           title: 'Attendance updated',
           description: 'The attendance record has been successfully updated.',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
         })
       }
@@ -119,7 +119,7 @@ export default function AdminAttendance() {
         title: formMode === 'add' ? 'Add failed' : 'Update failed',
         description: error instanceof Error ? error.message : `Failed to ${formMode} attendance`,
         status: 'error',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
     }
@@ -137,7 +137,7 @@ export default function AdminAttendance() {
         description:
           'Please fill in all required fields and mark attendance for at least one student.',
         status: 'error',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
       return
@@ -158,7 +158,7 @@ export default function AdminAttendance() {
         title: 'Attendance uploaded',
         description: `Attendance records for ${records.length} students have been successfully uploaded.`,
         status: 'success',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
       onClose()
@@ -167,7 +167,7 @@ export default function AdminAttendance() {
         title: 'Upload failed',
         description: error instanceof Error ? error.message : 'Failed to upload attendance records',
         status: 'error',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
     }

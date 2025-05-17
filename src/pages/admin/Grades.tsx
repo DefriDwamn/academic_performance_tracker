@@ -69,7 +69,7 @@ export default function AdminGrades() {
           title: 'Grade added',
           description: 'The grade has been successfully added.',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
         })
       } else if (formMode === 'edit' && selectedGrade) {
@@ -78,7 +78,7 @@ export default function AdminGrades() {
           title: 'Grade updated',
           description: 'The grade has been successfully updated.',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
         })
       }
@@ -88,7 +88,7 @@ export default function AdminGrades() {
         title: formMode === 'add' ? 'Add failed' : 'Update failed',
         description: error instanceof Error ? error.message : `Failed to ${formMode} grade`,
         status: 'error',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
     }

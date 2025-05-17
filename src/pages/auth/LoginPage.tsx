@@ -53,7 +53,7 @@ export default function LoginPage() {
         toast({
           title: 'Login successful',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
         })
       }

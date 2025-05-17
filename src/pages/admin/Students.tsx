@@ -85,7 +85,7 @@ export default function AdminStudents() {
         title: 'Student deleted',
         description: 'The student has been successfully deleted.',
         status: 'success',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
       onDeleteClose()
@@ -94,7 +94,7 @@ export default function AdminStudents() {
         title: 'Delete failed',
         description: error instanceof Error ? error.message : 'Failed to delete student',
         status: 'error',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
     }
@@ -108,7 +108,7 @@ export default function AdminStudents() {
           title: 'Student added',
           description: 'The student has been successfully added.',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
         })
       } else if (formMode === 'edit' && selectedStudent) {
@@ -117,7 +117,7 @@ export default function AdminStudents() {
           title: 'Student updated',
           description: 'The student has been successfully updated.',
           status: 'success',
-          duration: 3000,
+          duration: 2000,
           isClosable: true,
         })
       }
@@ -127,7 +127,7 @@ export default function AdminStudents() {
         title: formMode === 'add' ? 'Add failed' : 'Update failed',
         description: error instanceof Error ? error.message : `Failed to ${formMode} student`,
         status: 'error',
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
     }

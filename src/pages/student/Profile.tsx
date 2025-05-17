@@ -74,7 +74,7 @@ export default function StudentProfile() {
         title: "Profile updated",
         description: "Your profile has been successfully updated.",
         status: "success",
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
       onClose()
@@ -83,7 +83,7 @@ export default function StudentProfile() {
         title: "Update failed",
         description: error instanceof Error ? error.message : "Failed to update profile",
         status: "error",
-        duration: 3000,
+        duration: 2000,
         isClosable: true,
       })
     }
