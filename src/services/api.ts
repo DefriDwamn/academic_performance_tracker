@@ -72,6 +72,10 @@ export const handleApiError = (error: unknown): string => {
     const axiosError = error as AxiosError
     const responseData = axiosError.response?.data as { message?: string } | undefined
 
+    if (axiosError.response?.status === 500) {
+      return 'Internal server error. Please try again later.'
+    }
+
     return responseData?.message || axiosError.message || 'An error occurred'
   }
 
