@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
   --animation-duration: 0.3s;
@@ -11,7 +11,7 @@
 }
 
 body {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -24,7 +24,9 @@ body {
 .page-transition-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity var(--animation-duration), transform var(--animation-duration);
+  transition:
+    opacity var(--animation-duration),
+    transform var(--animation-duration);
 }
 
 .page-transition-exit {
@@ -35,5 +37,7 @@ body {
 .page-transition-exit-active {
   opacity: 0;
   transform: translateY(-10px);
-  transition: opacity var(--animation-duration), transform var(--animation-duration);
+  transition:
+    opacity var(--animation-duration),
+    transform var(--animation-duration);
 }
