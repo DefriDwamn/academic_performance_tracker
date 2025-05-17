@@ -38,7 +38,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['react-router', 'react-router-dom'],
+    include: ['react-router'],
     force: true
   }
 })
