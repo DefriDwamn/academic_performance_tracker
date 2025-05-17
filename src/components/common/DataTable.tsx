@@ -200,7 +200,7 @@ export function DataTable<T extends Record<string, any>>({
       </TableContainer>
 
       {pagination && totalPages > 0 && (
-        <Flex justify="space-between" align="center" mt={4}>
+        <Flex justify="space-between" align="center" mt={4} direction={{ base: 'column', md: 'row' }} gap={4}>
           <HStack>
             <Text>Rows per page:</Text>
             <Select value={itemsPerPage} onChange={handleItemsPerPageChange} size="sm" w="70px">
@@ -213,8 +213,11 @@ export function DataTable<T extends Record<string, any>>({
           </HStack>
 
           <HStack>
-            <Text>
+            <Text display={{ base: 'none', md: 'block' }}>
               {currentPage} of {totalPages}
+            </Text>
+            <Text display={{ base: 'block', md: 'none' }}>
+              Page {currentPage}/{totalPages}
             </Text>
             <IconButton
               icon={<ChevronLeftIcon />}
