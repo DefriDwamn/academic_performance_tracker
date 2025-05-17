@@ -210,11 +210,16 @@ export default function AdminAnalytics() {
       </AnimatedElement>
 
       <Tabs variant="enclosed" colorScheme="brand" isLazy>
-        <TabList mb={6}>
-          <Tab>System Overview</Tab>
-          <Tab>Student Analysis</Tab>
-          <Tab>Course Analysis</Tab>
-          <Tab>Attendance Analysis</Tab>
+        <TabList mb={6} overflowX="auto" overflowY="hidden" css={{
+          scrollbarWidth: 'none',
+          '::-webkit-scrollbar': {
+            display: 'none'
+          }
+        }}>
+          <Tab whiteSpace="nowrap">System Overview</Tab>
+          <Tab whiteSpace="nowrap">Student Analysis</Tab>
+          <Tab whiteSpace="nowrap">Course Analysis</Tab>
+          <Tab whiteSpace="nowrap">Attendance Analysis</Tab>
         </TabList>
 
         <TabPanels>
@@ -233,26 +238,24 @@ export default function AdminAnalytics() {
                       <Box
                         key="gradeDistribution"
                         ref={(el) => (containerRefs.current['gradeDistribution'] = el)}
-                        height="400px"
-                        minHeight="300px"
+                        height={{ base: "250px", md: "400px" }}
+                        minHeight="250px"
                         width="100%"
                         position="relative"
                         mb={4}
                       >
                         {renderChart(
                           'gradeDistribution',
-                          <PieChart>
+                          <PieChart margin={{ top: 0, right: 0, bottom: 40, left: 0 }}>
                             <Pie
                               data={gradeDistributionData}
                               cx="50%"
-                              cy="50%"
+                              cy="45%"
                               labelLine={false}
                               outerRadius={80}
                               fill="#8884d8"
                               dataKey="value"
-                              label={({ name, percent }) =>
-                                `${name} ${(percent * 100).toFixed(0)}%`
-                              }
+                              label={false}
                             >
                               {gradeDistributionData.map((entry, index) => (
                                 <Cell
@@ -264,8 +267,16 @@ export default function AdminAnalytics() {
                                 />
                               ))}
                             </Pie>
-                            <Tooltip />
-                            <Legend />
+                            <Tooltip content={<CustomTooltip />} />
+                            <Legend 
+                              layout="horizontal" 
+                              verticalAlign="bottom" 
+                              align="center"
+                              wrapperStyle={{
+                                paddingTop: '20px',
+                                fontSize: '12px'
+                              }}
+                            />
                           </PieChart>
                         )}
                       </Box>
@@ -286,8 +297,8 @@ export default function AdminAnalytics() {
                       <Box
                         key="gpaTrend"
                         ref={(el) => (containerRefs.current['gpaTrend'] = el)}
-                        height="400px"
-                        minHeight="300px"
+                        height={{ base: "250px", md: "400px" }}
+                        minHeight="250px"
                         width="100%"
                         position="relative"
                         mb={4}
@@ -298,15 +309,15 @@ export default function AdminAnalytics() {
                             data={gpaTrendData}
                             margin={{
                               top: 5,
-                              right: 30,
-                              left: 20,
+                              right: 20,
+                              left: 0,
                               bottom: 5,
                             }}
                           >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="semester" />
                             <YAxis domain={[0, 4]} />
-                            <Tooltip />
+                            <Tooltip content={<CustomTooltip />} />
                             <Legend />
                             <Line
                               type="monotone"
@@ -336,8 +347,8 @@ export default function AdminAnalytics() {
                       <Box
                         key="coursePerformance"
                         ref={(el) => (containerRefs.current['coursePerformance'] = el)}
-                        height="400px"
-                        minHeight="300px"
+                        height={{ base: "250px", md: "400px" }}
+                        minHeight="250px"
                         width="100%"
                         position="relative"
                         mb={4}
@@ -348,15 +359,15 @@ export default function AdminAnalytics() {
                             data={coursePerformanceData}
                             margin={{
                               top: 5,
-                              right: 30,
-                              left: 20,
+                              right: 20,
+                              left: 0,
                               bottom: 5,
                             }}
                           >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis domain={[0, 100]} />
-                            <Tooltip />
+                            <Tooltip content={<CustomTooltip />} />
                             <Legend />
                             <Bar dataKey="average" fill="#0284c7" name="Average" />
                             <Bar dataKey="highest" fill="#22c55e" name="Highest" />
@@ -381,8 +392,8 @@ export default function AdminAnalytics() {
                       <Box
                         key="monthlyAttendance"
                         ref={(el) => (containerRefs.current['monthlyAttendance'] = el)}
-                        height="400px"
-                        minHeight="300px"
+                        height={{ base: "250px", md: "400px" }}
+                        minHeight="250px"
                         width="100%"
                         position="relative"
                         mb={4}
@@ -393,8 +404,8 @@ export default function AdminAnalytics() {
                             data={monthlyAttendanceData}
                             margin={{
                               top: 5,
-                              right: 30,
-                              left: 20,
+                              right: 20,
+                              left: 0,
                               bottom: 5,
                             }}
                           >
@@ -481,26 +492,26 @@ export default function AdminAnalytics() {
                       </Heading>
                       <Box
                         key="studentPerformance"
-                        height="400px"
-                        mb={6}
-                        minHeight="300px"
+                        height={{ base: "250px", md: "400px" }}
+                        minHeight="250px"
                         width="100%"
                         position="relative"
+                        mb={4}
                       >
                         <ResponsiveContainer width="100%" height="100%">
                           <LineChart
                             data={studentPerformanceData}
                             margin={{
                               top: 5,
-                              right: 30,
-                              left: 20,
+                              right: 20,
+                              left: 0,
                               bottom: 5,
                             }}
                           >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis domain={[0, 4]} />
-                            <Tooltip />
+                            <Tooltip content={<CustomTooltip />} />
                             <Legend />
                             <Line
                               type="monotone"
@@ -526,26 +537,24 @@ export default function AdminAnalytics() {
                           </Heading>
                           <Box
                             key="studentGradeDistribution"
-                            height="300px"
-                            minHeight="200px"
+                            height={{ base: "250px", md: "400px" }}
+                            minHeight="250px"
                             width="100%"
                             position="relative"
                             mb={4}
                           >
                             <ResponsiveContainer width="100%" height="100%">
-                              <PieChart>
+                              <PieChart margin={{ top: 0, right: 0, bottom: 40, left: 0 }}>
                                 <Pie
                                   data={studentReport.academicPerformance.gradeDistribution}
                                   cx="50%"
-                                  cy="50%"
+                                  cy="45%"
                                   labelLine={false}
                                   outerRadius={80}
                                   fill="#8884d8"
                                   dataKey="count"
                                   nameKey="letterGrade"
-                                  label={({ letterGrade, percent }) =>
-                                    `${letterGrade} ${(percent * 100).toFixed(0)}%`
-                                  }
+                                  label={false}
                                 >
                                   {studentReport.academicPerformance.gradeDistribution.map(
                                     (entry, index) => (
@@ -560,8 +569,16 @@ export default function AdminAnalytics() {
                                     )
                                   )}
                                 </Pie>
-                                <Tooltip />
-                                <Legend />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Legend 
+                                  layout="horizontal" 
+                                  verticalAlign="bottom" 
+                                  align="center"
+                                  wrapperStyle={{
+                                    paddingTop: '20px',
+                                    fontSize: '12px'
+                                  }}
+                                />
                               </PieChart>
                             </ResponsiveContainer>
                           </Box>
@@ -573,8 +590,8 @@ export default function AdminAnalytics() {
                           </Heading>
                           <Box
                             key="studentCourseAttendance"
-                            height="300px"
-                            minHeight="200px"
+                            height={{ base: "250px", md: "400px" }}
+                            minHeight="250px"
                             width="100%"
                             position="relative"
                             mb={4}
@@ -584,15 +601,15 @@ export default function AdminAnalytics() {
                                 data={studentReport.attendanceRecord.courseAttendance}
                                 margin={{
                                   top: 5,
-                                  right: 30,
-                                  left: 20,
+                                  right: 20,
+                                  left: 0,
                                   bottom: 5,
                                 }}
                               >
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="courseName" />
                                 <YAxis domain={[0, 100]} />
-                                <Tooltip />
+                                <Tooltip content={<CustomTooltip />} />
                                 <Legend />
                                 <Bar
                                   dataKey="attendanceRate"
@@ -668,26 +685,24 @@ export default function AdminAnalytics() {
 
                           <Box
                             key={`courseGradeDistribution-${course.courseId}`}
-                            height="300px"
-                            minHeight="200px"
+                            height={{ base: "250px", md: "400px" }}
+                            minHeight="250px"
                             width="100%"
                             position="relative"
                             mb={4}
                           >
                             <ResponsiveContainer width="100%" height="100%">
-                              <PieChart>
+                              <PieChart margin={{ top: 0, right: 0, bottom: 40, left: 0 }}>
                                 <Pie
                                   data={course.gradeDistribution}
                                   cx="50%"
-                                  cy="50%"
+                                  cy="45%"
                                   labelLine={false}
                                   outerRadius={80}
                                   fill="#8884d8"
                                   dataKey="count"
                                   nameKey="letterGrade"
-                                  label={({ letterGrade, percent }) =>
-                                    `${letterGrade} ${(percent * 100).toFixed(0)}%`
-                                  }
+                                  label={false}
                                 >
                                   {course.gradeDistribution.map((entry, index) => (
                                     <Cell
@@ -700,8 +715,16 @@ export default function AdminAnalytics() {
                                     />
                                   ))}
                                 </Pie>
-                                <Tooltip />
-                                <Legend />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Legend 
+                                  layout="horizontal" 
+                                  verticalAlign="bottom" 
+                                  align="center"
+                                  wrapperStyle={{
+                                    paddingTop: '20px',
+                                    fontSize: '12px'
+                                  }}
+                                />
                               </PieChart>
                             </ResponsiveContainer>
                           </Box>
@@ -760,19 +783,19 @@ export default function AdminAnalytics() {
                       </Heading>
                       <Box
                         key="attendanceMonthlyTrend"
-                        height="400px"
-                        mb={6}
-                        minHeight="300px"
+                        height={{ base: "250px", md: "400px" }}
+                        minHeight="250px"
                         width="100%"
                         position="relative"
+                        mb={4}
                       >
                         <ResponsiveContainer width="100%" height="100%">
                           <AreaChart
                             data={monthlyAttendanceData}
                             margin={{
                               top: 5,
-                              right: 30,
-                              left: 20,
+                              right: 20,
+                              left: 0,
                               bottom: 5,
                             }}
                           >
@@ -798,18 +821,19 @@ export default function AdminAnalytics() {
                       </Heading>
                       <Box
                         key="attendanceCourseComparison"
-                        height="400px"
-                        minHeight="300px"
+                        height={{ base: "250px", md: "400px" }}
+                        minHeight="250px"
                         width="100%"
                         position="relative"
+                        mb={4}
                       >
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart
                             data={attendanceStatistics.courseAttendance}
                             margin={{
                               top: 5,
-                              right: 30,
-                              left: 20,
+                              right: 20,
+                              left: 0,
                               bottom: 5,
                             }}
                           >
