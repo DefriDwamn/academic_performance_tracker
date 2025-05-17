@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import {
   Box,
   Heading,
@@ -57,6 +57,30 @@ export default function AdminAnalytics() {
   } = useAnalyticsStore()
   const { students, fetchStudents } = useStudentStore()
   const [selectedStudent, setSelectedStudent] = useState<string>("")
+  const [containerSizes, setContainerSizes] = useState<{ [key: string]: { width: number; height: number } }>({})
+  const containerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
+
+  useEffect(() => {
+    const updateContainerSizes = () => {
+      const newSizes: { [key: string]: { width: number; height: number } } = {}
+      Object.entries(containerRefs.current).forEach(([key, element]) => {
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          newSizes[key] = { width: rect.width, height: rect.height }
+        }
+      })
+      setContainerSizes(newSizes)
+    }
+
+    updateContainerSizes()
+    // Force update after a small delay to ensure all containers are properly sized
+    const timer = setTimeout(updateContainerSizes, 100)
+    window.addEventListener('resize', updateContainerSizes)
+    return () => {
+      window.removeEventListener('resize', updateContainerSizes)
+      clearTimeout(timer)
+    }
+  }, [])
 
   useEffect(() => {
     fetchPerformanceMetrics()
@@ -155,6 +179,19 @@ export default function AdminAnalytics() {
   const monthlyAttendanceData = prepareMonthlyAttendanceData()
   const studentPerformanceData = prepareStudentPerformanceData()
 
+  const renderChart = (chartId: string, children: React.ReactElement) => {
+    const size = containerSizes[chartId]
+    if (!size || size.width === 0 || size.height === 0) {
+      return null
+    }
+
+    return (
+      <ResponsiveContainer width="100%" height="100%">
+        {children}
+      </ResponsiveContainer>
+    )
+  }
+
   return (
     <Box>
       <AnimatedElement animation="fadeIn">
@@ -163,7 +200,7 @@ export default function AdminAnalytics() {
         </Heading>
       </AnimatedElement>
 
-      <Tabs variant="enclosed" colorScheme="brand">
+      <Tabs variant="enclosed" colorScheme="brand" isLazy>
         <TabList mb={6}>
           <Tab>System Overview</Tab>
           <Tab>Student Analysis</Tab>
@@ -184,8 +221,16 @@ export default function AdminAnalytics() {
                     {isLoading ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
-                      <Box height="300px">
-                        <ResponsiveContainer width="100%" height="100%">
+                      <Box 
+                        key="gradeDistribution"
+                        ref={el => containerRefs.current['gradeDistribution'] = el}
+                        height="400px" 
+                        minHeight="300px"
+                        width="100%"
+                        position="relative"
+                        mb={4}
+                      >
+                        {renderChart('gradeDistribution', (
                           <PieChart>
                             <Pie
                               data={gradeDistributionData}
@@ -210,7 +255,7 @@ export default function AdminAnalytics() {
                             <Tooltip />
                             <Legend />
                           </PieChart>
-                        </ResponsiveContainer>
+                        ))}
                       </Box>
                     )}
                   </CardBody>
@@ -226,8 +271,16 @@ export default function AdminAnalytics() {
                     {isLoading ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
-                      <Box height="300px">
-                        <ResponsiveContainer width="100%" height="100%">
+                      <Box 
+                        key="gpaTrend"
+                        ref={el => containerRefs.current['gpaTrend'] = el}
+                        height="400px" 
+                        minHeight="300px"
+                        width="100%"
+                        position="relative"
+                        mb={4}
+                      >
+                        {renderChart('gpaTrend', (
                           <LineChart
                             data={gpaTrendData}
                             margin={{
@@ -244,14 +297,14 @@ export default function AdminAnalytics() {
                             <Legend />
                             <Line type="monotone" dataKey="gpa" stroke="#0284c7" activeDot={{ r: 8 }} />
                           </LineChart>
-                        </ResponsiveContainer>
+                        ))}
                       </Box>
                     )}
                   </CardBody>
                 </Card>
               </AnimatedElement>
             </SimpleGrid>
-
+            
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
               <AnimatedElement animation="slideUp" delay={300}>
                 <Card>
@@ -262,8 +315,16 @@ export default function AdminAnalytics() {
                     {isLoading ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
-                      <Box height="300px">
-                        <ResponsiveContainer width="100%" height="100%">
+                      <Box 
+                        key="coursePerformance"
+                        ref={el => containerRefs.current['coursePerformance'] = el}
+                        height="400px" 
+                        minHeight="300px"
+                        width="100%"
+                        position="relative"
+                        mb={4}
+                      >
+                        {renderChart('coursePerformance', (
                           <BarChart
                             data={coursePerformanceData}
                             margin={{
@@ -282,7 +343,7 @@ export default function AdminAnalytics() {
                             <Bar dataKey="highest" fill="#22c55e" name="Highest" />
                             <Bar dataKey="lowest" fill="#ef4444" name="Lowest" />
                           </BarChart>
-                        </ResponsiveContainer>
+                        ))}
                       </Box>
                     )}
                   </CardBody>
@@ -298,8 +359,16 @@ export default function AdminAnalytics() {
                     {isLoading ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
-                      <Box height="300px">
-                        <ResponsiveContainer width="100%" height="100%">
+                      <Box 
+                        key="monthlyAttendance"
+                        ref={el => containerRefs.current['monthlyAttendance'] = el}
+                        height="400px" 
+                        minHeight="300px"
+                        width="100%"
+                        position="relative"
+                        mb={4}
+                      >
+                        {renderChart('monthlyAttendance', (
                           <AreaChart
                             data={monthlyAttendanceData}
                             margin={{
@@ -323,7 +392,7 @@ export default function AdminAnalytics() {
                               name="Attendance Rate %"
                             />
                           </AreaChart>
-                        </ResponsiveContainer>
+                        ))}
                       </Box>
                     )}
                   </CardBody>
@@ -382,7 +451,14 @@ export default function AdminAnalytics() {
                       <Heading size="sm" mb={4}>
                         Performance Comparison
                       </Heading>
-                      <Box height="300px" mb={6}>
+                      <Box 
+                        key="studentPerformance"
+                        height="400px" 
+                        mb={6} 
+                        minHeight="300px"
+                        width="100%"
+                        position="relative"
+                      >
                         <ResponsiveContainer width="100%" height="100%">
                           <LineChart
                             data={studentPerformanceData}
@@ -415,7 +491,14 @@ export default function AdminAnalytics() {
                           <Heading size="sm" mb={4}>
                             Grade Distribution
                           </Heading>
-                          <Box height="200px">
+                          <Box 
+                            key="studentGradeDistribution"
+                            height="300px" 
+                            minHeight="200px"
+                            width="100%"
+                            position="relative"
+                            mb={4}
+                          >
                             <ResponsiveContainer width="100%" height="100%">
                               <PieChart>
                                 <Pie
@@ -450,7 +533,14 @@ export default function AdminAnalytics() {
                           <Heading size="sm" mb={4}>
                             Course Attendance
                           </Heading>
-                          <Box height="200px">
+                          <Box 
+                            key="studentCourseAttendance"
+                            height="300px" 
+                            minHeight="200px"
+                            width="100%"
+                            position="relative"
+                            mb={4}
+                          >
                             <ResponsiveContainer width="100%" height="100%">
                               <BarChart
                                 data={studentReport.attendanceRecord.courseAttendance}
@@ -530,7 +620,14 @@ export default function AdminAnalytics() {
                             </Stat>
                           </SimpleGrid>
 
-                          <Box height="200px" mb={6}>
+                          <Box 
+                            key={`courseGradeDistribution-${course.courseId}`}
+                            height="300px" 
+                            minHeight="200px"
+                            width="100%"
+                            position="relative"
+                            mb={4}
+                          >
                             <ResponsiveContainer width="100%" height="100%">
                               <PieChart>
                                 <Pie
@@ -610,7 +707,14 @@ export default function AdminAnalytics() {
                       <Heading size="sm" mb={4}>
                         Monthly Attendance Trend
                       </Heading>
-                      <Box height="300px" mb={6}>
+                      <Box 
+                        key="attendanceMonthlyTrend"
+                        height="400px" 
+                        mb={6} 
+                        minHeight="300px"
+                        width="100%"
+                        position="relative"
+                      >
                         <ResponsiveContainer width="100%" height="100%">
                           <AreaChart
                             data={monthlyAttendanceData}
@@ -641,7 +745,13 @@ export default function AdminAnalytics() {
                       <Heading size="sm" mb={4}>
                         Course Attendance Comparison
                       </Heading>
-                      <Box height="300px">
+                      <Box 
+                        key="attendanceCourseComparison"
+                        height="400px" 
+                        minHeight="300px"
+                        width="100%"
+                        position="relative"
+                      >
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart
                             data={attendanceStatistics.courseAttendance}
