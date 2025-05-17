@@ -69,42 +69,44 @@ export default function DashboardLayout() {
     icon,
     children,
     to,
+    onClick,
     ...rest
   }: {
     icon: React.ReactElement
     children: React.ReactNode
-    to: string
+    to?: string
+    onClick?: () => void
   }) => {
-    const isActive =
-      location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(`${to}/`))
-    return (
-      <Link to={to} style={{ textDecoration: 'none', width: '100%' }}>
-        <Flex
-          align="center"
-          p="3"
-          mx="2"
-          borderRadius="md"
-          role="group"
-          cursor="pointer"
-          bg={isActive ? 'brand.50' : 'transparent'}
-          color={isActive ? 'brand.600' : 'inherit'}
-          fontWeight={isActive ? 'medium' : 'normal'}
-          _hover={{
-            bg: 'brand.50',
-            color: 'brand.600',
-          }}
-          {...rest}
-        >
-          {icon && (
-            <Box mr="3" color={isActive ? 'brand.600' : 'gray.500'}>
-              {icon}
-            </Box>
-          )}
-          {children}
-          {isActive && <ChevronRightIcon ml="auto" boxSize={4} />}
-        </Flex>
-      </Link>
+    const isActive = to ? (location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(`${to}/`))) : false
+    const content = (
+      <Flex
+        align="center"
+        p="3"
+        mx="2"
+        borderRadius="md"
+        role="group"
+        cursor="pointer"
+        bg={isActive ? 'brand.50' : 'transparent'}
+        color={isActive ? 'brand.600' : 'inherit'}
+        fontWeight={isActive ? 'medium' : 'normal'}
+        _hover={{
+          bg: 'brand.50',
+          color: 'brand.600',
+        }}
+        onClick={onClick}
+        {...rest}
+      >
+        {icon && (
+          <Box mr="3" color={isActive ? 'brand.600' : 'gray.500'}>
+            {icon}
+          </Box>
+        )}
+        {children}
+        {isActive && <ChevronRightIcon ml="auto" boxSize={4} />}
+      </Flex>
     )
+
+    return to ? <Link to={to} style={{ textDecoration: 'none', width: '100%' }}>{content}</Link> : content
   }
 
   const SidebarContent = () => (
