@@ -147,9 +147,6 @@ export default function DashboardLayout() {
             <NavItem icon={<BarChart size={18} />} to="/dashboard/analytics">
               My Analytics
             </NavItem>
-            <NavItem icon={<User size={18} />} to="/dashboard/profile">
-              Profile
-            </NavItem>
           </>
         ) : (
           <>
@@ -167,12 +164,6 @@ export default function DashboardLayout() {
             </NavItem>
           </>
         )}
-
-        <Divider my={4} />
-
-        <NavItem icon={<BarChart size={18} />} onClick={handleLogout}>
-          Logout
-        </NavItem>
       </VStack>
     </Box>
   )
