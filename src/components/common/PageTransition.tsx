@@ -1,26 +1,26 @@
 'use client'
 
-import { type ReactNode, useRef, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Box } from '@chakra-ui/react'
 import anime from 'animejs'
 
 interface PageTransitionProps {
-  children: ReactNode
+  children: React.ReactNode
 }
 
-export const PageTransition = ({ children }: PageTransitionProps) => {
+export function PageTransition({ children }: PageTransitionProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (ref.current) {
-      anime({
-        targets: ref.current,
-        opacity: [0, 1],
-        translateY: [10, 0],
-        easing: 'easeOutExpo',
-        duration: 500,
-      })
-    }
+    if (!ref.current) return
+
+    anime({
+      targets: ref.current,
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 300,
+      easing: 'easeOutQuad'
+    })
   }, [])
 
   return (
