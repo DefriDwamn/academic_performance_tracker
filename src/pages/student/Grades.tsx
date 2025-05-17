@@ -90,24 +90,26 @@ export default function StudentGrades() {
     {
       header: "Grade",
       accessor: (grade: Grade) => (
-        <HStack spacing={2}>
-          <Text fontWeight="bold">{grade.grade}%</Text>
-          <Badge
-            colorScheme={
-              grade.letterGrade === "A"
-                ? "green"
-                : grade.letterGrade === "B"
-                  ? "blue"
-                  : grade.letterGrade === "C"
-                    ? "yellow"
-                    : grade.letterGrade === "D"
-                      ? "orange"
-                      : "red"
-            }
-          >
-            {grade.letterGrade}
-          </Badge>
-        </HStack>
+        <Box>
+          <HStack spacing={2}>
+            <Text as="span" fontWeight="bold">{grade.grade}%</Text>
+            <Badge
+              colorScheme={
+                grade.letterGrade === "A"
+                  ? "green"
+                  : grade.letterGrade === "B"
+                    ? "blue"
+                    : grade.letterGrade === "C"
+                      ? "yellow"
+                      : grade.letterGrade === "D"
+                        ? "orange"
+                        : "red"
+              }
+            >
+              {grade.letterGrade}
+            </Badge>
+          </HStack>
+        </Box>
       ),
     },
     {
@@ -141,10 +143,10 @@ export default function StudentGrades() {
           </CardHeader>
           <CardBody>
             <Flex align="center" gap={4}>
-              <Text fontSize="3xl" fontWeight="bold" color="brand.600">
+              <Text as="span" fontSize="3xl" fontWeight="bold" color="brand.600">
                 {isLoading ? <Skeleton height="36px" width="80px" /> : currentGPA.toFixed(2)}
               </Text>
-              <Text color="gray.600">out of 4.0</Text>
+              <Text as="span" color="gray.600">out of 4.0</Text>
             </Flex>
           </CardBody>
         </Card>
@@ -153,7 +155,7 @@ export default function StudentGrades() {
       <AnimatedElement animation="slideUp" delay={200}>
         <Flex mb={6} gap={4} direction={{ base: "column", md: "row" }}>
           <Box>
-            <Text mb={2} fontWeight="medium">
+            <Text as="span" mb={2} fontWeight="medium">
               Filter by Semester
             </Text>
             <Select value={selectedSemester} onChange={(e) => setSelectedSemester(e.target.value)}>
@@ -166,7 +168,7 @@ export default function StudentGrades() {
             </Select>
           </Box>
           <Box>
-            <Text mb={2} fontWeight="medium">
+            <Text as="span" mb={2} fontWeight="medium">
               Filter by Year
             </Text>
             <Select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
@@ -197,7 +199,7 @@ export default function StudentGrades() {
               <DataTable<Grade>
                 columns={columns}
                 data={filteredGrades}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => `${item.studentId}-${item.courseId}-${item.semester}-${item.academicYear}`}
                 isLoading={isLoading}
                 onRowClick={handleRowClick}
                 searchable={true}
@@ -221,7 +223,7 @@ export default function StudentGrades() {
                 <Flex justify="space-between" align="center">
                   <Heading size="md">{selectedGrade.courseName}</Heading>
                   <HStack>
-                    <Text fontWeight="bold" fontSize="xl">
+                    <Text as="span" fontWeight="bold" fontSize="xl">
                       {selectedGrade.grade}%
                     </Text>
                     <Badge
@@ -249,33 +251,33 @@ export default function StudentGrades() {
                 <Box bg="gray.50" p={4} borderRadius="md">
                   <Stack spacing={3}>
                     <Flex justify="space-between">
-                      <Text color="gray.600">Semester</Text>
-                      <Text fontWeight="medium">
+                      <Text as="span" color="gray.600">Semester</Text>
+                      <Text as="span" fontWeight="medium">
                         {selectedGrade.semester} {selectedGrade.academicYear}
                       </Text>
                     </Flex>
                     <Flex justify="space-between">
-                      <Text color="gray.600">Credit Hours</Text>
-                      <Text fontWeight="medium">{selectedGrade.creditHours}</Text>
+                      <Text as="span" color="gray.600">Credit Hours</Text>
+                      <Text as="span" fontWeight="medium">{selectedGrade.creditHours}</Text>
                     </Flex>
                     <Flex justify="space-between">
-                      <Text color="gray.600">Instructor</Text>
-                      <Text fontWeight="medium">{selectedGrade.instructorName}</Text>
+                      <Text as="span" color="gray.600">Instructor</Text>
+                      <Text as="span" fontWeight="medium">{selectedGrade.instructorName}</Text>
                     </Flex>
                     <Flex justify="space-between">
-                      <Text color="gray.600">Submission Date</Text>
-                      <Text fontWeight="medium">{new Date(selectedGrade.submissionDate).toLocaleDateString()}</Text>
+                      <Text as="span" color="gray.600">Submission Date</Text>
+                      <Text as="span" fontWeight="medium">{new Date(selectedGrade.submissionDate).toLocaleDateString()}</Text>
                     </Flex>
                   </Stack>
                 </Box>
 
                 {selectedGrade.comments && (
                   <Box>
-                    <Text fontWeight="medium" mb={2}>
+                    <Text as="span" fontWeight="medium" mb={2}>
                       Instructor Comments
                     </Text>
                     <Box bg="gray.50" p={4} borderRadius="md">
-                      <Text>{selectedGrade.comments}</Text>
+                      <Text as="span">{selectedGrade.comments}</Text>
                     </Box>
                   </Box>
                 )}
