@@ -31,9 +31,10 @@ import {
   Tr,
   Th,
   Td,
-  Checkbox,
+  RadioGroup,
+  Radio,
 } from "@chakra-ui/react"
-import { AddIcon, EditIcon, UploadIcon } from "@chakra-ui/icons"
+import { AddIcon, EditIcon, AttachmentIcon } from "@chakra-ui/icons"
 import { useAttendanceStore } from "../../store/attendanceStore"
 import { useStudentStore } from "../../store/studentStore"
 import { DataTable } from "../../components/common/DataTable"
@@ -195,7 +196,7 @@ export default function AdminAttendance() {
     },
     {
       header: "Course",
-      accessor: "courseName",
+      accessor: (record: Attendance) => record.courseName,
     },
     {
       header: "Status",
@@ -271,7 +272,7 @@ export default function AdminAttendance() {
             <Button leftIcon={<AddIcon />} variant="outline" onClick={handleAddAttendance}>
               Add Single
             </Button>
-            <Button leftIcon={<UploadIcon />} colorScheme="brand" onClick={handleBulkAttendance}>
+            <Button leftIcon={<AttachmentIcon />} colorScheme="brand" onClick={handleBulkAttendance}>
               Bulk Upload
             </Button>
           </HStack>
@@ -389,28 +390,25 @@ export default function AdminAttendance() {
                         <Tr key={student.id}>
                           <Td>{`${student.firstName} ${student.lastName}`}</Td>
                           <Td>
-                            <Checkbox
-                              isChecked={bulkAttendanceData[student.id] === "present"}
-                              onChange={() => handleStatusChange(student.id, "present")}
-                            />
-                          </Td>
-                          <Td>
-                            <Checkbox
-                              isChecked={bulkAttendanceData[student.id] === "absent"}
-                              onChange={() => handleStatusChange(student.id, "absent")}
-                            />
-                          </Td>
-                          <Td>
-                            <Checkbox
-                              isChecked={bulkAttendanceData[student.id] === "late"}
-                              onChange={() => handleStatusChange(student.id, "late")}
-                            />
-                          </Td>
-                          <Td>
-                            <Checkbox
-                              isChecked={bulkAttendanceData[student.id] === "excused"}
-                              onChange={() => handleStatusChange(student.id, "excused")}
-                            />
+                            <RadioGroup
+                              value={bulkAttendanceData[student.id] || ""}
+                              onChange={(value) => handleStatusChange(student.id, value as "present" | "absent" | "late" | "excused")}
+                            >
+                              <HStack spacing={4}>
+                                <Radio value="present" isChecked={bulkAttendanceData[student.id] === "present"}>
+                                  Present
+                                </Radio>
+                                <Radio value="absent" isChecked={bulkAttendanceData[student.id] === "absent"}>
+                                  Absent
+                                </Radio>
+                                <Radio value="late" isChecked={bulkAttendanceData[student.id] === "late"}>
+                                  Late
+                                </Radio>
+                                <Radio value="excused" isChecked={bulkAttendanceData[student.id] === "excused"}>
+                                  Excused
+                                </Radio>
+                              </HStack>
+                            </RadioGroup>
                           </Td>
                         </Tr>
                       ))}
