@@ -129,11 +129,13 @@ export const GradeForm = ({
           <FormControl isInvalid={!!errors.courseId}>
             <FormLabel>Course</FormLabel>
             <Select placeholder="Select course" {...register("courseId")} onChange={handleCourseChange}>
-              {courses.map((course) => (
-                <option key={course.id} value={course.id}>
-                  {course.name}
-                </option>
-              ))}
+              {courses.map((course) => {
+                return (
+                  <option key={course.id} value={course.id}>
+                    {course.name}
+                  </option>
+                );
+              })}
             </Select>
             <FormErrorMessage>{errors.courseId?.message}</FormErrorMessage>
           </FormControl>
@@ -220,11 +222,13 @@ export const GradeForm = ({
           <FormControl isInvalid={!!errors.instructorId}>
             <FormLabel>Instructor</FormLabel>
             <Select placeholder="Select instructor" {...register("instructorId")} onChange={handleInstructorChange}>
-              {instructors.map((instructor) => (
-                <option key={instructor.id} value={instructor.id}>
-                  {instructor.name}
-                </option>
-              ))}
+              {instructors.map((instructor) => {
+                return (
+                  <option key={instructor.id} value={instructor.id}>
+                    {instructor.name}
+                  </option>
+                );
+              })}
             </Select>
             <FormErrorMessage>{errors.instructorId?.message}</FormErrorMessage>
           </FormControl>
