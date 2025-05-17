@@ -62,6 +62,7 @@ export default function AdminAnalytics() {
     [key: string]: { width: number; height: number }
   }>({})
   const containerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
+  const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
     const updateContainerSizes = () => {
@@ -75,15 +76,33 @@ export default function AdminAnalytics() {
       setContainerSizes(newSizes)
     }
 
+    // Initial update
     updateContainerSizes()
-    // Force update after a small delay to ensure all containers are properly sized
+
+    // Update after a small delay to ensure all containers are properly sized
     const timer = setTimeout(updateContainerSizes, 100)
+
+    // Update on window resize
     window.addEventListener('resize', updateContainerSizes)
+
+    // Update when tab changes
+    const resizeObserver = new ResizeObserver(() => {
+      updateContainerSizes()
+    })
+
+    // Observe all chart containers
+    Object.values(containerRefs.current).forEach((element) => {
+      if (element) {
+        resizeObserver.observe(element)
+      }
+    })
+
     return () => {
       window.removeEventListener('resize', updateContainerSizes)
       clearTimeout(timer)
+      resizeObserver.disconnect()
     }
-  }, [])
+  }, [activeTab]) // Add activeTab as dependency
 
   useEffect(() => {
     fetchPerformanceMetrics()
@@ -191,7 +210,20 @@ export default function AdminAnalytics() {
   const renderChart = (chartId: string, children: React.ReactElement) => {
     const size = containerSizes[chartId]
     if (!size || size.width === 0 || size.height === 0) {
-      return null
+      return (
+        <Box
+          height={{ base: "250px", md: "400px" }}
+          minHeight="250px"
+          width="100%"
+          bg="gray.50"
+          borderRadius="md"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Text color="gray.500">Loading chart...</Text>
+        </Box>
+      )
     }
 
     return (
@@ -209,7 +241,12 @@ export default function AdminAnalytics() {
         </Heading>
       </AnimatedElement>
 
-      <Tabs variant="enclosed" colorScheme="brand" isLazy>
+      <Tabs 
+        variant="enclosed" 
+        colorScheme="brand" 
+        isLazy
+        onChange={(index) => setActiveTab(index)}
+      >
         <TabList mb={6} overflowX="auto" overflowY="hidden" css={{
           scrollbarWidth: 'none',
           '::-webkit-scrollbar': {
