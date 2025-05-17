@@ -173,7 +173,7 @@ export const GradeForm = ({
               name="grade"
               control={control}
               render={({ field }) => (
-                <NumberInput min={0} max={100} value={field.value} onChange={handleGradeChange}>
+                <NumberInput min={0} max={100} value={field.value} onChange={(_, valueAsNumber) => handleGradeChange(_, valueAsNumber)}>
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -205,7 +205,7 @@ export const GradeForm = ({
               name="creditHours"
               control={control}
               render={({ field }) => (
-                <NumberInput min={0} max={12} value={field.value} onChange={field.onChange}>
+                <NumberInput min={0} max={12} value={field.value} onChange={(_, valueAsNumber) => field.onChange(valueAsNumber)}>
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
