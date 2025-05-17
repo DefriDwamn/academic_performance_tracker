@@ -1,6 +1,9 @@
 import asyncHandler from "express-async-handler"
 import Student from "../models/studentModel.js"
 import User from "../models/userModel.js"
+import Grade from "../models/gradeModel.js"
+import Attendance from "../models/attendanceModel.js"
+import mongoose from "mongoose"
 
 // @desc    Get all students
 // @route   GET /api/students
@@ -86,17 +89,37 @@ const createStudent = asyncHandler(async (req, res) => {
     throw new Error("Student already exists")
   }
 
+  // Validate dates
+  const dateOfBirthDate = new Date(dateOfBirth)
+  const enrollmentDateDate = new Date(enrollmentDate)
+  const graduationDateDate = graduationDate ? new Date(graduationDate) : null
+
+  if (isNaN(dateOfBirthDate.getTime())) {
+    res.status(400)
+    throw new Error("Invalid date of birth")
+  }
+
+  if (isNaN(enrollmentDateDate.getTime())) {
+    res.status(400)
+    throw new Error("Invalid enrollment date")
+  }
+
+  if (graduationDate && isNaN(graduationDateDate.getTime())) {
+    res.status(400)
+    throw new Error("Invalid graduation date")
+  }
+
   const student = await Student.create({
     firstName,
     lastName,
     email,
     studentId,
-    dateOfBirth: new Date(dateOfBirth),
+    dateOfBirth: dateOfBirthDate,
     gender,
     address,
     phoneNumber,
-    enrollmentDate: new Date(enrollmentDate),
-    graduationDate: graduationDate ? new Date(graduationDate) : undefined,
+    enrollmentDate: enrollmentDateDate,
+    graduationDate: graduationDateDate,
     department,
     program,
     status,
@@ -151,15 +174,23 @@ const updateStudent = asyncHandler(async (req, res) => {
         student.lastName = req.body.lastName || student.lastName
         student.email = req.body.email || student.email
         student.studentId = req.body.studentId || student.studentId
-        student.dateOfBirth = req.body.dateOfBirth || student.dateOfBirth
+        student.dateOfBirth = req.body.dateOfBirth ? new Date(req.body.dateOfBirth) : student.dateOfBirth
         student.gender = req.body.gender || student.gender
         student.address = req.body.address || student.address
         student.phoneNumber = req.body.phoneNumber || student.phoneNumber
-        student.enrollmentDate = req.body.enrollmentDate || student.enrollmentDate
-        student.graduationDate = req.body.graduationDate || student.graduationDate
+        student.enrollmentDate = req.body.enrollmentDate ? new Date(req.body.enrollmentDate) : student.enrollmentDate
+        student.graduationDate = req.body.graduationDate ? new Date(req.body.graduationDate) : student.graduationDate
         student.department = req.body.department || student.department
         student.program = req.body.program || student.program
         student.status = req.body.status || student.status
+
+        // If email was updated, also update the associated user's email
+        if (req.body.email && req.body.email !== student.email && student.user) {
+          await User.findByIdAndUpdate(student.user, { 
+            email: req.body.email,
+            name: `${student.firstName} ${student.lastName}`
+          })
+        }
       }
 
       const updatedStudent = await student.save()
@@ -185,13 +216,30 @@ const deleteStudent = asyncHandler(async (req, res) => {
   const student = await Student.findById(req.params.id)
 
   if (student) {
-    // Also delete the associated user account
-    if (student.user) {
-      await User.findByIdAndDelete(student.user)
-    }
+    try {
+      // Delete associated user account
+      if (student.user) {
+        await User.findByIdAndDelete(student.user)
+      }
 
-    await student.remove()
-    res.json({ message: "Student removed" })
+      // Delete all grades for this student
+      const gradesResult = await Grade.deleteMany({ 
+        studentId: new mongoose.Types.ObjectId(student._id) 
+      })
+
+      // Delete all attendance records for this student
+      const attendanceResult = await Attendance.deleteMany({ 
+        studentId: new mongoose.Types.ObjectId(student._id) 
+      })
+
+      // Finally delete the student
+      await Student.findByIdAndDelete(req.params.id)
+
+      res.json({ message: "Student and all related records removed" })
+    } catch (error) {
+      res.status(500)
+      throw new Error(`Failed to delete student and related records: ${error.message}`)
+    }
   } else {
     res.status(404)
     throw new Error("Student not found")
