@@ -8,6 +8,14 @@ const config: ThemeConfig = {
 
 export const theme = extendTheme({
   config,
+  styles: {
+    global: (props: { colorMode: 'light' | 'dark' }) => ({
+      body: {
+        bg: props.colorMode === 'light' ? 'gray.50' : 'gray.900',
+        color: props.colorMode === 'light' ? 'gray.800' : 'whiteAlpha.900',
+      },
+    }),
+  },
   colors: {
     brand: {
       50: '#f0f9ff',
@@ -41,6 +49,28 @@ export const theme = extendTheme({
           },
         },
       },
+    },
+    Input: {
+      variants: {
+        outline: (props: { colorMode: 'light' | 'dark' }) => ({
+          field: {
+            bg: props.colorMode === 'light' ? 'white' : 'gray.700',
+            borderColor: props.colorMode === 'light' ? 'gray.200' : 'gray.600',
+            _hover: {
+              borderColor: props.colorMode === 'light' ? 'gray.300' : 'gray.500',
+            },
+            _focus: {
+              borderColor: 'brand.500',
+              boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)`,
+            },
+          },
+        }),
+      },
+    },
+    FormLabel: {
+      baseStyle: (props: { colorMode: 'light' | 'dark' }) => ({
+        color: props.colorMode === 'light' ? 'gray.700' : 'gray.200',
+      }),
     },
   },
 })

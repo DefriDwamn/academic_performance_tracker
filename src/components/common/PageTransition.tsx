@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { Box } from '@chakra-ui/react'
+import { Box, useColorModeValue } from '@chakra-ui/react'
 import anime from 'animejs'
 
 interface PageTransitionProps {
@@ -10,6 +10,7 @@ interface PageTransitionProps {
 
 export function PageTransition({ children }: PageTransitionProps) {
   const ref = useRef<HTMLDivElement>(null)
+  const bgColor = useColorModeValue('white', 'gray.800')
 
   useEffect(() => {
     if (!ref.current) return
@@ -24,7 +25,13 @@ export function PageTransition({ children }: PageTransitionProps) {
   }, [])
 
   return (
-    <Box ref={ref} opacity={0}>
+    <Box 
+      ref={ref} 
+      opacity={0} 
+      bg={bgColor}
+      position="relative"
+      zIndex={0}
+    >
       {children}
     </Box>
   )

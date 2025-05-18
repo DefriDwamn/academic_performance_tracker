@@ -263,9 +263,22 @@ export default function DashboardLayout() {
       <Flex flex="1" overflow="hidden">
         {/* Sidebar - desktop */}
         {isDesktop && (
-          <AnimatedElement animation="slideIn" w="250px">
-            <SidebarContent />
-          </AnimatedElement>
+          <Box 
+            w="250px" 
+            position="relative" 
+            zIndex={1}
+            bg={bgColor}
+            borderRight="1px"
+            borderRightColor={borderColor}
+          >
+            <AnimatedElement 
+              animation="slideIn" 
+              w="full"
+              h="full"
+            >
+              <SidebarContent />
+            </AnimatedElement>
+          </Box>
         )}
 
         {/* Sidebar - mobile */}

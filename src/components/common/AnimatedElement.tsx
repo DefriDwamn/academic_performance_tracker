@@ -1,7 +1,7 @@
 'use client'
 
 import { type ReactNode, useRef, useEffect } from 'react'
-import { Box, type BoxProps } from '@chakra-ui/react'
+import { Box, type BoxProps, useColorModeValue } from '@chakra-ui/react'
 import anime from 'animejs'
 
 interface AnimatedElementProps extends BoxProps {
@@ -19,6 +19,7 @@ export const AnimatedElement = ({
   ...props
 }: AnimatedElementProps) => {
   const ref = useRef<HTMLDivElement>(null)
+  const bgColor = useColorModeValue('white', 'gray.800')
 
   useEffect(() => {
     if (!ref.current) return
@@ -47,8 +48,8 @@ export const AnimatedElement = ({
       case 'slideIn':
         animeConfig = {
           ...animeConfig,
-          opacity: [0, 1],
-          translateX: [-20, 0],
+          translateX: ['-100%', 0],
+          opacity: [1, 1],
         }
         break
       case 'scale':
@@ -70,7 +71,13 @@ export const AnimatedElement = ({
   }, [animation, delay, duration])
 
   return (
-    <Box ref={ref} opacity={animation === 'pulse' ? 1 : 0} {...props}>
+    <Box 
+      ref={ref} 
+      opacity={1}
+      bg={bgColor}
+      position="relative"
+      {...props}
+    >
       {children}
     </Box>
   )

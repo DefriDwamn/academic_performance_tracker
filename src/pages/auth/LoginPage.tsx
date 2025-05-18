@@ -16,8 +16,12 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  useColorMode,
+  useColorModeValue,
+  Tooltip,
+  Flex,
 } from '@chakra-ui/react'
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { ViewIcon, ViewOffIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -36,6 +40,17 @@ export default function LoginPage() {
   const { login, isLoading, error } = useAuthStore()
   const navigate = useNavigate()
   const toast = useToast()
+  const { colorMode, toggleColorMode } = useColorMode()
+
+  // Color mode values
+  const bgColor = useColorModeValue('white', 'gray.800')
+  const textColor = useColorModeValue('gray.600', 'gray.300')
+  const labelColor = useColorModeValue('gray.700', 'gray.200')
+  const inputBgColor = useColorModeValue('white', 'gray.700')
+  const inputBorderColor = useColorModeValue('gray.200', 'gray.600')
+  const demoBgColor = useColorModeValue('gray.50', 'gray.700')
+  const errorBgColor = useColorModeValue('red.50', 'red.900')
+  const errorTextColor = useColorModeValue('red.500', 'red.300')
 
   const {
     register,
@@ -64,16 +79,29 @@ export default function LoginPage() {
 
   return (
     <AnimatedElement animation="fadeIn">
+      <Flex justifyContent="flex-end" mb={4}>
+        <Tooltip
+          label={colorMode === 'light' ? 'Включить темную тему' : 'Включить светлую тему'}
+        >
+          <IconButton
+            size="sm"
+            aria-label="Переключить тему"
+            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+            variant="ghost"
+            onClick={toggleColorMode}
+          />
+        </Tooltip>
+      </Flex>
       <VStack spacing={6} align="stretch">
         <Box textAlign="center">
-          <Heading size="lg" mb={2}>
+          <Heading size="lg" mb={2} color={useColorModeValue('gray.800', 'white')}>
             Welcome Back
           </Heading>
-          <Text color="gray.600">Sign in to your account</Text>
+          <Text color={textColor}>Sign in to your account</Text>
         </Box>
 
         {error && (
-          <Box p={3} bg="red.50" color="red.500" borderRadius="md">
+          <Box p={3} bg={errorBgColor} color={errorTextColor} borderRadius="md">
             {error}
           </Box>
         )}
@@ -81,24 +109,32 @@ export default function LoginPage() {
         <Box as="form" onSubmit={handleSubmit(onSubmit)} noValidate>
           <VStack spacing={4} align="stretch">
             <FormControl isInvalid={!!errors.email}>
-              <FormLabel>Email</FormLabel>
+              <FormLabel color={labelColor}>Email</FormLabel>
               <Input
                 type="email"
                 placeholder="your.email@example.com"
                 {...register('email')}
                 autoComplete="username"
+                bg={inputBgColor}
+                borderColor={inputBorderColor}
+                _hover={{ borderColor: useColorModeValue('gray.300', 'gray.500') }}
+                _focus={{ borderColor: 'brand.500', boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)` }}
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={!!errors.password}>
-              <FormLabel>Password</FormLabel>
+              <FormLabel color={labelColor}>Password</FormLabel>
               <InputGroup>
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
                   {...register('password')}
                   autoComplete="current-password"
+                  bg={inputBgColor}
+                  borderColor={inputBorderColor}
+                  _hover={{ borderColor: useColorModeValue('gray.300', 'gray.500') }}
+                  _focus={{ borderColor: 'brand.500', boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)` }}
                 />
                 <InputRightElement>
                   <IconButton
@@ -107,6 +143,7 @@ export default function LoginPage() {
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowPassword(!showPassword)}
+                    color={useColorModeValue('gray.500', 'gray.400')}
                   />
                 </InputRightElement>
               </InputGroup>
@@ -128,15 +165,15 @@ export default function LoginPage() {
         </Box>
 
         {/* Demo credentials */}
-        <Box mt={6} p={4} bg="gray.50" borderRadius="md">
-          <Text fontSize="sm" fontWeight="medium" mb={2}>
+        <Box mt={6} p={4} bg={demoBgColor} borderRadius="md" borderWidth="1px" borderColor={inputBorderColor}>
+          <Text fontSize="sm" fontWeight="medium" mb={2} color={useColorModeValue('gray.700', 'gray.200')}>
             Demo Credentials
           </Text>
           <VStack align="stretch" spacing={1} fontSize="xs">
-            <Text>
+            <Text color={textColor}>
               <strong>Student:</strong> student1..10@example.com / password123
             </Text>
-            <Text>
+            <Text color={textColor}>
               <strong>Administrator:</strong> admin@example.com / admin123
             </Text>
           </VStack>
