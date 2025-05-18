@@ -43,7 +43,6 @@ export default function LoginPage() {
   const { colorMode, toggleColorMode } = useColorMode()
 
   // Color mode values
-  const bgColor = useColorModeValue('white', 'gray.800')
   const textColor = useColorModeValue('gray.600', 'gray.300')
   const labelColor = useColorModeValue('gray.700', 'gray.200')
   const inputBgColor = useColorModeValue('white', 'gray.700')
