@@ -54,22 +54,15 @@ export default function AdminDashboard() {
     isLoading: analyticsLoading,
   } = useAnalyticsStore()
 
-  // Load all data in parallel
-  useEffect(() => {
-    const loadData = async () => {
-      await Promise.all([
-        fetchStudents(),
-        fetchGrades(),
-        fetchAttendance(),
-        fetchPerformanceMetrics(),
-      ])
-    }
-    loadData()
-  }, [fetchStudents, fetchGrades, fetchAttendance, fetchPerformanceMetrics])
+  const cardBg = useColorModeValue('gray.50', 'gray.700')
+  const cardBorderColor = useColorModeValue('gray.200', 'gray.600')
+  const cardHoverBg = useColorModeValue('gray.100', 'gray.600')
+  const textColor = useColorModeValue('gray.800', 'white')
+  const subtextColor = useColorModeValue('gray.600', 'gray.300')
+  const dateColor = useColorModeValue('gray.500', 'gray.400')
 
   const isLoading = studentsLoading || gradesLoading || attendanceLoading || analyticsLoading
 
-  // Memoize calculations to prevent unnecessary recalculations
   const {
     totalCourses,
     averageGPA,
@@ -141,6 +134,18 @@ export default function AdminDashboard() {
       recentStudents,
     }
   }, [students, grades, attendanceRecords, performanceMetrics])
+
+  useEffect(() => {
+    const loadData = async () => {
+      await Promise.all([
+        fetchStudents(),
+        fetchGrades(),
+        fetchAttendance(),
+        fetchPerformanceMetrics(),
+      ])
+    }
+    loadData()
+  }, [fetchStudents, fetchGrades, fetchAttendance, fetchPerformanceMetrics])
 
   // Colors for charts
   const COLORS = ['#0284c7', '#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd']
@@ -461,22 +466,22 @@ export default function AdminDashboard() {
                     <Flex
                       key={student.uniqueKey}
                       p={3}
-                      bg={useColorModeValue('gray.50', 'gray.700')}
+                      bg={cardBg}
                       borderRadius="md"
                       align="center"
                       border="1px solid"
-                      borderColor={useColorModeValue('gray.200', 'gray.600')}
+                      borderColor={cardBorderColor}
                       _hover={{
-                        bg: useColorModeValue('gray.100', 'gray.600'),
+                        bg: cardHoverBg,
                         transform: 'translateY(-1px)',
                         transition: 'all 0.2s',
                       }}
                     >
                       <Box flex="1">
-                        <Text fontWeight="medium" color={useColorModeValue('gray.800', 'white')}>
+                        <Text fontWeight="medium" color={textColor}>
                           {`${student.firstName} ${student.lastName}`}
                         </Text>
-                        <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.300')}>
+                        <Text fontSize="sm" color={subtextColor}>
                           {student.email}
                         </Text>
                       </Box>
@@ -484,7 +489,7 @@ export default function AdminDashboard() {
                         <Badge colorScheme="brand" px={2} py={1} borderRadius="md">
                           {student.program}
                         </Badge>
-                        <Text fontSize="xs" color={useColorModeValue('gray.500', 'gray.400')}>
+                        <Text fontSize="xs" color={dateColor}>
                           Enrolled: {new Date(student.enrollmentDate).toLocaleDateString()}
                         </Text>
                       </VStack>
