@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { ViewIcon, ViewOffIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -21,12 +20,14 @@ import {
   Tooltip,
   Flex,
 } from '@chakra-ui/react'
-import { ViewIcon, ViewOffIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
 import { z } from 'zod'
-import { useAuthStore } from '../../store/authStore'
+
 import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { useAuthStore } from '../../store/authStore'
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),

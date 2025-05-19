@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import {
   Box,
   Grid,
@@ -20,11 +19,13 @@ import {
   Skeleton,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { useEffect } from 'react'
+
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { useAnalyticsStore } from '../../store/analyticsStore'
+import { useAttendanceStore } from '../../store/attendanceStore'
 import { useAuthStore } from '../../store/authStore'
 import { useGradesStore } from '../../store/gradesStore'
-import { useAttendanceStore } from '../../store/attendanceStore'
-import { useAnalyticsStore } from '../../store/analyticsStore'
-import { AnimatedElement } from '../../components/common/AnimatedElement'
 
 export default function StudentDashboard() {
   const { user } = useAuthStore()

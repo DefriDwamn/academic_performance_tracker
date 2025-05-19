@@ -1,5 +1,6 @@
-import api, { handleApiError } from './api'
 import type { User } from '../store/authStore'
+
+import api, { handleApiError } from './api'
 
 interface LoginResponse {
   user: User

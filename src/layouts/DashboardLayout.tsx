@@ -1,9 +1,12 @@
 'use client'
 
-import type React from 'react'
-
-import { useState, useEffect } from 'react'
-import { Outlet, Link, useLocation, useNavigate } from 'react-router'
+import {
+  HamburgerIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  MoonIcon,
+  SunIcon,
+} from '@chakra-ui/icons'
 import {
   Box,
   Flex,
@@ -30,17 +33,14 @@ import {
   useColorMode,
   Tooltip,
 } from '@chakra-ui/react'
-import {
-  HamburgerIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  MoonIcon,
-  SunIcon,
-} from '@chakra-ui/icons'
 import { BarChart, Home, Users, BookOpen, Calendar } from 'lucide-react'
-import { useAuthStore } from '../store/authStore'
+import type React from 'react'
+import { useState, useEffect } from 'react'
+import { Outlet, Link, useLocation, useNavigate } from 'react-router'
+
 import { AnimatedElement } from '../components/common/AnimatedElement'
 import { PageTransition } from '../components/common/PageTransition'
+import { useAuthStore } from '../store/authStore'
 
 export default function DashboardLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure()

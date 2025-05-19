@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import {
   Box,
   Heading,
@@ -17,11 +16,13 @@ import {
   useDisclosure,
   SimpleGrid,
 } from '@chakra-ui/react'
-import { useGradesStore } from '../../store/gradesStore'
-import { DataTable } from '../../components/common/DataTable'
+import { useEffect, useState } from 'react'
+
 import { AnimatedElement } from '../../components/common/AnimatedElement'
-import type { Grade } from '../../types/grade'
+import { DataTable } from '../../components/common/DataTable'
 import { Modal as CustomModal } from '../../components/common/Modal'
+import { useGradesStore } from '../../store/gradesStore'
+import type { Grade } from '../../types/grade'
 
 export default function StudentGrades() {
   const { grades, fetchGrades, isLoading } = useGradesStore()

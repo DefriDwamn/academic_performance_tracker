@@ -1,7 +1,7 @@
 'use client'
 
-import { Heading, Text, Button, Center, VStack, Icon } from '@chakra-ui/react'
 import { LockIcon } from '@chakra-ui/icons'
+import { Heading, Text, Button, Center, VStack, Icon } from '@chakra-ui/react'
 import { useNavigate } from 'react-router'
 
 export const NotAuthorized = () => {

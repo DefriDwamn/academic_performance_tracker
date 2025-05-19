@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { Box, useColorModeValue } from '@chakra-ui/react'
 import anime from 'animejs'
+import { useEffect, useRef } from 'react'
 
 interface PageTransitionProps {
   children: React.ReactNode

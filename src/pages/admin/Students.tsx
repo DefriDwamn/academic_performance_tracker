@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { AddIcon, DeleteIcon, EditIcon, ViewIcon } from '@chakra-ui/icons'
 import {
   Box,
   Heading,
@@ -18,13 +18,14 @@ import {
   VStack,
   Text,
 } from '@chakra-ui/react'
-import { AddIcon, DeleteIcon, EditIcon, ViewIcon } from '@chakra-ui/icons'
-import { useStudentStore } from '../../store/studentStore'
-import { DataTable } from '../../components/common/DataTable'
-import { StudentForm, StudentFormData } from '../../components/forms/StudentForm'
+import { useEffect, useState } from 'react'
+
 import { AnimatedElement } from '../../components/common/AnimatedElement'
-import type { Student } from '../../types/student'
+import { DataTable } from '../../components/common/DataTable'
 import { Modal as CustomModal } from '../../components/common/Modal'
+import { StudentForm, StudentFormData } from '../../components/forms/StudentForm'
+import { useStudentStore } from '../../store/studentStore'
+import type { Student } from '../../types/student'
 
 export default function AdminStudents() {
   const { students, fetchStudents, createStudent, updateStudent, deleteStudent, isLoading } =

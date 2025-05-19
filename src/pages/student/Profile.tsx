@@ -1,8 +1,6 @@
 'use client'
 
-import type React from 'react'
-
-import { useEffect, useState } from 'react'
+import { EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Heading,
@@ -24,10 +22,12 @@ import {
   Input,
   useDisclosure,
 } from '@chakra-ui/react'
-import { EditIcon } from '@chakra-ui/icons'
-import { useStudentStore } from '../../store/studentStore'
+import type React from 'react'
+import { useEffect, useState } from 'react'
+
 import { AnimatedElement } from '../../components/common/AnimatedElement'
 import { Modal } from '../../components/common/Modal'
+import { useStudentStore } from '../../store/studentStore'
 
 export default function StudentProfile() {
   const { currentStudent, fetchCurrentStudent, updateStudent, isLoading } = useStudentStore()

@@ -12,9 +12,10 @@ import {
   SimpleGrid,
   Heading,
 } from '@chakra-ui/react'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+
 import type { Student } from '../../types/student'
 
 const studentSchema = z.object({

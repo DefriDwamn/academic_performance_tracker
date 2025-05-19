@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { AddIcon, EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Heading,
@@ -17,15 +17,16 @@ import {
   Select,
   Text,
 } from '@chakra-ui/react'
-import { AddIcon, EditIcon } from '@chakra-ui/icons'
+import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
+
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { DataTable } from '../../components/common/DataTable'
+import { Modal as CustomModal } from '../../components/common/Modal'
+import { GradeForm } from '../../components/forms/GradeForm'
 import { useGradesStore } from '../../store/gradesStore'
 import { useStudentStore } from '../../store/studentStore'
-import { DataTable } from '../../components/common/DataTable'
-import { GradeForm } from '../../components/forms/GradeForm'
-import { AnimatedElement } from '../../components/common/AnimatedElement'
 import type { Grade } from '../../types/grade'
-import type { ReactNode } from 'react'
-import { Modal as CustomModal } from '../../components/common/Modal'
 
 export default function AdminGrades() {
   const { grades, fetchGrades, addGrade, updateGrade, isLoading: gradesLoading } = useGradesStore()

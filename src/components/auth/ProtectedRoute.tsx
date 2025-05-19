@@ -1,9 +1,10 @@
 'use client'
 
+import { Spinner, Center } from '@chakra-ui/react'
 import { type ReactNode, useEffect } from 'react'
 import { useNavigate } from 'react-router'
+
 import { useAuthStore } from '../../store/authStore'
-import { Spinner, Center } from '@chakra-ui/react'
 
 interface ProtectedRouteProps {
   children: ReactNode

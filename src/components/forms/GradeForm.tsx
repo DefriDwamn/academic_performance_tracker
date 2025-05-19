@@ -1,7 +1,5 @@
 'use client'
 
-import type React from 'react'
-
 import {
   Box,
   Button,
@@ -19,9 +17,11 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react'
-import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import type React from 'react'
+import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
+
 import type { Grade } from '../../types/grade'
 
 const gradeSchema = z.object({

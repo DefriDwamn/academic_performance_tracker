@@ -1,6 +1,7 @@
-import api, { handleApiError } from './api'
-import type { Student } from '../types/student'
 import type { StudentFormData } from '../components/forms/StudentForm'
+import type { Student } from '../types/student'
+
+import api, { handleApiError } from './api'
 
 export const StudentService = {
   async getStudents(): Promise<Student[]> {

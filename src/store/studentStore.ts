@@ -1,7 +1,8 @@
 import { create } from 'zustand'
+
+import type { StudentFormData } from '../components/forms/StudentForm'
 import { StudentService } from '../services/studentService'
 import type { Student } from '../types/student'
-import type { StudentFormData } from '../components/forms/StudentForm'
 
 interface StudentState {
   students: Student[]

@@ -1,8 +1,8 @@
 'use client'
 
-import { type ReactNode, useRef, useEffect } from 'react'
 import { Box, type BoxProps, useColorModeValue } from '@chakra-ui/react'
 import anime from 'animejs'
+import { type ReactNode, useRef, useEffect } from 'react'
 
 interface AnimatedElementProps extends BoxProps {
   children: ReactNode

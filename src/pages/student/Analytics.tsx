@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import {
   Box,
   Heading,
@@ -16,9 +15,7 @@ import {
   StatHelpText,
   Divider,
 } from '@chakra-ui/react'
-import { useAnalyticsStore } from '../../store/analyticsStore'
-import { AnimatedElement } from '../../components/common/AnimatedElement'
-import { CustomTooltip } from '../../components/charts/CustomTooltip'
+import { useEffect } from 'react'
 import {
   LineChart,
   Line,
@@ -36,6 +33,10 @@ import {
   AreaChart,
   Area,
 } from 'recharts'
+
+import { CustomTooltip } from '../../components/charts/CustomTooltip'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { useAnalyticsStore } from '../../store/analyticsStore'
 
 export default function StudentAnalytics() {
   const {

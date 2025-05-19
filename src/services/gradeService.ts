@@ -1,5 +1,6 @@
-import api, { handleApiError } from './api'
 import type { Grade } from '../types/grade'
+
+import api, { handleApiError } from './api'
 
 export const GradeService = {
   async getGrades(filters: Record<string, any> = {}): Promise<Grade[]> {

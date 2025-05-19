@@ -1,9 +1,10 @@
-import { createBrowserRouter, Navigate, RouteObject } from 'react-router'
-import { lazy, Suspense } from 'react'
 import { Spinner, Center } from '@chakra-ui/react'
+import { lazy, Suspense } from 'react'
+import { createBrowserRouter, Navigate, RouteObject } from 'react-router'
 
 // Layouts
-import RootLayout from './layouts/RootLayout'
+import { ProtectedRoute } from './components/auth/ProtectedRoute'
+import { RoleBasedRoute } from './components/auth/RoleBasedRoute'
 import AuthLayout from './layouts/AuthLayout'
 import DashboardLayout from './layouts/DashboardLayout'
 
@@ -28,8 +29,7 @@ const AdminStudents = lazy(() => import('./pages/admin/Students'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 // Auth Guards
-import { ProtectedRoute } from './components/auth/ProtectedRoute'
-import { RoleBasedRoute } from './components/auth/RoleBasedRoute'
+import RootLayout from './layouts/RootLayout'
 
 const LoadingFallback = () => (
   <Center h="100vh">

@@ -1,5 +1,6 @@
-import api, { handleApiError } from './api'
 import type { PerformanceMetrics, AttendanceStatistics, StudentReport } from '../types/analytics'
+
+import api, { handleApiError } from './api'
 
 export const AnalyticsService = {
   async getPerformanceMetrics(): Promise<PerformanceMetrics> {

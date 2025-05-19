@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { CalendarIcon } from '@chakra-ui/icons'
 import {
   Box,
   Heading,
@@ -24,10 +24,11 @@ import {
   CircularProgressLabel,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { CalendarIcon } from '@chakra-ui/icons'
-import { useAttendanceStore } from '../../store/attendanceStore'
-import { DataTable } from '../../components/common/DataTable'
+import { useEffect, useState } from 'react'
+
 import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { DataTable } from '../../components/common/DataTable'
+import { useAttendanceStore } from '../../store/attendanceStore'
 import type { Attendance } from '../../types/attendance'
 
 export default function StudentAttendance() {

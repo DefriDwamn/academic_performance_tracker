@@ -1,7 +1,8 @@
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import { RouterProvider } from 'react-router/dom'
+
 import { router } from './routes'
 import { theme } from './theme'
 import './index.css'

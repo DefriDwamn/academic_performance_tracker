@@ -1,5 +1,6 @@
-import { Outlet } from 'react-router'
 import { Box, Container, Flex, Heading, Text, useColorModeValue } from '@chakra-ui/react'
+import { Outlet } from 'react-router'
+
 import { AnimatedElement } from '../components/common/AnimatedElement'
 
 export default function AuthLayout() {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo } from 'react'
+import { ArrowUpIcon, ArrowDownIcon } from '@chakra-ui/icons'
 import {
   Box,
   Heading,
@@ -22,14 +22,8 @@ import {
   Icon,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { ArrowUpIcon, ArrowDownIcon } from '@chakra-ui/icons'
 import { Users, GraduationCap, BookOpen, Calendar } from 'lucide-react'
-import { useStudentStore } from '../../store/studentStore'
-import { useGradesStore } from '../../store/gradesStore'
-import { useAttendanceStore } from '../../store/attendanceStore'
-import { useAnalyticsStore } from '../../store/analyticsStore'
-import { AnimatedElement } from '../../components/common/AnimatedElement'
-import { CustomTooltip } from '../../components/charts/CustomTooltip'
+import { useEffect, useMemo } from 'react'
 import {
   BarChart,
   Bar,
@@ -43,6 +37,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
+
+import { CustomTooltip } from '../../components/charts/CustomTooltip'
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { useAnalyticsStore } from '../../store/analyticsStore'
+import { useAttendanceStore } from '../../store/attendanceStore'
+import { useGradesStore } from '../../store/gradesStore'
+import { useStudentStore } from '../../store/studentStore'
 
 export default function AdminDashboard() {
   const { students, fetchStudents, isLoading: studentsLoading } = useStudentStore()

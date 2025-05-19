@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { AddIcon, EditIcon, AttachmentIcon } from '@chakra-ui/icons'
 import {
   Box,
   Heading,
@@ -28,15 +28,16 @@ import {
   RadioGroup,
   Radio,
 } from '@chakra-ui/react'
-import { AddIcon, EditIcon, AttachmentIcon } from '@chakra-ui/icons'
+import { useEffect, useState } from 'react'
+
+import { AnimatedElement } from '../../components/common/AnimatedElement'
+import { DataTable } from '../../components/common/DataTable'
+import { Modal as CustomModal } from '../../components/common/Modal'
+import { AttendanceForm } from '../../components/forms/AttendanceForm'
 import { useAttendanceStore } from '../../store/attendanceStore'
 import { useStudentStore } from '../../store/studentStore'
-import { DataTable } from '../../components/common/DataTable'
-import { AttendanceForm } from '../../components/forms/AttendanceForm'
-import { AnimatedElement } from '../../components/common/AnimatedElement'
 import type { Attendance } from '../../types/attendance'
 import type { Student } from '../../types/student'
-import { Modal as CustomModal } from '../../components/common/Modal'
 
 export default function AdminAttendance() {
   const {

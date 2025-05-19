@@ -1,7 +1,6 @@
 'use client'
 
-import type React from 'react'
-
+import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons'
 import {
   Table,
   Thead,
@@ -20,8 +19,8 @@ import {
   IconButton,
   useColorModeValue,
 } from '@chakra-ui/react'
+import type React from 'react'
 import { type ReactNode, useState } from 'react'
-import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons'
 
 interface Column<T> {
   header: string

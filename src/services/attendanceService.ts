@@ -1,5 +1,6 @@
-import api, { handleApiError } from './api'
 import type { Attendance } from '../types/attendance'
+
+import api, { handleApiError } from './api'
 
 export const AttendanceService = {
   async getAttendance(filters: Record<string, any> = {}): Promise<Attendance[]> {
