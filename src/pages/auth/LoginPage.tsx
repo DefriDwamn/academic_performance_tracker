@@ -79,9 +79,7 @@ export default function LoginPage() {
   return (
     <AnimatedElement animation="fadeIn">
       <Flex justifyContent="flex-end" mb={4}>
-        <Tooltip
-          label={colorMode === 'light' ? 'Включить темную тему' : 'Включить светлую тему'}
-        >
+        <Tooltip label={colorMode === 'light' ? 'Включить темную тему' : 'Включить светлую тему'}>
           <IconButton
             size="sm"
             aria-label="Переключить тему"
@@ -117,7 +115,10 @@ export default function LoginPage() {
                 bg={inputBgColor}
                 borderColor={inputBorderColor}
                 _hover={{ borderColor: useColorModeValue('gray.300', 'gray.500') }}
-                _focus={{ borderColor: 'brand.500', boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)` }}
+                _focus={{
+                  borderColor: 'brand.500',
+                  boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)`,
+                }}
               />
               <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
@@ -133,7 +134,10 @@ export default function LoginPage() {
                   bg={inputBgColor}
                   borderColor={inputBorderColor}
                   _hover={{ borderColor: useColorModeValue('gray.300', 'gray.500') }}
-                  _focus={{ borderColor: 'brand.500', boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)` }}
+                  _focus={{
+                    borderColor: 'brand.500',
+                    boxShadow: `0 0 0 1px var(--chakra-colors-brand-500)`,
+                  }}
                 />
                 <InputRightElement>
                   <IconButton
@@ -164,8 +168,20 @@ export default function LoginPage() {
         </Box>
 
         {/* Demo credentials */}
-        <Box mt={6} p={4} bg={demoBgColor} borderRadius="md" borderWidth="1px" borderColor={inputBorderColor}>
-          <Text fontSize="sm" fontWeight="medium" mb={2} color={useColorModeValue('gray.700', 'gray.200')}>
+        <Box
+          mt={6}
+          p={4}
+          bg={demoBgColor}
+          borderRadius="md"
+          borderWidth="1px"
+          borderColor={inputBorderColor}
+        >
+          <Text
+            fontSize="sm"
+            fontWeight="medium"
+            mb={2}
+            color={useColorModeValue('gray.700', 'gray.200')}
+          >
             Demo Credentials
           </Text>
           <VStack align="stretch" spacing={1} fontSize="xs">

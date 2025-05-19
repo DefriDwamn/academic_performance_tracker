@@ -263,19 +263,15 @@ export default function DashboardLayout() {
       <Flex flex="1" overflow="hidden">
         {/* Sidebar - desktop */}
         {isDesktop && (
-          <Box 
-            w="250px" 
-            position="relative" 
+          <Box
+            w="250px"
+            position="relative"
             zIndex={1}
             bg={bgColor}
             borderRight="1px"
             borderRightColor={borderColor}
           >
-            <AnimatedElement 
-              animation="slideIn" 
-              w="full"
-              h="full"
-            >
+            <AnimatedElement animation="slideIn" w="full" h="full">
               <SidebarContent />
             </AnimatedElement>
           </Box>

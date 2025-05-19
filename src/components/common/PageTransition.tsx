@@ -25,13 +25,7 @@ export function PageTransition({ children }: PageTransitionProps) {
   }, [])
 
   return (
-    <Box 
-      ref={ref} 
-      opacity={0} 
-      bg={bgColor}
-      position="relative"
-      zIndex={0}
-    >
+    <Box ref={ref} opacity={0} bg={bgColor} position="relative" zIndex={0}>
       {children}
     </Box>
   )

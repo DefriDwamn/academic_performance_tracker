@@ -71,13 +71,7 @@ export const AnimatedElement = ({
   }, [animation, delay, duration])
 
   return (
-    <Box 
-      ref={ref} 
-      opacity={1}
-      bg={bgColor}
-      position="relative"
-      {...props}
-    >
+    <Box ref={ref} opacity={1} bg={bgColor} position="relative" {...props}>
       {children}
     </Box>
   )
