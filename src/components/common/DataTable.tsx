@@ -60,7 +60,6 @@ export function DataTable<T extends Record<string, any>>({
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(defaultItemsPerPage)
 
-  const hoverBgColor = useColorModeValue('gray.50', 'whiteAlpha.100')
   const tableBgColor = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
   const textColor = useColorModeValue('gray.800', 'white')
