@@ -1,4 +1,5 @@
 import type { User } from '../store/authStore'
+import axios, { AxiosError } from 'axios'
 
 import api, { handleApiError } from './api'
 
@@ -15,10 +16,12 @@ interface RefreshTokenResponse {
 export const AuthService = {
   async login(email: string, password: string): Promise<LoginResponse> {
     try {
+      console.log('Attempting login with:', { email })
       const response = await api.post<LoginResponse>('/auth/login', {
         email,
         password,
       })
+      console.log('Login response:', response.data)
 
       // Store the refresh token in localStorage
       if (response.data.refreshToken) {
@@ -27,6 +30,16 @@ export const AuthService = {
 
       return response.data
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Login error details:', {
+          error: error.message,
+          response: error.response?.data,
+          status: error.response?.status,
+          headers: error.response?.headers
+        })
+      } else {
+        console.error('Unknown error during login:', error)
+      }
       throw new Error(handleApiError(error))
     }
   },
