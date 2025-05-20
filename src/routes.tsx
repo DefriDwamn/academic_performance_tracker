@@ -1,6 +1,6 @@
 import { Spinner, Center } from '@chakra-ui/react'
 import { lazy, Suspense } from 'react'
-import { createBrowserRouter, Navigate, RouteObject } from 'react-router'
+import { createHashRouter, Navigate, RouteObject } from 'react-router'
 
 // Layouts
 import { ProtectedRoute } from './components/auth/ProtectedRoute'
@@ -81,7 +81,7 @@ const dashboardRoutes: RouteObject[] = [
   },
 ]
 
-export const router = createBrowserRouter(
+export const router = createHashRouter(
   [
     {
       path: '/',
