@@ -24,9 +24,14 @@ const app = express()
 app.use(cors({
   origin: [
     'https://defridwamn.github.io',
-    'https://defridwamn.github.io/academic_performance_tracker'
+    'https://defridwamn.github.io/academic_performance_tracker',
+    'http://localhost:5173',
+    'http://localhost:3000'
   ],
-  credentials: true
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  exposedHeaders: ['Content-Range', 'X-Content-Range']
 }))
 app.use(express.json())
 app.use(morgan("dev"))
