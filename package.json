@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://defridwamn.github.io/academic-tracker",
+  "homepage": "https://defridwamn.github.io/academic_performance_tracker/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

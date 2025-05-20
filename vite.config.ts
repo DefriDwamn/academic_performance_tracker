@@ -5,7 +5,7 @@ import path from "path"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/academic-tracker/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/academic_performance_tracker/' : '/',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
