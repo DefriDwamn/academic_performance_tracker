@@ -25,15 +25,16 @@ jobs:
         run: |
           RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }}
+          QUERY='{ project(id: "\\\"'$RAILWAY_PROJECT_ID'\\\"") { services { edges { node { name deployments { edges { node { staticUrl } } } } } } } }'
           RESPONSE=$(curl -s -X POST \
             -H "Authorization: Bearer $RAILWAY_TOKEN" \
             -H "Content-Type: application/json" \
-            "https://backboard.railway.app/graphql/v2" \
-            -d "{\"query\":\"{ project(id: \\\"$RAILWAY_PROJECT_ID\\\") { services { name url } } }\"}")
+            "https://backboard.railway.com/graphql/v2" \
+            -d "{\"query\":\"$QUERY\"}")
           echo "RESPONSE: $RESPONSE"
-          RAILWAY_URL=$(echo "$RESPONSE" | jq -r '.data.project.services[0].url')
-          echo "RAILWAY_URL=$RAILWAY_URL" >> $GITHUB_ENV
-          echo "VITE_API_URL=$RAILWAY_URL/api" >> $GITHUB_ENV
+          RAILWAY_URL=$(echo "$RESPONSE" | jq -r '.data.project.services.edges[] | select(.node.name == "academic_performance_tracker") | .node.deployments.edges[0].node.staticUrl')
+          echo "RAILWAY_URL=https://$RAILWAY_URL" >> $GITHUB_ENV
+          echo "VITE_API_URL=https://$RAILWAY_URL/api" >> $GITHUB_ENV
 
       - name: Build
         run: bun run build
