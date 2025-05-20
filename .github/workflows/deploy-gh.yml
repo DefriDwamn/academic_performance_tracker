@@ -44,6 +44,11 @@ jobs:
         run: bun run build
         env:
           VITE_API_URL: ${{ env.VITE_API_URL }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
   deploy:
     environment:
       name: github-pages
