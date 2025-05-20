@@ -21,7 +21,13 @@ connectDB()
 const app = express()
 
 // Middleware
-app.use(cors())
+app.use(cors({
+  origin: [
+    'https://defridwamn.github.io',
+    'https://defridwamn.github.io/academic_performance_tracker'
+  ],
+  credentials: true
+}))
 app.use(express.json())
 app.use(morgan("dev"))
 
