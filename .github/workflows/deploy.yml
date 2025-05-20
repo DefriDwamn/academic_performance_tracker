@@ -23,12 +23,15 @@ jobs:
       - name: Get Railway URL
         id: railway
         run: |
-          RAILWAY_URL=$(curl -s -X GET \
-            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
-            "https://backboard.railway.app/graphql/v2" \
+          RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }}
+          RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer $RAILWAY_TOKEN" \
             -H "Content-Type: application/json" \
-            -d '{"query":"{ project(id: \"${{ secrets.RAILWAY_PROJECT_ID }}\") { services { name url } } }"}' \
-            | jq -r '.data.project.services[0].url')
+            "https://backboard.railway.app/graphql/v2" \
+            -d "{\"query\":\"{ project(id: \\\"$RAILWAY_PROJECT_ID\\\") { services { name url } } }\"}")
+          echo "RESPONSE: $RESPONSE"
+          RAILWAY_URL=$(echo "$RESPONSE" | jq -r '.data.project.services[0].url')
           echo "RAILWAY_URL=$RAILWAY_URL" >> $GITHUB_ENV
           echo "VITE_API_URL=$RAILWAY_URL/api" >> $GITHUB_ENV
 
