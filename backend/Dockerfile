@@ -10,13 +10,7 @@ COPY . .
 
 EXPOSE 3000
 
-# Create a startup script
-RUN echo '#!/bin/sh\n\
-if [ "$RUN_SEED" = "true" ]; then\n\
-  echo "Running database seed..."\n\
-  node seed.js\n\
-fi\n\
-echo "Starting server..."\n\
-npm start' > /api/start.sh && chmod +x /api/start.sh
+# Make start script executable
+RUN chmod +x start.sh
 
-CMD ["/api/start.sh"]
+CMD ["./start.sh"]
