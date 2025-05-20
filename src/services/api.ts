@@ -1,4 +1,4 @@
-import axios, { type AxiosError, type AxiosRequestConfig } from 'axios'
+import axios, { type AxiosError } from 'axios'
 
 import { useAuthStore } from '../store/authStore'
 
