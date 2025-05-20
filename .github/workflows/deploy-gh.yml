@@ -5,21 +5,27 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-
       - name: Install Dependencies
         run: bun install
-
       - name: Get Railway URL
         id: railway
         run: |
@@ -34,14 +40,20 @@ jobs:
           RAILWAY_URL=$(echo "$RESPONSE" | jq -r '.data.project.services.edges[] | select(.node.name == "academic_performance_tracker") | .node.deployments.edges[0].node.staticUrl')
           echo "RAILWAY_URL=https://$RAILWAY_URL" >> $GITHUB_ENV
           echo "VITE_API_URL=https://$RAILWAY_URL/api" >> $GITHUB_ENV
-
       - name: Build
         run: bun run build
         env:
           VITE_API_URL: ${{ env.VITE_API_URL }}
-
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        id: deployment
+        uses: actions/deploy-pages@v4
         with:
           folder: dist
           branch: gh-pages 
