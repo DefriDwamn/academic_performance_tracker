@@ -34,7 +34,7 @@ export default function StudentDashboard() {
   const {
     performanceMetrics,
     fetchPerformanceMetrics,
-    isLoading: analyticsLoading,
+    isLoadingPerformance,
   } = useAnalyticsStore()
 
   const gradeCardBg = useColorModeValue('gray.50', 'whiteAlpha.100')
@@ -47,7 +47,7 @@ export default function StudentDashboard() {
     fetchPerformanceMetrics()
   }, [fetchGrades, fetchAttendance, fetchPerformanceMetrics])
 
-  const isLoading = gradesLoading || attendanceLoading || analyticsLoading
+  const isLoading = gradesLoading || attendanceLoading || isLoadingPerformance
 
   // Calculate attendance rate
   const attendanceRate =

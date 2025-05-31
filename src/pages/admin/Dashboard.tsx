@@ -52,7 +52,7 @@ export default function AdminDashboard() {
   const {
     performanceMetrics,
     fetchPerformanceMetrics,
-    isLoading: analyticsLoading,
+    isLoadingPerformance,
   } = useAnalyticsStore()
 
   const cardBg = useColorModeValue('gray.50', 'gray.700')
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
   const subtextColor = useColorModeValue('gray.600', 'gray.300')
   const dateColor = useColorModeValue('gray.500', 'gray.400')
 
-  const isLoading = studentsLoading || gradesLoading || attendanceLoading || analyticsLoading
+  const isLoading = studentsLoading || gradesLoading || attendanceLoading || isLoadingPerformance
 
   const {
     totalCourses,

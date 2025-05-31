@@ -44,8 +44,11 @@ export default function StudentAnalytics() {
     attendanceStatistics,
     fetchPerformanceMetrics,
     fetchAttendanceStatistics,
-    isLoading,
+    isLoadingPerformance,
+    isLoadingAttendance,
   } = useAnalyticsStore()
+
+  const isLoading = isLoadingPerformance || isLoadingAttendance
 
   useEffect(() => {
     fetchPerformanceMetrics()
