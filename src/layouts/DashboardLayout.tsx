@@ -290,7 +290,7 @@ export default function DashboardLayout() {
         </Drawer>
 
         {/* Page Content */}
-        <Box flex="1" p={6} overflow="auto" bg={contentBgColor}>
+        <Box flex="1" p={6} overflowX="hidden" bg={contentBgColor}>
           <Container maxW="container.xl" bg={bgColor} p={6} borderRadius="lg" boxShadow="sm">
             <PageTransition>
               <Outlet />

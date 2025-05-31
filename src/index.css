@@ -16,6 +16,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 .page-transition-enter {
   opacity: 0;
   transform: translateY(10px);
