@@ -208,31 +208,11 @@ export default function AdminAnalytics() {
   const monthlyAttendanceData = prepareMonthlyAttendanceData()
   const studentPerformanceData = prepareStudentPerformanceData()
 
-  const renderChart = (chartId: string, children: React.ReactElement) => {
-    const size = containerSizes[chartId]
-    if (!size || size.width === 0 || size.height === 0) {
-      return (
-        <Box
-          height={{ base: '250px', md: '400px' }}
-          minHeight="250px"
-          width="100%"
-          bg="gray.50"
-          borderRadius="md"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Text color="gray.500">Loading chart...</Text>
-        </Box>
-      )
-    }
-
-    return (
-      <ResponsiveContainer width="100%" height="100%">
-        {children}
-      </ResponsiveContainer>
-    )
-  }
+  const renderChart = (_chartId: string, children: React.ReactElement) => (
+    <ResponsiveContainer width="100%" height="100%">
+      {children}
+    </ResponsiveContainer>
+  )
 
   return (
     <Box>
