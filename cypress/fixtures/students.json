@@ -1,0 +1,26 @@
+{
+  "validStudent": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@student.com",
+    "studentId": "STU001",
+    "dateOfBirth": "2000-01-15",
+    "phone": "+1234567890",
+    "address": {
+      "street": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA"
+    },
+    "program": "Computer Science",
+    "year": "3",
+    "semester": "Fall 2023"
+  },
+  "editStudent": {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@student.com",
+    "phone": "+1987654321"
+  }
+}
