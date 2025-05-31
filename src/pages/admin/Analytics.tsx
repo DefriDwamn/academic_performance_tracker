@@ -23,7 +23,7 @@ import {
   Badge,
   Divider,
 } from '@chakra-ui/react'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import {
   LineChart,
   Line,
@@ -59,51 +59,6 @@ export default function AdminAnalytics() {
   } = useAnalyticsStore()
   const { students, fetchStudents } = useStudentStore()
   const [selectedStudent, setSelectedStudent] = useState<string>('')
-  const [containerSizes, setContainerSizes] = useState<{
-    [key: string]: { width: number; height: number }
-  }>({})
-  const containerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
-  const [activeTab, setActiveTab] = useState(0)
-
-  useEffect(() => {
-    const updateContainerSizes = () => {
-      const newSizes: { [key: string]: { width: number; height: number } } = {}
-      Object.entries(containerRefs.current).forEach(([key, element]) => {
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          newSizes[key] = { width: rect.width, height: rect.height }
-        }
-      })
-      setContainerSizes(newSizes)
-    }
-
-    // Initial update
-    updateContainerSizes()
-
-    // Update after a small delay to ensure all containers are properly sized
-    const timer = setTimeout(updateContainerSizes, 100)
-
-    // Update on window resize
-    window.addEventListener('resize', updateContainerSizes)
-
-    // Update when tab changes
-    const resizeObserver = new ResizeObserver(() => {
-      updateContainerSizes()
-    })
-
-    // Observe all chart containers
-    Object.values(containerRefs.current).forEach((element) => {
-      if (element) {
-        resizeObserver.observe(element)
-      }
-    })
-
-    return () => {
-      window.removeEventListener('resize', updateContainerSizes)
-      clearTimeout(timer)
-      resizeObserver.disconnect()
-    }
-  }, [activeTab]) // Add activeTab as dependency
 
   useEffect(() => {
     fetchPerformanceMetrics()
@@ -222,7 +177,7 @@ export default function AdminAnalytics() {
         </Heading>
       </AnimatedElement>
 
-      <Tabs variant="enclosed" colorScheme="brand" isLazy onChange={(index) => setActiveTab(index)}>
+      <Tabs variant="enclosed" colorScheme="brand" isLazy>
         <TabList
           mb={6}
           overflowX="auto"
@@ -255,7 +210,6 @@ export default function AdminAnalytics() {
                     ) : (
                       <Box
                         key="gradeDistribution"
-                        ref={(el) => (containerRefs.current['gradeDistribution'] = el)}
                         height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
@@ -314,7 +268,6 @@ export default function AdminAnalytics() {
                     ) : (
                       <Box
                         key="gpaTrend"
-                        ref={(el) => (containerRefs.current['gpaTrend'] = el)}
                         height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
@@ -364,7 +317,6 @@ export default function AdminAnalytics() {
                     ) : (
                       <Box
                         key="coursePerformance"
-                        ref={(el) => (containerRefs.current['coursePerformance'] = el)}
                         height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
@@ -409,7 +361,6 @@ export default function AdminAnalytics() {
                     ) : (
                       <Box
                         key="monthlyAttendance"
-                        ref={(el) => (containerRefs.current['monthlyAttendance'] = el)}
                         height={{ base: '250px', md: '400px' }}
                         minHeight="250px"
                         width="100%"
