@@ -7,7 +7,9 @@ interface AnalyticsState {
   performanceMetrics: PerformanceMetrics | null
   attendanceStatistics: AttendanceStatistics | null
   studentReport: StudentReport | null
-  isLoading: boolean
+  isLoadingPerformance: boolean
+  isLoadingAttendance: boolean
+  isLoadingStudent: boolean
   error: string | null
   fetchPerformanceMetrics: () => Promise<void>
   fetchAttendanceStatistics: () => Promise<void>
@@ -18,40 +20,42 @@ export const useAnalyticsStore = create<AnalyticsState>((set) => ({
   performanceMetrics: null,
   attendanceStatistics: null,
   studentReport: null,
-  isLoading: false,
+  isLoadingPerformance: false,
+  isLoadingAttendance: false,
+  isLoadingStudent: false,
   error: null,
   fetchPerformanceMetrics: async () => {
-    set({ isLoading: true, error: null })
+    set({ isLoadingPerformance: true, error: null })
     try {
       const metrics = await AnalyticsService.getPerformanceMetrics()
-      set({ performanceMetrics: metrics, isLoading: false })
+      set({ performanceMetrics: metrics, isLoadingPerformance: false })
     } catch (error) {
       set({
-        isLoading: false,
+        isLoadingPerformance: false,
         error: error instanceof Error ? error.message : 'Failed to fetch performance metrics',
       })
     }
   },
   fetchAttendanceStatistics: async () => {
-    set({ isLoading: true, error: null })
+    set({ isLoadingAttendance: true, error: null })
     try {
       const statistics = await AnalyticsService.getAttendanceStatistics()
-      set({ attendanceStatistics: statistics, isLoading: false })
+      set({ attendanceStatistics: statistics, isLoadingAttendance: false })
     } catch (error) {
       set({
-        isLoading: false,
+        isLoadingAttendance: false,
         error: error instanceof Error ? error.message : 'Failed to fetch attendance statistics',
       })
     }
   },
   fetchStudentReport: async (studentId) => {
-    set({ isLoading: true, error: null })
+    set({ isLoadingStudent: true, error: null })
     try {
       const report = await AnalyticsService.getStudentReport(studentId)
-      set({ studentReport: report, isLoading: false })
+      set({ studentReport: report, isLoadingStudent: false })
     } catch (error) {
       set({
-        isLoading: false,
+        isLoadingStudent: false,
         error: error instanceof Error ? error.message : 'Failed to fetch student report',
       })
     }

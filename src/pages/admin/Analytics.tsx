@@ -55,7 +55,7 @@ export default function AdminAnalytics() {
     fetchPerformanceMetrics,
     fetchAttendanceStatistics,
     fetchStudentReport,
-    isLoading,
+    isLoadingPerformance
   } = useAnalyticsStore()
   const { students, fetchStudents } = useStudentStore()
   const [selectedStudent, setSelectedStudent] = useState<string>('')
@@ -270,7 +270,7 @@ export default function AdminAnalytics() {
                     <Heading size="md">Grade Distribution</Heading>
                   </CardHeader>
                   <CardBody>
-                    {isLoading ? (
+                    {isLoadingPerformance ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
                       <Box
@@ -329,7 +329,7 @@ export default function AdminAnalytics() {
                     <Heading size="md">GPA Trend</Heading>
                   </CardHeader>
                   <CardBody>
-                    {isLoading ? (
+                    {isLoadingPerformance ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
                       <Box
@@ -379,7 +379,7 @@ export default function AdminAnalytics() {
                     <Heading size="md">Course Performance</Heading>
                   </CardHeader>
                   <CardBody>
-                    {isLoading ? (
+                    {isLoadingPerformance ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
                       <Box
@@ -424,7 +424,7 @@ export default function AdminAnalytics() {
                     <Heading size="md">Monthly Attendance</Heading>
                   </CardHeader>
                   <CardBody>
-                    {isLoading ? (
+                    {isLoadingPerformance ? (
                       <Box height="300px" bg="gray.100" />
                     ) : (
                       <Box
