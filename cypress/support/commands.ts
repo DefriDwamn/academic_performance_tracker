@@ -24,12 +24,12 @@ Cypress.Commands.add("login", (email: string, password: string) => {
 
 // Login as admin
 Cypress.Commands.add("loginAsAdmin", () => {
-  cy.login("admin@school.com", "admin123")
+  cy.login("admin@example.com", "admin123")
 })
 
 // Login as student
 Cypress.Commands.add("loginAsStudent", () => {
-  cy.login("student@school.com", "student123")
+  cy.login("student1@example.com", "password123")
 })
 
 // Logout
