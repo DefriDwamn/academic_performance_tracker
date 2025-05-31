@@ -1,12 +1,6 @@
-'use client'
+"use client"
 
-import {
-  HamburgerIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  MoonIcon,
-  SunIcon,
-} from '@chakra-ui/icons'
+import { HamburgerIcon, ChevronDownIcon, ChevronRightIcon, MoonIcon, SunIcon } from "@chakra-ui/icons"
 import {
   Box,
   Flex,
@@ -32,45 +26,45 @@ import {
   useBreakpointValue,
   useColorMode,
   Tooltip,
-} from '@chakra-ui/react'
-import { BarChart, Home, Users, BookOpen, Calendar } from 'lucide-react'
-import type React from 'react'
-import { useState, useEffect } from 'react'
-import { Outlet, Link, useLocation, useNavigate } from 'react-router'
+} from "@chakra-ui/react"
+import { BarChart, Home, Users, BookOpen, Calendar } from "lucide-react"
+import type React from "react"
+import { useState, useEffect } from "react"
+import { Outlet, Link, useLocation, useNavigate } from "react-router"
 
-import { AnimatedElement } from '../components/common/AnimatedElement'
-import { PageTransition } from '../components/common/PageTransition'
-import { useAuthStore } from '../store/authStore'
+import { AnimatedElement } from "../components/common/AnimatedElement"
+import { PageTransition } from "../components/common/PageTransition"
+import { useAuthStore } from "../store/authStore"
 
 export default function DashboardLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { user, logout } = useAuthStore()
   const location = useLocation()
   const navigate = useNavigate()
-  const [pageTitle, setPageTitle] = useState('Dashboard')
+  const [pageTitle, setPageTitle] = useState("Dashboard")
   const { colorMode, toggleColorMode } = useColorMode()
 
   const isDesktop = useBreakpointValue({ base: false, lg: true })
-  const bgColor = useColorModeValue('white', 'gray.800')
-  const borderColor = useColorModeValue('gray.200', 'gray.700')
-  const textColor = useColorModeValue('gray.800', 'white')
-  const hoverBgColor = useColorModeValue('brand.50', 'whiteAlpha.200')
-  const activeBgColor = useColorModeValue('brand.50', 'whiteAlpha.300')
-  const iconColor = useColorModeValue('gray.500', 'gray.400')
-  const activeIconColor = useColorModeValue('brand.600', 'brand.400')
-  const menuBgColor = useColorModeValue('white', 'gray.800')
-  const menuBorderColor = useColorModeValue('gray.200', 'gray.700')
-  const contentBgColor = useColorModeValue('gray.50', 'gray.900')
+  const bgColor = useColorModeValue("white", "gray.800")
+  const borderColor = useColorModeValue("gray.200", "gray.700")
+  const textColor = useColorModeValue("gray.800", "white")
+  const hoverBgColor = useColorModeValue("brand.50", "whiteAlpha.200")
+  const activeBgColor = useColorModeValue("brand.50", "whiteAlpha.300")
+  const iconColor = useColorModeValue("gray.500", "gray.400")
+  const activeIconColor = useColorModeValue("brand.600", "brand.400")
+  const menuBgColor = useColorModeValue("white", "gray.800")
+  const menuBorderColor = useColorModeValue("gray.200", "gray.700")
+  const contentBgColor = useColorModeValue("gray.50", "gray.900")
 
   useEffect(() => {
     // Set page title based on current route
-    const path = location.pathname.split('/').pop() || 'dashboard'
+    const path = location.pathname.split("/").pop() || "dashboard"
     setPageTitle(path.charAt(0).toUpperCase() + path.slice(1))
   }, [location])
 
   const handleLogout = () => {
     logout()
-    navigate('/auth/login')
+    navigate("/auth/login")
   }
 
   const NavItem = ({
@@ -86,7 +80,7 @@ export default function DashboardLayout() {
     onClick?: () => void
   }) => {
     const isActive = to
-      ? location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(`${to}/`))
+      ? location.pathname === to || (to !== "/dashboard" && location.pathname.startsWith(`${to}/`))
       : false
 
     const handleClick = () => {
@@ -104,12 +98,12 @@ export default function DashboardLayout() {
         borderRadius="md"
         role="group"
         cursor="pointer"
-        bg={isActive ? activeBgColor : 'transparent'}
-        color={isActive ? 'brand.600' : textColor}
-        fontWeight={isActive ? 'medium' : 'normal'}
+        bg={isActive ? activeBgColor : "transparent"}
+        color={isActive ? "brand.600" : textColor}
+        fontWeight={isActive ? "medium" : "normal"}
         _hover={{
-          bg: { base: 'transparent', md: hoverBgColor },
-          color: { base: 'inherit', md: 'brand.600' },
+          bg: { base: "transparent", md: hoverBgColor },
+          color: { base: "inherit", md: "brand.600" },
         }}
         onClick={handleClick}
         {...rest}
@@ -125,7 +119,7 @@ export default function DashboardLayout() {
     )
 
     return to ? (
-      <Link to={to} style={{ textDecoration: 'none', width: '100%' }}>
+      <Link to={to} style={{ textDecoration: "none", width: "100%" }}>
         {content}
       </Link>
     ) : (
@@ -138,7 +132,7 @@ export default function DashboardLayout() {
       bg={bgColor}
       borderRight="1px"
       borderRightColor={borderColor}
-      w={{ base: 'full', lg: '250px' }}
+      w={{ base: "full", lg: "250px" }}
       h="full"
       py={4}
     >
@@ -149,34 +143,34 @@ export default function DashboardLayout() {
           </Heading>
         </Box>
 
-        <NavItem icon={<Home size={18} />} to="/dashboard">
+        <NavItem icon={<Home size={18} />} to="/dashboard" data-testid="nav-dashboard">
           Dashboard
         </NavItem>
 
-        {user?.role === 'STUDENT' ? (
+        {user?.role === "STUDENT" ? (
           <>
-            <NavItem icon={<BookOpen size={18} />} to="/dashboard/grades">
+            <NavItem icon={<BookOpen size={18} />} to="/dashboard/grades" data-testid="nav-grades">
               My Grades
             </NavItem>
-            <NavItem icon={<Calendar size={18} />} to="/dashboard/attendance">
+            <NavItem icon={<Calendar size={18} />} to="/dashboard/attendance" data-testid="nav-attendance">
               My Attendance
             </NavItem>
-            <NavItem icon={<BarChart size={18} />} to="/dashboard/analytics">
+            <NavItem icon={<BarChart size={18} />} to="/dashboard/analytics" data-testid="nav-analytics">
               My Analytics
             </NavItem>
           </>
         ) : (
           <>
-            <NavItem icon={<Users size={18} />} to="/dashboard/students">
+            <NavItem icon={<Users size={18} />} to="/dashboard/students" data-testid="nav-students">
               Students
             </NavItem>
-            <NavItem icon={<BookOpen size={18} />} to="/dashboard/grades">
+            <NavItem icon={<BookOpen size={18} />} to="/dashboard/grades" data-testid="nav-grades">
               Grades
             </NavItem>
-            <NavItem icon={<Calendar size={18} />} to="/dashboard/attendance">
+            <NavItem icon={<Calendar size={18} />} to="/dashboard/attendance" data-testid="nav-attendance">
               Attendance
             </NavItem>
-            <NavItem icon={<BarChart size={18} />} to="/dashboard/analytics">
+            <NavItem icon={<BarChart size={18} />} to="/dashboard/analytics" data-testid="nav-analytics">
               Analytics
             </NavItem>
           </>
@@ -202,15 +196,9 @@ export default function DashboardLayout() {
         <AnimatedElement animation="fadeIn">
           <Flex align="center">
             {!isDesktop && (
-              <IconButton
-                aria-label="Open menu"
-                icon={<HamburgerIcon />}
-                variant="ghost"
-                onClick={onOpen}
-                mr={4}
-              />
+              <IconButton aria-label="Open menu" icon={<HamburgerIcon />} variant="ghost" onClick={onOpen} mr={4} />
             )}
-            <Heading size="md" color="brand.600" display={{ base: 'none', md: 'block' }}>
+            <Heading size="md" color="brand.600" display={{ base: "none", md: "block" }}>
               {pageTitle}
             </Heading>
           </Flex>
@@ -218,39 +206,37 @@ export default function DashboardLayout() {
 
         <AnimatedElement animation="fadeIn" delay={200}>
           <HStack spacing={4}>
-            <Tooltip
-              label={colorMode === 'light' ? 'Включить темную тему' : 'Включить светлую тему'}
-            >
+            <Tooltip label={colorMode === "light" ? "Включить темную тему" : "Включить светлую тему"}>
               <IconButton
                 size="sm"
                 aria-label="Переключить тему"
-                icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
                 variant="ghost"
                 onClick={toggleColorMode}
               />
             </Tooltip>
             <Menu>
-              <MenuButton as={Box} cursor="pointer">
+              <MenuButton as={Box} cursor="pointer" data-testid="user-menu">
                 <HStack>
                   <Avatar size="sm" name={user?.name} src={user?.avatar} bg="brand.500" />
-                  <Box display={{ base: 'none', md: 'block' }}>
+                  <Box display={{ base: "none", md: "block" }}>
                     <Text fontWeight="medium" fontSize="sm">
                       {user?.name}
                     </Text>
                     <Text fontSize="xs" color="gray.500">
-                      {user?.role === 'STUDENT' ? 'Student' : 'Administrator'}
+                      {user?.role === "STUDENT" ? "Student" : "Administrator"}
                     </Text>
                   </Box>
                   <ChevronDownIcon />
                 </HStack>
               </MenuButton>
               <MenuList bg={menuBgColor} borderColor={menuBorderColor}>
-                {user?.role === 'STUDENT' && (
-                  <MenuItem as={Link} to="/dashboard/profile" _hover={{ bg: hoverBgColor }}>
+                {user?.role === "STUDENT" && (
+                  <MenuItem as={Link} to="/dashboard/profile" _hover={{ bg: hoverBgColor }} data-testid="nav-profile">
                     Profile
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleLogout} _hover={{ bg: hoverBgColor }}>
+                <MenuItem onClick={handleLogout} _hover={{ bg: hoverBgColor }} data-testid="logout-button">
                   Logout
                 </MenuItem>
               </MenuList>
@@ -263,14 +249,7 @@ export default function DashboardLayout() {
       <Flex flex="1" overflow="hidden">
         {/* Sidebar - desktop */}
         {isDesktop && (
-          <Box
-            w="250px"
-            position="relative"
-            zIndex={1}
-            bg={bgColor}
-            borderRight="1px"
-            borderRightColor={borderColor}
-          >
+          <Box w="250px" position="relative" zIndex={1} bg={bgColor} borderRight="1px" borderRightColor={borderColor}>
             <AnimatedElement animation="slideIn" w="full" h="full">
               <SidebarContent />
             </AnimatedElement>
