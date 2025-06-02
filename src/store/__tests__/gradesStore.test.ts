@@ -1,12 +1,12 @@
-import { beforeEach, describe, expect, it, jest } from "@jest/globals"
-import { act } from "@testing-library/react"
+import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { act } from '@testing-library/react'
 
-import { GradeService } from "../../services/gradeService"
-import { useGradesStore } from "../gradesStore"
-import type { Grade } from "../../types/grade"
+import { GradeService } from '../../services/gradeService'
+import type { Grade } from '../../types/grade'
+import { useGradesStore } from '../gradesStore'
 
 // Mock the GradeService
-jest.mock("../../services/gradeService", () => ({
+jest.mock('../../services/gradeService', () => ({
   GradeService: {
     getGrades: jest.fn(),
     addGrade: jest.fn(),
@@ -16,7 +16,7 @@ jest.mock("../../services/gradeService", () => ({
 
 const mockGradeService = GradeService as jest.Mocked<typeof GradeService>
 
-describe("gradesStore", () => {
+describe('gradesStore', () => {
   // Reset the store before each test
   beforeEach(() => {
     jest.resetAllMocks()
@@ -29,39 +29,39 @@ describe("gradesStore", () => {
     })
   })
 
-  describe("fetchGrades", () => {
-    it("should fetch grades successfully", async () => {
+  describe('fetchGrades', () => {
+    it('should fetch grades successfully', async () => {
       // Mock data
       const mockGrades: Grade[] = [
         {
-          id: "1",
-          studentId: "student1",
-          studentName: "John Doe",
-          courseId: "course1",
-          courseName: "Mathematics",
-          semester: "Fall 2023",
-          academicYear: "2023-2024",
+          id: '1',
+          studentId: 'student1',
+          studentName: 'John Doe',
+          courseId: 'course1',
+          courseName: 'Mathematics',
+          semester: 'Fall 2023',
+          academicYear: '2023-2024',
           grade: 85,
-          letterGrade: "B+",
+          letterGrade: 'B+',
           creditHours: 3,
-          submissionDate: "2023-05-01",
-          instructorId: "instructor1",
-          instructorName: "Dr. Smith",
+          submissionDate: '2023-05-01',
+          instructorId: 'instructor1',
+          instructorName: 'Dr. Smith',
         },
         {
-          id: "2",
-          studentId: "student2",
-          studentName: "Jane Doe",
-          courseId: "course1",
-          courseName: "Mathematics",
-          semester: "Fall 2023",
-          academicYear: "2023-2024",
+          id: '2',
+          studentId: 'student2',
+          studentName: 'Jane Doe',
+          courseId: 'course1',
+          courseName: 'Mathematics',
+          semester: 'Fall 2023',
+          academicYear: '2023-2024',
           grade: 92,
-          letterGrade: "A",
+          letterGrade: 'A',
           creditHours: 3,
-          submissionDate: "2023-05-01",
-          instructorId: "instructor1",
-          instructorName: "Dr. Smith",
+          submissionDate: '2023-05-01',
+          instructorId: 'instructor1',
+          instructorName: 'Dr. Smith',
         },
       ]
 
@@ -81,27 +81,27 @@ describe("gradesStore", () => {
       expect(useGradesStore.getState().error).toBeNull()
     })
 
-    it("should fetch grades with filters", async () => {
+    it('should fetch grades with filters', async () => {
       // Mock data
       const mockGrades: Grade[] = [
         {
-          id: "1",
-          studentId: "student1",
-          studentName: "John Doe",
-          courseId: "course1",
-          courseName: "Mathematics",
-          semester: "Fall 2023",
-          academicYear: "2023-2024",
+          id: '1',
+          studentId: 'student1',
+          studentName: 'John Doe',
+          courseId: 'course1',
+          courseName: 'Mathematics',
+          semester: 'Fall 2023',
+          academicYear: '2023-2024',
           grade: 85,
-          letterGrade: "B+",
+          letterGrade: 'B+',
           creditHours: 3,
-          submissionDate: "2023-05-01",
-          instructorId: "instructor1",
-          instructorName: "Dr. Smith",
+          submissionDate: '2023-05-01',
+          instructorId: 'instructor1',
+          instructorName: 'Dr. Smith',
         },
       ]
 
-      const filters = { courseId: "course1", studentId: "student1" }
+      const filters = { courseId: 'course1', studentId: 'student1' }
 
       // Setup mock
       mockGradeService.getGrades.mockResolvedValue(mockGrades)
@@ -117,9 +117,9 @@ describe("gradesStore", () => {
       expect(useGradesStore.getState().grades).toEqual(mockGrades)
     })
 
-    it("should handle errors when fetching grades", async () => {
+    it('should handle errors when fetching grades', async () => {
       // Setup mock to throw error
-      const errorMessage = "API error"
+      const errorMessage = 'API error'
       mockGradeService.getGrades.mockRejectedValue(new Error(errorMessage))
 
       // Execute
@@ -135,45 +135,45 @@ describe("gradesStore", () => {
     })
   })
 
-  describe("addGrade", () => {
-    it("should add a grade successfully", async () => {
+  describe('addGrade', () => {
+    it('should add a grade successfully', async () => {
       // Mock data
-      const newGrade: Omit<Grade, "id"> = {
-        studentId: "student3",
-        studentName: "Bob Smith",
-        courseId: "course2",
-        courseName: "Physics",
-        semester: "Fall 2023",
-        academicYear: "2023-2024",
+      const newGrade: Omit<Grade, 'id'> = {
+        studentId: 'student3',
+        studentName: 'Bob Smith',
+        courseId: 'course2',
+        courseName: 'Physics',
+        semester: 'Fall 2023',
+        academicYear: '2023-2024',
         grade: 78,
-        letterGrade: "C+",
+        letterGrade: 'C+',
         creditHours: 4,
-        submissionDate: "2023-05-02",
-        instructorId: "instructor2",
-        instructorName: "Dr. Johnson",
+        submissionDate: '2023-05-02',
+        instructorId: 'instructor2',
+        instructorName: 'Dr. Johnson',
       }
 
       const returnedGrade: Grade = {
-        id: "3",
+        id: '3',
         ...newGrade,
       }
 
       // Setup initial state with existing grades
       const existingGrades: Grade[] = [
         {
-          id: "1",
-          studentId: "student1",
-          studentName: "John Doe",
-          courseId: "course1",
-          courseName: "Mathematics",
-          semester: "Fall 2023",
-          academicYear: "2023-2024",
+          id: '1',
+          studentId: 'student1',
+          studentName: 'John Doe',
+          courseId: 'course1',
+          courseName: 'Mathematics',
+          semester: 'Fall 2023',
+          academicYear: '2023-2024',
           grade: 85,
-          letterGrade: "B+",
+          letterGrade: 'B+',
           creditHours: 3,
-          submissionDate: "2023-05-01",
-          instructorId: "instructor1",
-          instructorName: "Dr. Smith",
+          submissionDate: '2023-05-01',
+          instructorId: 'instructor1',
+          instructorName: 'Dr. Smith',
         },
       ]
 
@@ -201,39 +201,39 @@ describe("gradesStore", () => {
       expect(useGradesStore.getState().error).toBeNull()
     })
 
-    it("should handle errors when adding a grade", async () => {
+    it('should handle errors when adding a grade', async () => {
       // Mock data
-      const newGrade: Omit<Grade, "id"> = {
-        studentId: "student3",
-        studentName: "Bob Smith",
-        courseId: "course2",
-        courseName: "Physics",
-        semester: "Fall 2023",
-        academicYear: "2023-2024",
+      const newGrade: Omit<Grade, 'id'> = {
+        studentId: 'student3',
+        studentName: 'Bob Smith',
+        courseId: 'course2',
+        courseName: 'Physics',
+        semester: 'Fall 2023',
+        academicYear: '2023-2024',
         grade: 78,
-        letterGrade: "C+",
+        letterGrade: 'C+',
         creditHours: 4,
-        submissionDate: "2023-05-02",
-        instructorId: "instructor2",
-        instructorName: "Dr. Johnson",
+        submissionDate: '2023-05-02',
+        instructorId: 'instructor2',
+        instructorName: 'Dr. Johnson',
       }
 
       // Setup initial state
       const existingGrades: Grade[] = [
         {
-          id: "1",
-          studentId: "student1",
-          studentName: "John Doe",
-          courseId: "course1",
-          courseName: "Mathematics",
-          semester: "Fall 2023",
-          academicYear: "2023-2024",
+          id: '1',
+          studentId: 'student1',
+          studentName: 'John Doe',
+          courseId: 'course1',
+          courseName: 'Mathematics',
+          semester: 'Fall 2023',
+          academicYear: '2023-2024',
           grade: 85,
-          letterGrade: "B+",
+          letterGrade: 'B+',
           creditHours: 3,
-          submissionDate: "2023-05-01",
-          instructorId: "instructor1",
-          instructorName: "Dr. Smith",
+          submissionDate: '2023-05-01',
+          instructorId: 'instructor1',
+          instructorName: 'Dr. Smith',
         },
       ]
 
@@ -246,7 +246,7 @@ describe("gradesStore", () => {
       })
 
       // Setup mock to throw error
-      const errorMessage = "API error"
+      const errorMessage = 'API error'
       mockGradeService.addGrade.mockRejectedValue(new Error(errorMessage))
 
       // Execute
@@ -262,39 +262,39 @@ describe("gradesStore", () => {
     })
   })
 
-  describe("updateGrade", () => {
-    it("should update a grade successfully", async () => {
+  describe('updateGrade', () => {
+    it('should update a grade successfully', async () => {
       // Setup initial state with existing grades
       const existingGrades: Grade[] = [
         {
-          id: "1",
-          studentId: "student1",
-          studentName: "John Doe",
-          courseId: "course1",
-          courseName: "Mathematics",
-          semester: "Fall 2023",
-          academicYear: "2023-2024",
+          id: '1',
+          studentId: 'student1',
+          studentName: 'John Doe',
+          courseId: 'course1',
+          courseName: 'Mathematics',
+          semester: 'Fall 2023',
+          academicYear: '2023-2024',
           grade: 85,
-          letterGrade: "B+",
+          letterGrade: 'B+',
           creditHours: 3,
-          submissionDate: "2023-05-01",
-          instructorId: "instructor1",
-          instructorName: "Dr. Smith",
+          submissionDate: '2023-05-01',
+          instructorId: 'instructor1',
+          instructorName: 'Dr. Smith',
         },
         {
-          id: "2",
-          studentId: "student2",
-          studentName: "Jane Doe",
-          courseId: "course1",
-          courseName: "Mathematics",
-          semester: "Fall 2023",
-          academicYear: "2023-2024",
+          id: '2',
+          studentId: 'student2',
+          studentName: 'Jane Doe',
+          courseId: 'course1',
+          courseName: 'Mathematics',
+          semester: 'Fall 2023',
+          academicYear: '2023-2024',
           grade: 92,
-          letterGrade: "A",
+          letterGrade: 'A',
           creditHours: 3,
-          submissionDate: "2023-05-01",
-          instructorId: "instructor1",
-          instructorName: "Dr. Smith",
+          submissionDate: '2023-05-01',
+          instructorId: 'instructor1',
+          instructorName: 'Dr. Smith',
         },
       ]
 
@@ -307,26 +307,26 @@ describe("gradesStore", () => {
       })
 
       // Mock data for update
-      const gradeId = "1"
+      const gradeId = '1'
       const gradeUpdate: Partial<Grade> = {
         grade: 90,
-        letterGrade: "A-",
+        letterGrade: 'A-',
       }
 
       const updatedGrade: Grade = {
-        id: "1",
-        studentId: "student1",
-        studentName: "John Doe",
-        courseId: "course1",
-        courseName: "Mathematics",
-        semester: "Fall 2023",
-        academicYear: "2023-2024",
+        id: '1',
+        studentId: 'student1',
+        studentName: 'John Doe',
+        courseId: 'course1',
+        courseName: 'Mathematics',
+        semester: 'Fall 2023',
+        academicYear: '2023-2024',
         grade: 90, // Updated grade
-        letterGrade: "A-", // Updated letterGrade
+        letterGrade: 'A-', // Updated letterGrade
         creditHours: 3,
-        submissionDate: "2023-05-01",
-        instructorId: "instructor1",
-        instructorName: "Dr. Smith",
+        submissionDate: '2023-05-01',
+        instructorId: 'instructor1',
+        instructorName: 'Dr. Smith',
       }
 
       // Setup mock
@@ -345,23 +345,23 @@ describe("gradesStore", () => {
       expect(useGradesStore.getState().error).toBeNull()
     })
 
-    it("should handle errors when updating a grade", async () => {
+    it('should handle errors when updating a grade', async () => {
       // Setup initial state
       const existingGrades: Grade[] = [
         {
-          id: "1",
-          studentId: "student1",
-          studentName: "John Doe",
-          courseId: "course1",
-          courseName: "Mathematics",
-          semester: "Fall 2023",
-          academicYear: "2023-2024",
+          id: '1',
+          studentId: 'student1',
+          studentName: 'John Doe',
+          courseId: 'course1',
+          courseName: 'Mathematics',
+          semester: 'Fall 2023',
+          academicYear: '2023-2024',
           grade: 85,
-          letterGrade: "B+",
+          letterGrade: 'B+',
           creditHours: 3,
-          submissionDate: "2023-05-01",
-          instructorId: "instructor1",
-          instructorName: "Dr. Smith",
+          submissionDate: '2023-05-01',
+          instructorId: 'instructor1',
+          instructorName: 'Dr. Smith',
         },
       ]
 
@@ -374,14 +374,14 @@ describe("gradesStore", () => {
       })
 
       // Mock data for update
-      const gradeId = "1"
+      const gradeId = '1'
       const gradeUpdate: Partial<Grade> = {
         grade: 90,
-        letterGrade: "A-",
+        letterGrade: 'A-',
       }
 
       // Setup mock to throw error
-      const errorMessage = "API error"
+      const errorMessage = 'API error'
       mockGradeService.updateGrade.mockRejectedValue(new Error(errorMessage))
 
       // Execute

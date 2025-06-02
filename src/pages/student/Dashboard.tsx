@@ -31,11 +31,7 @@ export default function StudentDashboard() {
   const { user } = useAuthStore()
   const { grades, fetchGrades, isLoading: gradesLoading } = useGradesStore()
   const { attendanceRecords, fetchAttendance, isLoading: attendanceLoading } = useAttendanceStore()
-  const {
-    performanceMetrics,
-    fetchPerformanceMetrics,
-    isLoadingPerformance,
-  } = useAnalyticsStore()
+  const { performanceMetrics, fetchPerformanceMetrics, isLoadingPerformance } = useAnalyticsStore()
 
   const gradeCardBg = useColorModeValue('gray.50', 'whiteAlpha.100')
   const textColor = useColorModeValue('gray.800', 'white')

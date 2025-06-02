@@ -1,5 +1,6 @@
-import type { User } from '../store/authStore'
 import axios from 'axios'
+
+import type { User } from '../store/authStore'
 
 import api, { handleApiError } from './api'
 
@@ -35,7 +36,7 @@ export const AuthService = {
           error: error.message,
           response: error.response?.data,
           status: error.response?.status,
-          headers: error.response?.headers
+          headers: error.response?.headers,
         })
       } else {
         console.error('Unknown error during login:', error)

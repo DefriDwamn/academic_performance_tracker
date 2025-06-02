@@ -49,11 +49,7 @@ export default function AdminDashboard() {
   const { students, fetchStudents, isLoading: studentsLoading } = useStudentStore()
   const { grades, fetchGrades, isLoading: gradesLoading } = useGradesStore()
   const { attendanceRecords, fetchAttendance, isLoading: attendanceLoading } = useAttendanceStore()
-  const {
-    performanceMetrics,
-    fetchPerformanceMetrics,
-    isLoadingPerformance,
-  } = useAnalyticsStore()
+  const { performanceMetrics, fetchPerformanceMetrics, isLoadingPerformance } = useAnalyticsStore()
 
   const cardBg = useColorModeValue('gray.50', 'gray.700')
   const cardBorderColor = useColorModeValue('gray.200', 'gray.600')

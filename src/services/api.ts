@@ -2,14 +2,15 @@ import axios, { type AxiosError } from 'axios'
 
 import { useAuthStore } from '../store/authStore'
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://academicperformancetracker-production.up.railway.app/api'
+const API_URL =
+  import.meta.env.VITE_API_URL || 'https://academicperformancetracker-production.up.railway.app/api'
 
 const api = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true
+  withCredentials: true,
 })
 
 // Request interceptor for adding auth token

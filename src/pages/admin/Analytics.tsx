@@ -55,7 +55,7 @@ export default function AdminAnalytics() {
     fetchPerformanceMetrics,
     fetchAttendanceStatistics,
     fetchStudentReport,
-    isLoadingPerformance
+    isLoadingPerformance,
   } = useAnalyticsStore()
   const { students, fetchStudents } = useStudentStore()
   const [selectedStudent, setSelectedStudent] = useState<string>('')
