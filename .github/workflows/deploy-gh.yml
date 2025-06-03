@@ -26,20 +26,10 @@ jobs:
           bun-version: latest
       - name: Install Dependencies
         run: bun install
-      - name: Get Railway URL
-        id: railway
+      - name: Get URL
+        id: render
         run: |
-          RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID=${{ secrets.RAILWAY_PROJECT_ID }}
-          RESPONSE=$(curl -s -X POST \
-            -H "Authorization: Bearer $RAILWAY_TOKEN" \
-            -H "Content-Type: application/json" \
-            "https://backboard.railway.com/graphql/v2" \
-            -d "{\"query\":\"{ project(id: \\\"$RAILWAY_PROJECT_ID\\\") { services { edges { node { name deployments { edges { node { staticUrl } } } } } } } }\"}")
-          echo "RESPONSE: $RESPONSE"
-          RAILWAY_URL=$(echo "$RESPONSE" | jq -r '.data.project.services.edges[] | select(.node.name == "academic_performance_tracker") | .node.deployments.edges[0].node.staticUrl')
-          echo "RAILWAY_URL=https://$RAILWAY_URL" >> $GITHUB_ENV
-          echo "VITE_API_URL=https://$RAILWAY_URL/api" >> $GITHUB_ENV
+          echo "VITE_API_URL=https://academic-performance-tracker.onrender.com/api" >> $GITHUB_ENV
       - name: Build
         run: bun run build
         env:
