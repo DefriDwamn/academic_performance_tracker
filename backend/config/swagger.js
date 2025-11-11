@@ -19,16 +19,6 @@ const options = {
 				description: "Current server",
 			},
 		],
-		components: {
-			securitySchemes: {
-				bearerAuth: {
-					type: "http",
-					scheme: "bearer",
-					bearerFormat: "JWT",
-				},
-			},
-		},
-		security: [{ bearerAuth: [] }],
 	},
 	apis: ["./routes/*.js", "./controllers/*.js", "./models/*.js"],
 }
