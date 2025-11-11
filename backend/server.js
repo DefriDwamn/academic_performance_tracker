@@ -4,6 +4,8 @@ import cors from "cors"
 import morgan from "morgan"
 import connectDB from "./config/db.js"
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js"
+import swaggerUi from "swagger-ui-express"
+import swaggerSpec from "./config/swagger.js"
 
 // Route imports
 import authRoutes from "./routes/authRoutes.js"
@@ -42,6 +44,9 @@ app.use("/api/students", studentRoutes)
 app.use("/api/grades", gradeRoutes)
 app.use("/api/attendance", attendanceRoutes)
 app.use("/api/analytics", analyticsRoutes)
+
+// Swagger docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }))
 
 // Error handling middleware
 app.use(notFound)
