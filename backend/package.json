@@ -19,7 +19,8 @@
     "mongoose": "^7.5.0",
     "morgan": "^1.10.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "redoc-express": "^2.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

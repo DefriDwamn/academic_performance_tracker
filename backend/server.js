@@ -6,6 +6,7 @@ import connectDB from "./config/db.js"
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js"
 import swaggerUi from "swagger-ui-express"
 import swaggerSpec from "./config/swagger.js"
+import redoc from "redoc-express"
 
 // Route imports
 import authRoutes from "./routes/authRoutes.js"
@@ -47,6 +48,19 @@ app.use("/api/analytics", analyticsRoutes)
 
 // Swagger docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }))
+app.get("/api-docs.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json")
+  res.send(swaggerSpec)
+})
+
+// ReDoc docs
+app.get(
+  "/redoc",
+  redoc({
+    title: "Academic Performance Tracker API • ReDoc",
+    specUrl: "/api-docs.json"
+  })
+)
 
 // Error handling middleware
 app.use(notFound)
